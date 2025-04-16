@@ -64,8 +64,9 @@ const PriceFilter = (props) => {
   
   
 
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
+  const [minPrice, setMinPrice] = useState(props.minp);
+  const [maxPrice, setMaxPrice] = useState(props.maxp);
+  const [minValue, setMinValue] = useState(false)
 
   const scaleRef = useRef(null);
   const toggleMinRef = useRef(null);
@@ -98,8 +99,8 @@ const PriceFilter = (props) => {
       (a, b) => a - b
     );
     //console.log('pricesssssss', prodPrice)
-    setMinPrice(prodPrice[0])
-    setMaxPrice(prodPrice[prodPrice.length - 1])
+    //setMinPrice(prodPrice[0])
+    //setMaxPrice(prodPrice[prodPrice.length - 1])
   }
 
   },[props.products.length])
@@ -107,11 +108,12 @@ const PriceFilter = (props) => {
   
   useEffect(()=>{
     if(maxPrice > 0){
+      //console.log('jjjjjjjjjjj', minValue, minPrice, maxPrice)
     //console.l
     // og('kkkkkkkk', minPrice)
     props.getPrice(minPrice, maxPrice)
     }
-  },[minPrice,maxPrice])
+  },[minValue])
 
   const getScaleDimensions = () => {
     if (!scaleRef.current) return { left: 0, width: 1 };
@@ -186,6 +188,8 @@ const PriceFilter = (props) => {
       };
 
       const onMouseUp = () => {
+        
+        setMinValue((minValue)=>!minValue)
         document.removeEventListener("mousemove", onMouseMove);
         document.removeEventListener("mouseup", onMouseUp);
       };

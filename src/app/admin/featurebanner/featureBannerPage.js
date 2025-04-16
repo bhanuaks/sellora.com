@@ -37,6 +37,22 @@ function FeatureBannerPage() {
     subtitle:"",
     url:"",
     photo: null,
+    title_r:"",
+    url_r:"",
+    photo_r:null,
+    title_m1:"",
+    url_m1:"",
+    photo_m1:null,
+    title_m2:"",
+    url_m2:"",
+    photo_m2:null,
+    title_m3:"",
+    url_m3:"",
+    photo_m3:null,
+    title_m4:"",
+    url_m4:"",
+    photo_m4:null
+
     
   });
   const [formDataRight, setFormDataRight] = useState({
@@ -589,14 +605,23 @@ function FeatureBannerPage() {
     const formDataToSubmit = new FormData();
     formDataToSubmit.append('id', formData._id);
     formDataToSubmit.append('title', formData.title || "");
-    //formDataToSubmit.append('subtitle', formData.subtitle || "");
-    formDataToSubmit.append('pid', 1);
     formDataToSubmit.append('url', formData.url || "");
-    
-     
-
     if (formData.photo) formDataToSubmit.append('photo', formData.photo);
-    
+    if (formDataRight.photo) formDataToSubmit.append('photo_r', formDataRight.photo);
+    formDataToSubmit.append('title_r', formDataRight.title || "");
+    formDataToSubmit.append('url_r', formDataRight.url || ""); 
+    if (formDataRight1.photo) formDataToSubmit.append('photo_m1', formDataRight1.photo);
+    formDataToSubmit.append('title_m1', formDataRight1.title || "");
+    formDataToSubmit.append('url_m1', formDataRight1.url || "");
+    if (formDataRight2.photo) formDataToSubmit.append('photo_m2', formDataRight2.photo);
+    formDataToSubmit.append('title_m2', formDataRight2.title || "");
+    formDataToSubmit.append('url_m2', formDataRight2.url || "");
+    if (formDataRight3.photo) formDataToSubmit.append('photo_m3', formDataRight3.photo);
+    formDataToSubmit.append('title_m3', formDataRight3.title || "");
+    formDataToSubmit.append('url_m3', formDataRight3.url || "");
+     if (formDataRight4.photo) formDataToSubmit.append('photo_m4', formDataRight4.photo);
+    formDataToSubmit.append('title_m4', formDataRight4.title || "");
+    formDataToSubmit.append('url_m4', formDataRight4.url || "");
 
     const url = '/api/admin/featureBannerLeft';
     const method = 'POST';
@@ -610,11 +635,7 @@ function FeatureBannerPage() {
       const result = await response.json();
 
       
-     await handleSubmitRight()
-     await handleSubmitRight1()
-     await handleSubmitRight2()
-     await handleSubmitRight3()
-     await handleSubmitRight4()
+     
 
       if (response.ok) {
          
@@ -679,9 +700,39 @@ function FeatureBannerPage() {
         //setBanners(result.data);   
         setFormData({
             ...result.data[0],
-            // dropdownValues: { 
-            // },
+            
           });
+          setFormDataRight({
+            title:result.data[0].title_r,
+            url:result.data[0].url_r,
+            photo:result.data[0].photo_r
+            
+          });
+          setFormDataRight1({
+            title:result.data[0].title_m1,
+            url:result.data[0].url_m1,
+            photo:result.data[0].photo_m1
+            
+          });
+          setFormDataRight2({
+            title:result.data[0].title_m2,
+            url:result.data[0].url_m2,
+            photo:result.data[0].photo_m2
+            
+          });
+          setFormDataRight3({
+            title:result.data[0].title_m3,
+            url:result.data[0].url_m3,
+            photo:result.data[0].photo_m3
+            
+          });
+          setFormDataRight4({
+            title:result.data[0].title_m4,
+            url:result.data[0].url_m4,
+            photo:result.data[0].photo_m4
+            
+          });
+          
 
       } else {
         $('.loader-container').css('display', 'none') 
@@ -822,11 +873,7 @@ const fetchBannersRight = async () => {
 
  useEffect(()=>{
   fetchBanners()
-  fetchBannersRight()
-  fetchBannersRight1()
-  fetchBannersRight2()
-  fetchBannersRight3()
-  fetchBannersRight4()
+  
  },[])
 
   
@@ -951,7 +998,10 @@ const fetchBannersRight = async () => {
                       <div className="col-lg-4">
                         <div className="mb-3">
                           <label className="form-label">Title</label>
-                          <input
+                          
+                          <textarea name="title" onChange={handleChange} className="form-control" maxlength="50"  rows="2" cols="50" value={formData.title}>{formData.title}</textarea>
+                          
+                          { /* <input
                             className="form-control"
                             type="text"
                             name="title"
@@ -959,7 +1009,8 @@ const fetchBannersRight = async () => {
                             value={formData.title}
                             onChange={handleChange}
                             placeholder="Enter title"
-                          />
+                          />   
+                          */ }                      
                           {errors.title && (
                             <span className="text-danger">{errors.title}</span>
                           )}
@@ -1030,15 +1081,9 @@ const fetchBannersRight = async () => {
                       <div className="col-lg-4">
                         <div className="mb-3">
                           <label className="form-label">Title</label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            name="title"
-                            
-                            value={formDataRight1.title}
-                            onChange={handleChangeRight1}
-                            placeholder="Enter title"
-                          />
+                          
+                          <textarea name="title" onChange={handleChangeRight1} className="form-control" maxlength="50"  rows="2" cols="50" value={formDataRight1.title}>{formDataRight1.title}</textarea>
+                          
                           {errorsRight1.title && (
                             <span className="text-danger">{errorsRight1.title}</span>
                           )}
@@ -1102,15 +1147,8 @@ const fetchBannersRight = async () => {
                       <div className="col-lg-4">
                         <div className="mb-3">
                           <label className="form-label">Title</label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            name="title"
-                            
-                            value={formDataRight2.title}
-                            onChange={handleChangeRight2}
-                            placeholder="Enter title"
-                          />
+                          <textarea name="title" onChange={handleChangeRight2} className="form-control" maxlength="50"  rows="2" cols="50" value={formDataRight2.title}>{formDataRight2.title}</textarea>
+                          
                           {errorsRight2.title && (
                             <span className="text-danger">{errorsRight2.title}</span>
                           )}
@@ -1174,15 +1212,9 @@ const fetchBannersRight = async () => {
                       <div className="col-lg-4">
                         <div className="mb-3">
                           <label className="form-label">Title</label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            name="title"
-                            
-                            value={formDataRight3.title}
-                            onChange={handleChangeRight3}
-                            placeholder="Enter title"
-                          />
+                          
+                          <textarea name="title" onChange={handleChangeRight3} className="form-control" maxlength="50"  rows="2" cols="50" value={formDataRight3.title}>{formDataRight3.title}</textarea>
+                          
                           {errorsRight3.title && (
                             <span className="text-danger">{errorsRight3.title}</span>
                           )}
@@ -1246,15 +1278,9 @@ const fetchBannersRight = async () => {
                       <div className="col-lg-4">
                         <div className="mb-3">
                           <label className="form-label">Title</label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            name="title"
-                            
-                            value={formDataRight4.title}
-                            onChange={handleChangeRight4}
-                            placeholder="Enter title"
-                          />
+                          <textarea name="title" onChange={handleChangeRight4} className="form-control" maxlength="50"  rows="2" cols="50" value={formDataRight4.title}>{formDataRight4.title}</textarea>
+                          
+                          
                           {errorsRight4.title && (
                             <span className="text-danger">{errorsRight4.title}</span>
                           )}
@@ -1322,15 +1348,9 @@ const fetchBannersRight = async () => {
                       <div className="col-lg-4">
                         <div className="mb-3">
                           <label className="form-label">Title</label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            name="title"
-                            
-                            value={formDataRight.title}
-                            onChange={handleChangeRight}
-                            placeholder="Enter title"
-                          />
+                          <textarea name="title" onChange={handleChangeRight} className="form-control" maxlength="50"  rows="2" cols="50" value={formDataRight.title}>{formDataRight.title}</textarea>
+                          
+                          
                           {errorsRight.title && (
                             <span className="text-danger">{errorsRight.title}</span>
                           )}
