@@ -1,14 +1,13 @@
 'use client';
 import Link from 'next/link'
 import React, {useEffect, useState, Suspense, lazy } from 'react'
-// import Product from '../../../../frontComponents/Product';
+import Product from '../../../../frontComponents/Product';
 import { useParams } from 'next/navigation';
 import { baseUrl, formatSlugToName } from '@/Http/helper';
 import PriceFilter from '@/app/(front)/frontComponents/component/priceFilter';
 import CustomerReviewFilter from '@/app/(front)/frontComponents/component/customerReviewFilter';
 import BrandFilter from '@/app/(front)/frontComponents/component/brandFilter';
 import HeaderFilter from '@/app/(front)/frontComponents/component/headerFilter';
-import Product from '@/app/(front)/frontComponents/Product';
 // import DepartmentFilter from '@/app/(front)/frontComponents/component/departmentFilter'; 
 const DepartmentFilter = lazy(()=>import('@/app/(front)/frontComponents/component/departmentFilter'))
 
@@ -26,6 +25,8 @@ function page() {
         const [maxPriceVal, setMaxPriceVal] = useState("")
         const [sortByVal, setSortByVal] = useState("")
         const [reviewVal, setReviewVal] = useState("")
+        const [minP, setMinP] = useState(0)
+        const [maxP, setMaxP] = useState(0)
 
         const [prductProccess, setPrductProccess] = useState(false)
       
@@ -58,6 +59,19 @@ function page() {
             const data = await response.json();
            
             setProducts(data.data);
+            if(maxPrice){ } else {
+              //console.log('pricingssss', maxPrice)
+              let product = data.data
+            let prodPrice = product.map((list,index) => {
+              return list.variant.consumerSalePrice
+            })
+            prodPrice = prodPrice.sort(
+              (a, b) => a - b
+            );
+    
+            setMinP(prodPrice[0])
+            setMaxP(prodPrice[prodPrice.length - 1])
+          }
       
           } catch (error) {
             console.error('Error fetching products:', error);
@@ -146,9 +160,9 @@ function page() {
            
 
         <DepartmentFilter />
-        {products && 
-                <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} />
-                }
+        {products && maxP &&
+        <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} minp={minP} maxp={maxP} />
+        }
                 <CustomerReviewFilter getReview={getReview} />
                 {category && subcategory && childcategory &&  
                 <BrandFilter getBrand={getBrand} category={category} subcategory={subcategory} childcategory={childcategory} />

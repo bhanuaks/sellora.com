@@ -53,6 +53,7 @@ function page() {
   const fetchData = async (userid, sortVal, searchVal) => {
     try {
         //$('.loader-container').css('display', 'flex') 
+        $('.loaderouter').css('display', 'flex')
         const url = new URL(`${baseUrl}/api/product/add-to-wishlist`);
         const queryParams = {
           user_id:userid,
@@ -71,6 +72,7 @@ function page() {
           //console.log(result)
           if (result.status) {
             //$('.loader-container').css('display', 'none') 
+            $('.loaderouter').css('display', 'none')
             setProductList(result.data.finalResults);   
              
     

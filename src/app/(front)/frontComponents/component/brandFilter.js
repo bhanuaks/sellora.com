@@ -73,6 +73,8 @@ useEffect(() => {
   //console.log("All Selected Values:", selectedValues);
   if(selectedValues.length > 0){
   props.getBrand(selectedValues)
+  }else{
+    props.getBrand(selectedValues)
   }
 }, [selectedValues]);
 

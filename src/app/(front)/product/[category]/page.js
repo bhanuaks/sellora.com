@@ -26,6 +26,8 @@ function page() {
     const [maxPriceVal, setMaxPriceVal] = useState("")
     const [sortByVal, setSortByVal] = useState("")
     const [reviewVal, setReviewVal] = useState("")
+    const [minP, setMinP] = useState(0)
+    const [maxP, setMaxP] = useState(0)
   
     const fetchProduct = async (category, subcategory, childcategory, brands, minPrice, maxPrice, sortVal, reviewVal) => {
       try {
@@ -57,6 +59,21 @@ function page() {
         const data = await response.json();
        
         setProducts(data.data);
+
+        //console.log('pricingssss', maxPrice)
+        if(maxPrice){ } else {
+          //console.log('pricingssss', maxPrice)
+          let product = data.data
+        let prodPrice = product.map((list,index) => {
+          return list.variant.consumerSalePrice
+        })
+        prodPrice = prodPrice.sort(
+          (a, b) => a - b
+        );
+
+        setMinP(prodPrice[0])
+        setMaxP(prodPrice[prodPrice.length - 1])
+      }
   
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -144,8 +161,8 @@ const getReview = (value) => {
            
 
         <DepartmentFilter />
-        {products && 
-        <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} />
+        {products && maxP &&
+        <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} minp={minP} maxp={maxP} />
         }
         <CustomerReviewFilter getReview={getReview} />
         {category && 
