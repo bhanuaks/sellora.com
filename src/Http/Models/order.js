@@ -157,8 +157,17 @@ const orderItemStatusHistrySchema = new Schema({
         type:mongoose.Types.ObjectId,
         ref:"OrderProduct"
     },
-    status:Number,
-    remarks:String, 
+    status:Number, //0=>Pending, 1=> confirmed, 2=>shipped, 3=> out of delivery, 4=> Deliverd, 5=> Canceled, 6=>Refund, 7=> Cancel Request,
+    reason:String,
+    remarks:String,
+    trakingDetails:Array,
+
+    // this field 
+    excluding:Number,
+    Including:Number,
+    refund_amount:Number,
+    refund_full_amount:String,
+
 },{timestamps:true})
 
 

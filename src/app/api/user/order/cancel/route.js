@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 
 export async function POST(request) {
-    const { order_item_id } = await request.json();
+    const { order_item_id, reason, comment } = await request.json();
 
     const user = getLoginUser();
     if(!user){
@@ -21,15 +21,16 @@ export async function POST(request) {
                     _id: new mongoose.Types.ObjectId(order_item_id), 
                 }
             ) 
-            console.log({orderItem});
+            //console.log({orderItem});
         orderItem.order_status = 7 // status 7 is user cancel request
         await orderItem.save();
         const statusHistory = await orderItemStatusHistryModal.create({
             orderItemId:orderItem._id,
             status:7,
-            remarks:"Cancel by user"
+            remarks:comment,
+            reason:reason
         })
-         
+        // console.log('historyyyyyy',statusHistory) 
         session.commitTransaction();
         return responseFun(true, "Susscess", 200)
     }catch(error){

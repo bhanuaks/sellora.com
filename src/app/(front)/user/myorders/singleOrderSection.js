@@ -178,7 +178,7 @@ const SingleOrderSection = ({ order, mutate }) => {
                         <button className="gift_btn return"> <img src={`${baseUrl}front/assets/images/return.png`} />Cancelled</button>
                     </Link>
                     ):(
-                        <Link href="#" onClick={(e)=>createReturnRequest(e, prodData._id)}>
+                        <Link href={`${baseUrl}/user/return-refund/${prodData._id}`}>
                             <button className="gift_btn return"> <img src={`${baseUrl}front/assets/images/return.png`} /> Return/Refund</button>
                         </Link>
                     )}
