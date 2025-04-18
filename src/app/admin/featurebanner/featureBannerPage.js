@@ -1012,8 +1012,12 @@ const fetchBannersRight = async () => {
                           />   
                           */ }                      
                           {errors.title && (
+                            <>
                             <span className="text-danger">{errors.title}</span>
+                            <br />
+                            </>
                           )}
+                          <p className='text-danger'>Max 50 characters only</p>
                         </div>
                       </div>
                       
@@ -1085,8 +1089,12 @@ const fetchBannersRight = async () => {
                           <textarea name="title" onChange={handleChangeRight1} className="form-control" maxlength="50"  rows="2" cols="50" value={formDataRight1.title}>{formDataRight1.title}</textarea>
                           
                           {errorsRight1.title && (
+                            <>
                             <span className="text-danger">{errorsRight1.title}</span>
+                            <br />
+                            </>
                           )}
+                          <p className='text-danger'>Max 50 characters only</p>
                         </div>
                       </div>
                       
@@ -1150,8 +1158,12 @@ const fetchBannersRight = async () => {
                           <textarea name="title" onChange={handleChangeRight2} className="form-control" maxlength="50"  rows="2" cols="50" value={formDataRight2.title}>{formDataRight2.title}</textarea>
                           
                           {errorsRight2.title && (
+                            <>
                             <span className="text-danger">{errorsRight2.title}</span>
+                            <br />
+                            </>
                           )}
+                          <p className='text-danger'>Max 50 characters only</p>
                         </div>
                       </div>
                       
@@ -1216,8 +1228,12 @@ const fetchBannersRight = async () => {
                           <textarea name="title" onChange={handleChangeRight3} className="form-control" maxlength="50"  rows="2" cols="50" value={formDataRight3.title}>{formDataRight3.title}</textarea>
                           
                           {errorsRight3.title && (
+                            <>
                             <span className="text-danger">{errorsRight3.title}</span>
+                            <br />
+                            </>
                           )}
+                          <p className='text-danger'>Max 50 characters only</p>
                         </div>
                       </div>
                       
@@ -1282,8 +1298,12 @@ const fetchBannersRight = async () => {
                           
                           
                           {errorsRight4.title && (
+                            <>
                             <span className="text-danger">{errorsRight4.title}</span>
+                            <br />
+                            </>
                           )}
+                          <p className='text-danger'>Max 50 characters only</p>
                         </div>
                       </div>
                       
@@ -1352,8 +1372,12 @@ const fetchBannersRight = async () => {
                           
                           
                           {errorsRight.title && (
+                            <>
                             <span className="text-danger">{errorsRight.title}</span>
+                            <br />
+                            </>
                           )}
+                          <p className='text-danger'>Max 50 characters only</p>
                         </div>
                       </div>
                       

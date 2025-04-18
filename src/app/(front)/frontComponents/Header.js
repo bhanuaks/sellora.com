@@ -63,6 +63,27 @@ function Header() {
     fetchCategories();
   }, []);
 
+  function logoutUser(e){
+    e.preventDefault()
+     $('.loaderouter').css('display','flex')
+            fetch(`${baseUrl}api/user/user-logout`,{
+                method:"POST", 
+                body:JSON.stringify({user_id:""})
+            }).then((response)=>{ 
+                if(!response.ok){
+                    $('.loaderouter').css('display','none')
+                    throw new Error("Network Error")
+                }
+                return response.json()
+            }).then((res)=>{
+                if(res.status){ 
+                    window.location.reload()
+                }else{ 
+                    $('.loaderouter').css('display','none')
+                }
+            })
+}
+  
   return (
     <>
       <div>
@@ -178,6 +199,13 @@ function Header() {
                                   <Link href={`${baseUrl}user/rewards`}>
                                     <i className="far fa-gift" />
                                     Rewards
+                                  </Link>
+                                </li>
+                                <li>
+                                  
+                                  <Link href="#" onClick={logoutUser}>
+                                    <i className="far fa-right-from-bracket" />
+                                    Logout
                                   </Link>
                                 </li>
                               </>
@@ -311,15 +339,18 @@ function Header() {
 
                                             {/* Right section with featured image */}
                                             <div className="col-lg-4">
+                                              
+                                              {category?.photo && 
                                               <Link
-                                                href="#"
+                                                href={`${baseUrl}product/${category.slug}`}
                                                 className="feature-add-megamenu-area"
                                               >
                                                 <img
-                                                  src={`${baseUrl}front/assets/images/feature/05.jpg`}
-                                                  alt="feature_product"
+                                                  src={`${baseUrl}${category.photo}`}
+                                                  alt={`${category.photo}`}
                                                 />
                                               </Link>
+                                              }
                                             </div>
                                           </div>
                                         </div>

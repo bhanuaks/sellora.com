@@ -280,7 +280,7 @@ function page({params}) {
                             </>
                           )}
           
-          <span className="small-size">Max 200 characters</span>
+          <span className="small-size">Max 200 characters only</span>
           <button type="submit" className="buy_again mr_10">Submit</button>
 
           </form>

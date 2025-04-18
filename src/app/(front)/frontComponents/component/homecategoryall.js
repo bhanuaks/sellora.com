@@ -83,11 +83,11 @@ const HomeCategoryAll = ({ categoryListAll }) => {
                                 {" "}
                                 <img
                                   src={`${baseUrl}${product.list_image}`}
-                                  alt="category"
+                                  alt={`${product.name}`}
                                 />{" "}
                               </Link>
                               <div className="inner-content-category">
-                                <p>{product.name}</p>
+                              <Link href={`${baseUrl}/product/${product.slug}`}><p>{product.name}</p></Link>
                                 <span>{product.productCount} Items</span>
                               </div>
                             </div>
