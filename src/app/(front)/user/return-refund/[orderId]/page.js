@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import { toast, ToastContainer } from 'react-toastify'
 import { apiRequest } from '@/Http/apiHelper'
 
+import '../../../../../../public/front/assets/css/my_order.css'
 
 
 function page({params}) {
@@ -252,7 +253,7 @@ function page({params}) {
         <div className="returns_box">
         <form onSubmit={handleSubmit} encType="multypart/form-data">
           <label>Why are you returning this?</label>
-          <select className="form-select mb-50" name="reason" onChange={handleChange}>
+          <select className="form-select" name="reason" onChange={handleChange}>
             <option value="">Select</option>
             <option value="Wrong item was sent">Wrong item was sent </option>
             <option value="No longer needed">No longer needed </option>
@@ -271,6 +272,7 @@ function page({params}) {
           {errors.reason && (
                             <span className="text-danger">{errors.reason}</span>
                           )}
+                          <div className='mb-50'></div>
           <label> Comments</label>
           <textarea maxLength="200" name="comment" value={formData.comment} onChange={handleChange} />
           {errors.comment && (
@@ -288,6 +290,9 @@ function page({params}) {
 
 
       </div>
+
+
+      
       {/* ================delivered============= */}
     </div>
   </div>
