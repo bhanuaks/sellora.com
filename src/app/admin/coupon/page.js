@@ -655,6 +655,9 @@ const handleDelete = async (id) => {
                         <th>Category</th>
                         <th>Sub Category</th>
                         <th>Child Category</th>
+                        <th>Coupon Type</th>
+                        <th>Value</th>
+                        <th>Min. Amount</th>
                         <th>Start Date</th>
                         <th>Expiry Date</th>
                         <th>Description</th>
@@ -673,6 +676,9 @@ const handleDelete = async (id) => {
                         <td>{couponList.category_id?.name}</td>
                         <td>{couponList.subcategory_id?.subCategoryName}</td>
                         <td>{couponList.childcategory_id?.childCategoryName}</td>
+                        <td>{couponList.coupon_type == 1 ? 'Amount':'Percentage'}</td>
+                        <td>{couponList.coupon_value}{couponList.coupon_type == 1 ? '':'%'}</td>
+                        <td>{couponList?.min_amount}</td>
                         <td>{dateValidateConverter(couponList.valid_from)}</td>
                         <td>{dateValidateConverter(couponList.valid_to)}</td>
                         <td>{couponList.description}</td>
