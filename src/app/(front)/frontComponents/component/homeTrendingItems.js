@@ -233,7 +233,7 @@ const showWishlist = async (pid, vid) => {
                     {wishlistUser.includes(product._id) ?
                     <div className="single-action openuptip message-show-action wishlist_active" onClick={() => removeWishlist(product._id, product.variant?._id)}>
 
-                      <i className="fa-light fa-heart" />
+                      <i className="fa fa-heart" />
                     </div>
                     :
                     <div className="single-action openuptip message-show-action" onClick={() => showWishlist(product._id, product.variant?._id)}>

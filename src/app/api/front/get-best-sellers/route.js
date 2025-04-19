@@ -13,6 +13,11 @@ export async function GET() {
         const products = await productModel.aggregate([
             // Step 1: Lookup subcategory
             {
+              $match: {
+                save_as_draft: '0'
+              }
+            },
+            {
               $lookup: {
                 from: 'subcategories',
                 localField: 'subcategory_id',
@@ -34,6 +39,7 @@ export async function GET() {
                             $and: [
                               { $eq: ['$_id', '$$categoryId'] },
                               { $eq: ['$showList', 'Yes'] }
+                              
                             ]
                           }
                         }
@@ -55,7 +61,8 @@ export async function GET() {
                       $expr: {
                         $and: [
                           { $eq: ['$product_id', '$$productId'] },
-                          { $eq: ['$listingStatus', 1] }
+                          { $eq: ['$listingStatus', 1] },
+                          { $eq: ["$isProcessing", 'Approved'] }
                         ]
                       }
                     }

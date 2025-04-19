@@ -43,7 +43,12 @@ export async function GET(req) {
             }
                 */
             let queryProduct = [
-                { $match: { category_id: { $in: categoryIds }, _id: { $nin: productIds } } },
+                { $match: { 
+                    category_id: { $in: categoryIds },
+                    _id: { $nin: productIds },
+                    save_as_draft: '0'
+                    
+                    } },
                 { $sample: { size: 10 } } 
               ]
                 
@@ -55,7 +60,8 @@ export async function GET(req) {
                 products.map(async (prod)=>{
                                     let variantQuery = {
                                         product_id: prod._id,
-                                        listingStatus: 1
+                                        listingStatus: 1,
+                                        isProcessing:'Approved'
                                     }; 
                        
                                     let variantQueryBuilder  = await productVariantModel.find(variantQuery)
@@ -103,7 +109,7 @@ export async function GET(req) {
                            
             
             
-            console.log('finalllll',productWithVariant.length)
+            // console.log('finalllll',productWithVariant.length)
 
             
             

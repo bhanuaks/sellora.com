@@ -13,19 +13,17 @@ const couponSchema = new Schema(
         category_id: {
             type: mongoose.Types.ObjectId,
             ref: "Category",
-            required: [true, "Category is required"]
+            
         },
         subcategory_id: {
             type: mongoose.Types.ObjectId,
             ref: "subCategory",
-            required: false,
-            default: null,
+            
         },
         childcategory_id: {
             type: mongoose.Types.ObjectId,
             ref: "ChildCategory",
-            required: false,
-            default: null,
+            
         },
         coupon_type:{
             type:Number,  // 1=>Amount, 2=> Percentage

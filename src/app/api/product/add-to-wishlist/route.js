@@ -27,8 +27,10 @@ export async function GET(req) {
                     
                 //arrProd.push(wishlistList.product_id._id)
             let queryProduct = {
-                _id:wishlistList.product_id._id
+                _id:wishlistList.product_id._id,
+                
             }
+            queryProduct.save_as_draft = 0;
             if(searchVal && searchVal != ''){
                 queryProduct.product_name = { $regex: searchVal, $options: 'i' }
             }
@@ -41,7 +43,8 @@ export async function GET(req) {
                 products.map(async (prod)=>{
                                     let variantQuery = {
                                         product_id: prod._id,
-                                        listingStatus: 1
+                                        listingStatus: 1,
+                                        isProcessing:'Approved'
                                     }; 
                        
                                     let variantQueryBuilder  = await productVariantModel.find(variantQuery)

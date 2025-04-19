@@ -6,6 +6,9 @@ import path from 'path';
 import { deleteImageOne, uploadImageFun } from '@/app/api/uploadImage/route';
 import { connectDb } from '../../../../../lib/dbConnect';
 import { Coupon } from '@/Http/Models/couponModel';
+import { Category } from '../../../../../lib/categoryModel';
+import { subCategory } from '../../../../../lib/subcategoryModel';
+import ChildCategory from '../../../../../lib/childcategoryModel';
 
 // Helper function to parse object ids from string
 const parseObjectId = (value) => {
@@ -27,10 +30,14 @@ export async function POST(req) {
     const data = await req.formData();
     const id = data.get('id') && data.get('id') !== 'undefined' ? data.get('id') : undefined;
     const coupon_code = data.get('coupon_code');
-    const category_id = data.get('category_id');
+    //const category_id = data.get('category_id');
+    let category_id=undefined;
     let subcategory_id=undefined;
     let childcategory_id=undefined;
     
+    if (data.get('category_id') && mongoose.Types.ObjectId.isValid(data.get('category_id').trim())) {
+      category_id = data.get('category_id').trim();
+    }
     if (data.get('subcategory_id') && mongoose.Types.ObjectId.isValid(data.get('subcategory_id').trim())) {
     subcategory_id = data.get('subcategory_id').trim();
     }
@@ -69,7 +76,7 @@ export async function POST(req) {
       }
       // Update category
       coupon.coupon_code = coupon_code || coupon.coupon_code;
-      coupon.category_id = category_id || coupon.category_id;
+      coupon.category_id = category_id || null;
       coupon.subcategory_id = subcategory_id || null;
       coupon.childcategory_id = childcategory_id || null;
       coupon.coupon_type = coupon_type || coupon.coupon_type;
@@ -135,14 +142,43 @@ export async function GET(req) {
   try {
     await connectDb();
 
-    const coupons = await Coupon.find().populate('category_id').populate('subcategory_id').populate('childcategory_id').sort({
+    /* const coupons = await Coupon.find().populate('category_id').populate('subcategory_id').populate('childcategory_id').sort({
       createdAt: -1
     });
+    */
+    const coupons = await Coupon.find().sort({
+      createdAt: -1
+    })
+
+    let couponAllList = await Promise.all(
+
+      coupons.map(async (couponsList)=>{
+
+          let category  = await Category.findById(couponsList.category_id)
+          let subcategory  = await subCategory.findById(couponsList.subcategory_id)
+          let childcategory  = await ChildCategory.findById(couponsList.childcategory_id)
+          //if (!category.length) return null;
+          return {
+            ...couponsList.toObject(),
+            category_id:category,
+            subcategory_id:subcategory,
+            childcategory_id:childcategory
+            
+        }
+
+
+      })
+
+
+    )
+    
+    
+    
     
 
     return new Response(
       JSON.stringify({
-        success: true, data: coupons, 
+        success: true, data: couponAllList, 
         
       }),
       { status: 200 }

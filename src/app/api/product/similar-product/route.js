@@ -29,6 +29,8 @@ export async function GET(request) {
             similarProductQuery.category_id = product.category_id
         }
 
+        similarProductQuery.save_as_draft = '0';
+
         similarProduct = await productModel.aggregate([
             {
                 $match: similarProductQuery
@@ -44,7 +46,8 @@ export async function GET(request) {
                                 $expr: {
                                     $and: [
                                         { $eq: ["$product_id", "$$productId"] },
-                                        { $eq: ["$listingStatus", 1] }
+                                        { $eq: ["$listingStatus", 1] },
+                                        { $eq: ["$isProcessing", 'Approved'] }
                                     ]
                                 }
                             }

@@ -50,6 +50,7 @@ function page() {
 
   const fetchSubCategories = async (categoryId) => {
     try {
+      if(categoryId){
       $('.loader-container').css('display', 'flex')
       const response = await fetch(`/admin-login/api/sub-category-list?category_id=${categoryId}`);
       const result = await response.json();
@@ -61,6 +62,7 @@ function page() {
         $('.loader-container').css('display', 'none')
         setMessage({ type: 'error', text: result.message || 'Failed to fetch sub categories.' });
       }
+    }
     } catch (error) {
       console.error('Error fetching categories:', error);
       setMessage({ type: 'error', text: 'Failed to fetch sub categories.' });
@@ -69,6 +71,7 @@ function page() {
 
   const fetchChildCategories = async (subCategoryId) => {
     try {
+      if(subCategoryId){
       $('.loader-container').css('display', 'flex')
       const response = await fetch(`/admin-login/api/child-category-list?subCategory_id=${subCategoryId}`);
       const result = await response.json();
@@ -79,6 +82,7 @@ function page() {
         $('.loader-container').css('display', 'none')
         setMessage({ type: 'error', text: result.message || 'Failed to fetch subcategories.' });
       }
+    }
     } catch (error) {
       $('.loader-container').css('display', 'none')
       console.error('Error fetching subcategories:', error);
@@ -147,9 +151,7 @@ function page() {
       errors.couponName = "Coupon code is required.";
     }
     
-    if (!formData.category_id) {
-      errors.category_id = "Category  is required.";
-    }
+    
     if (!formData.couponType) {
       errors.couponType = "Coupon type is required.";
     }
@@ -401,7 +403,7 @@ const handleDelete = async (id) => {
                           htmlFor="example-text-input"
                           className="form-label"
                         >
-                          Select Category<span className='text-danger'>*</span>
+                          Select Category
                         </label>
                         <select
                         name="category_id"
@@ -572,7 +574,7 @@ const handleDelete = async (id) => {
                             )}
                       </div>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-12">
                       <div className="mb-3">
                         <label
                           htmlFor="example-text-input"
@@ -618,7 +620,7 @@ const handleDelete = async (id) => {
                             )}
                       </div>
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-12">
                       <div className="mb-3">
                         <label
                           htmlFor="example-text-input"

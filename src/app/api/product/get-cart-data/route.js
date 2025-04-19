@@ -14,11 +14,12 @@ export async function POST(request) {
         let cartProduct = (await Promise.all(
             cartItems.map(async (element) => {
                 let thresholdDiscount = 0;
-                const product = await productModel.findById(element.product_id)
+                const product = await productModel.findOne({_id:element.product_id, save_as_draft:0})
                 const variant = await productVariantModel.findOne({
                     _id: new mongoose.Types.ObjectId(element.variant_id),
                     product_id: new mongoose.Types.ObjectId(element.product_id),
-                    listingStatus: 1
+                    listingStatus: 1,
+                    isProcessing:'Approved'
                 })
                 const threshold =  await variantThresholdSchemaModal.findOne({
                     variant_id: new mongoose.Types.ObjectId(element.variant_id),

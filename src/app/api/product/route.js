@@ -29,6 +29,7 @@ export async function POST(req) {
         //console.log('routessssss', category, subcategory)
 
         let query = {};
+        query.save_as_draft = 0;
         
         if (category) {
             const categoryData = await Category.findOne({slug : decodeURIComponent(category)});
@@ -84,7 +85,8 @@ export async function POST(req) {
                     products.map(async (prod)=>{
                         let variantQuery = {
                             product_id: prod._id,
-                            listingStatus: 1
+                            listingStatus: 1,
+                            isProcessing:'Approved'
                         }; 
 
                         if(start_price){

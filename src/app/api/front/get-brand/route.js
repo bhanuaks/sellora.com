@@ -52,6 +52,8 @@ export async function GET(req) {
                                 return responseFun(true, { message: "No products found matching the filters." }, 404);
                             }
                         }    
+
+                        query.save_as_draft = 0;
         
                 const products = await productModel.find(query).populate('brand_id');
                 
@@ -74,7 +76,8 @@ export async function GET(req) {
                  products.map(async (prod)=>{
                                         let variantQuery = {
                                             product_id: prod._id,
-                                            listingStatus: 1
+                                            listingStatus: 1,
+                                            isProcessing:'Approved'
                                         }; 
                                                 
                                             let variantQueryBuilder = await productVariantModel.find(variantQuery)

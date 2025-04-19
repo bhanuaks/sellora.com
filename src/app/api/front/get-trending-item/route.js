@@ -13,7 +13,12 @@ export async function GET() {
         
         
         const productsWithOrder = await productModel.aggregate([
-            {
+          {
+            $match: {
+              save_as_draft: '0'
+            }
+          },  
+          {
               $lookup: {
                 from: "orderproducts",
                 localField: "_id",
@@ -36,7 +41,8 @@ export async function GET() {
                       $expr: {
                         $and: [
                           { $eq: ["$product_id", "$$productId"] },
-                          { $eq: ["$listingStatus", 1] }
+                          { $eq: ["$listingStatus", 1] },
+                          { $eq: ["$isProcessing", 'Approved'] }
                         ]
                       }
                     }
