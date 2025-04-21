@@ -6,17 +6,14 @@ import HomeCategoryAll from './component/homecategoryall';
 
 
 
-const HomeAllCategory = ({categoryListAll}) => {
-
-
-
+const HomeAllCategory = ({categoryListAll}) => {  
   return (
     
-  <div className="rts-category-area rts-section-gap" style={{ paddingTop: 0 }}>
+  <div className="rts-category-area rts-section-gap" style={{ paddingTop: '0px' }}>
   <div className="container">
     <div className="row">
       <div className="col-lg-12">
-        <div className="cover-card-main-over-white" style={{ paddingTop: 0 }}>
+        <div className="cover-card-main-over-white" style={{ paddingTop: '0px' }}>
           <div className="row">
             <div className="col-lg-12">
               <div className="title-area-between">

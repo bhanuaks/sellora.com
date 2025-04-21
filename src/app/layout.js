@@ -38,6 +38,7 @@ export default function RootLayout({ children }) {
 
  
   const pathname = usePathname();
+
   if(pathname.startsWith('/sellor') || pathname.startsWith('/sellor-dashboard')){
     window.location.href=sellerUrl
 }
@@ -68,7 +69,8 @@ export default function RootLayout({ children }) {
   }
 
 
-  
+ 
+ 
 
   return (
     <html lang="en"> 
@@ -91,7 +93,7 @@ export default function RootLayout({ children }) {
         {/* <Header />
         {children}
         <Footer/> */}
-
+      
         {!isCustomLayout && <Header />}
         <div className="logoLoader">
           <div className="innerloader">

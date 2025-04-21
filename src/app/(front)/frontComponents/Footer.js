@@ -40,11 +40,11 @@ function Footer() {
               <h3 className="footer-title">Sell on Sellora</h3>
               <div className="footer-nav">
                 <ul>
-                  <li>
+                  {/* <li>
                     <Link href={sellerUrl} target="_blank">
                       Become a Seller
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link href="/seller-central">Seller Central</Link>
                   </li>
@@ -74,11 +74,13 @@ function Footer() {
                   <li>
                     <Link href="/shipping">Shipping</Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link href="/cancellation-and-return">
                       Cancellation and Return
                     </Link>
-                  </li>
+                  </li> */}
+
+                  
                   <li>
                     <Link href="/report-infringement">Report Infringement</Link>
                   </li>
@@ -95,14 +97,20 @@ function Footer() {
               <div className="footer-nav">
                 <ul>
                   <li>
-                    <Link href="/consumer/terms-of-use">Terms of Use</Link>
+                    <Link href="/terms-of-use">Terms of Use</Link>
                   </li>
                   <li>
-                    <Link href="/consumer/privacy-policy">Privacy Policy</Link>
+                    <Link href="/privacy-policy">Privacy Policy</Link>
                   </li>
+                  
                   <li>
                     <Link href="/cancellation-return-policy">
                       Cancellation &amp; Return Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/delivery-information">
+                      Delivery Information
                     </Link>
                   </li>
                   <li>

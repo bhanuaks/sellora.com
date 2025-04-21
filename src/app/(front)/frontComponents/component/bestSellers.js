@@ -64,14 +64,15 @@ return (
               id={`home${catList.categoryId}`}
               role="tabpanel"
               aria-labelledby={`home-tab${catList.categoryId}`}
+              key={index}
             >
               <div className="row g-4 mt--0">
                 
               {catList.subcategories && catList.subcategories.map((subCatList, indexsub) => {
                 
                 return (
-                <>
-                <div className="col-lg-3">
+               
+                <div className="col-lg-3" key={indexsub}>
                   <div className="gw-card-layout">
                     <h2>{subCatList.subcategoryName}</h2>
                     <div className="a-cardui-body">
@@ -80,7 +81,7 @@ return (
                 
                         return (
                         
-                        <div className="col-lg-6 col-6">
+                        <div className="col-lg-6 col-6" key={indexprod}>
                           <div className="_quad-multi-asin-card-v2_style_quadrant__3xH-V">
                             
                             {indexsub > 0 && indexsub % 2==1?
@@ -120,7 +121,7 @@ return (
                     
                      
 
-                    </>
+                    
                 )})}
 
 

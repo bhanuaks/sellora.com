@@ -104,13 +104,18 @@ function CategoryPage() {
       setErrors(validationErrors);
       return;
     }
-    console.log({v:categoriesVariant});
+
+    // remove select variant and value null
+    const filteredVariant = Object.fromEntries(
+      Object.entries(categoriesVariant).filter(([key, value]) => value !== "select")
+    );
+   
     const formDataToSubmit = new FormData();
     formDataToSubmit.append('id', formData._id);
     formDataToSubmit.append('name', formData.name);
     formDataToSubmit.append('status', formData.status);
     formDataToSubmit.append('dynamicField', JSON.stringify(dynamicProductField));
-    formDataToSubmit.append('variant', JSON.stringify(categoriesVariant || [])); 
+    formDataToSubmit.append('variant', JSON.stringify(filteredVariant || [])); 
 
     if (formData.photo) formDataToSubmit.append('photo', formData.photo);
     if (formData.list_image) formDataToSubmit.append('list_image', formData.list_image);
@@ -398,13 +403,13 @@ function addModeField(){
 
   function changeTypeVariant(e, name, field_id,  index){
     const {value} =  e.target;
-    if(value == "input"){
+    if(value == "input" || value == "select"){ 
       setCategoriesVariant((preData)=>({
           ...preData,
           [name]:value
       }))
     }else{
-      const selectedValues = $(`#${field_id}`).val();   
+      const selectedValues = $(`#${field_id}`).val();    
           if(selectedValues && selectedValues.length){
             setCategoriesVariant((preData)=>({
                 ...preData,
@@ -645,11 +650,16 @@ function addModeField(){
 
                         <div className="col-lg-6" key={index}>
                           <div className="mb-3">
-                              <label className="form-label">{item.variant_name}   </label>
+                              <label className="form-label">{item.variant_name} {typeof categoriesVariant?.[item.variant_name] }   </label>
                               <br />
 
+                              &nbsp;<input type="radio" value={"none"} name={`${item.variant_name}_id`} 
+                              checked={ typeof categoriesVariant?.[item.variant_name] =="undefined"?true:false}
+                               onChange={(e)=>changeTypeVariant(e, item.variant_name, `${item.variant_name}_id`,   index)} /> None
+                                
+
                               &nbsp;<input type="radio" value={"select"} name={`${item.variant_name}_id`} 
-                              checked={ categoriesVariant?.[item.variant_name] !== "input"?true:false}
+                              checked={  typeof categoriesVariant?.[item.variant_name] =="object"  || categoriesVariant?.[item.variant_name] =="select" ?true:false}
                                onChange={(e)=>changeTypeVariant(e, item.variant_name, `${item.variant_name}_id`,   index)} /> Select
                                
                               &nbsp;<input type="radio" value={"input"} name={`${item.variant_name}_id`} 
@@ -657,7 +667,7 @@ function addModeField(){
                               onChange={(e)=>changeTypeVariant(e, item.variant_name, `${item.variant_name}_id`,  index)} /> Input Field
  
 
-                              <div className={`${categoriesVariant?.[item.variant_name] == "input" ? "hide_select":""}`}>
+                              <div className={`${categoriesVariant?.[item.variant_name] == "input" || categoriesVariant?.[item.variant_name] == "none" ? "hide_select":""}`}>
                               <select
                                 className={`form-select multiple `}
                                 id={`${item.variant_name}_id`}                                

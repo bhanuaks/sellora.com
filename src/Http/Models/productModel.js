@@ -99,7 +99,7 @@ const productSchema = new Schema({
     listingStatus:{
         type:Number,
         enum:[0, 1, 2] ,// 0=>Deactive, 1=>Active, 2=> Draft
-        default:2,
+        default:1,
     },
 
     currency:{

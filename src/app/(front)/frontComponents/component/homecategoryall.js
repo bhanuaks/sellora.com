@@ -71,7 +71,7 @@ const HomeCategoryAll = ({ categoryListAll }) => {
             slidesPerView={slidesPerView}
             navigation={true}
             autoplay={{ delay: 4000 }}
-            loop={true}
+            loop={false}
             
           >
             {similarProduct.length > 0 ? similarProduct.map((product, index)=>(
@@ -92,8 +92,11 @@ const HomeCategoryAll = ({ categoryListAll }) => {
                               </div>
                             </div>
                           </div>
-            </SwiperSlide>
+            </SwiperSlide> 
             )):null}
+
+
+            
             
 
           </Swiper>

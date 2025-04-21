@@ -3,10 +3,20 @@ import { Category } from "../../../../../lib/categoryModel";
 import { subCategory } from "../../../../../lib/subcategoryModel";
 import ChildCategory from "../../../../../lib/childcategoryModel";
 import { connectDb } from "../../../../../lib/dbConnect";
+import { productVariantModel } from "@/Http/Models/productModel";
 
 
 export async function GET(request) {
     connectDb();
+
+    // const varinat = await productVariantModel.find();
+    //     await Promise.all(
+    //         varinat.map(async (item)=>{
+    //             await productVariantModel.findByIdAndUpdate(item._id, {
+    //                 currency:"USD"
+    //             })
+    //         })
+    //     )
     const {searchParams} = new URL(request.url)
     const search = searchParams.get('search') 
 

@@ -259,7 +259,7 @@ function Header() {
 
                           <li className={`parent`} > <Link href={`${baseUrl}deals/hot-deals`}>Hot Deals</Link></li>
 
-                            {categories.length > 0 ? (
+                            {categories && categories.length > 0 ? (
                               categories.map((category, index) => (
                                 <li
                                   className={`parent ${
