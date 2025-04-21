@@ -56,7 +56,7 @@ export async function POST(req) {
 
 
         const uploadingPath = "public/uploads/banner/banner/";
-        await uploadImageFun(photo, uploadingPath, imageName, 1600)
+        await uploadImageFun(photo, uploadingPath, imageName, 887)
         photoPath = `/uploads/banner/banner/${imageName}`
         if(exitBanner && exitBanner.photo){
           await deleteImageOne(exitBanner.photo);

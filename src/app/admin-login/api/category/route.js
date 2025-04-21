@@ -87,7 +87,7 @@ export async function POST(req) {
         }
 
         const uploadingPath = "public/uploads/category/list/";
-       await uploadImageFun(list_image, uploadingPath, imageName, 225)
+       await uploadImageFun(list_image, uploadingPath, imageName, 254)
         list_image_path = `/uploads/category/list/${imageName}`
 
         if(exitCategory && exitCategory.list_image){

@@ -708,7 +708,7 @@ function Header() {
                     <ul className="mainmenu metismenu" id="mobile-menu-active">
                       <li>
                         
-                        <Link href="products" className="main">
+                        <Link href={`${baseUrl}deals/hot-deals`} className="main">
                           Hot Deal's
                         </Link>
                       </li>

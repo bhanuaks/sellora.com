@@ -454,9 +454,7 @@ function addModeField(){
           {/* Add Category Form */}
           {message && (
             <div className={`alert alert-${message.type === 'success' ? 'success' : 'danger'}`}>
-              {message.text}
-
-
+              {message.text} 
             </div>
           )}
           <div className="row">
@@ -553,7 +551,7 @@ function addModeField(){
                             <span className="text-danger">{errors.photo}</span>
                           )}
                         </div>
-                        <div style={{color:'red'}}><span>Note: </span> image size 1254x550px</div>
+                        <div style={{color:'red'}}><span>Note: </span> Image size of 767px (width) × 440px (height) </div>
                       </div>
 
                       

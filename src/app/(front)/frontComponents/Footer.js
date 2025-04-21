@@ -46,7 +46,7 @@ function Footer() {
                     </Link>
                   </li> */}
                   <li>
-                    <Link href="/seller-central">Seller Central</Link>
+                    <a target='_blank' href={process.env.SELLER_URL}>Seller Central</a>
                   </li>
                   <li>
                     <Link href="/become-a-verified-supplier">

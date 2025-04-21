@@ -385,11 +385,9 @@ const handleDelete = async (id) => {
                       <div className="mb-3">      
                       <label
                           htmlFor="example-text-input"
-                          className="form-label mt-3"
-                        >
-                          {" "}
-                          
-                        </label>
+                          className="form-label"
+                        >&nbsp;</label>
+                        
                       <button type="button" className="btn btn-primary" onClick={generateCoupon}>
                             Generate
                           </button>

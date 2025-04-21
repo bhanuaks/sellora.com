@@ -240,7 +240,7 @@ export default function Home() {
           <div className="container">
             <div className="row">
 
-              <div className="col-lg-3">
+              <div className="col-lg-3 d-lg-block d-none">
                 <div className="banner-five-right-content bg_image" style={{ backgroundImage: `url(${baseUrl}${bannerLeft.photo})` }}>
                   <div className="content-area">
                     {/*  <Link href="#" className="rts-btn btn-primary">Weekend Discount</Link> */}
@@ -379,7 +379,7 @@ export default function Home() {
                 <HomeBannerSlider />
 
               </div>
-              <div className="col-lg-3">
+              <div className="col-lg-3 d-lg-block d-none">
                 <div className="banner-five-right-content bg_image" style={{ backgroundImage: `url(${baseUrl}${bannerRight.photo})` }}>
                   <div className="content-area">
                     {/*  <Link href="#" className="rts-btn btn-primary">Weekend Discount</Link> */}

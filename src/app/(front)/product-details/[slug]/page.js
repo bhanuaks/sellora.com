@@ -133,9 +133,7 @@ const page = () => {
                     productDetails={productDetails}
                     changeVariant={changeVariant}
                   />
-                  <ProductDescription
-                    productDetails={productDetails}
-                  ></ProductDescription>
+                 
                 </div>
                 <div className="col-lg-4">
                   <div className="contents">
@@ -296,7 +294,9 @@ const page = () => {
                   selectedQuantity ={selectedQuantity}
                   setSelectedQuantity = {setSelectedQuantity}
                   />
-                
+                 <ProductDescription
+                    productDetails={productDetails}
+                  ></ProductDescription>
               </div>
             </div>
           </div>

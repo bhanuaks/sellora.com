@@ -597,7 +597,7 @@ function addModeField(){
                             <span className="text-danger">{errors.list_image}</span>
                           )}
                         </div>
-                        <div style={{color:'red'}}><span>Note: </span> image size 225x155px</div>
+                        <div style={{color:'red'}}><span>Note: </span> Image size of 254px (width) × 154px (height)</div>
                       </div>
 
 
@@ -650,9 +650,8 @@ function addModeField(){
 
                         <div className="col-lg-6" key={index}>
                           <div className="mb-3">
-                              <label className="form-label">{item.variant_name} {typeof categoriesVariant?.[item.variant_name] }   </label>
-                              <br />
-
+                              <label className="form-label">{item.variant_name} : </label>
+                              <br /> 
                               &nbsp;<input type="radio" value={"none"} name={`${item.variant_name}_id`} 
                               checked={ typeof categoriesVariant?.[item.variant_name] =="undefined"?true:false}
                                onChange={(e)=>changeTypeVariant(e, item.variant_name, `${item.variant_name}_id`,   index)} /> None
@@ -667,14 +666,14 @@ function addModeField(){
                               onChange={(e)=>changeTypeVariant(e, item.variant_name, `${item.variant_name}_id`,  index)} /> Input Field
  
 
-                              <div className={`${categoriesVariant?.[item.variant_name] == "input" || categoriesVariant?.[item.variant_name] == "none" ? "hide_select":""}`}>
+                              <div className={`${ typeof categoriesVariant?.[item.variant_name] !=="object"  && categoriesVariant?.[item.variant_name] !=="select" ? "hide_select":""}`}>
                               <select
                                 className={`form-select multiple `}
                                 id={`${item.variant_name}_id`}                                
                                 name={item.variant_name}
                                 onChange={(e) => handleDropdownChange(e, `${item.variant_name}`)}
                                 multiple
-                                style={{display:`${categoriesVariant?.[item.variant_name] == "input" ? "none":""}`}}
+                                 
                               >
                                  {item.select_value.length ? item.select_value.map((vValue, index)=>(
                                       <option value={vValue} key={index}>{vValue}</option>

@@ -51,7 +51,7 @@ const HomeBannerSlider = () => {
             <div
               className={`banner-bg-image bg_image bg_one-banner ${
                 index === 0 ? 'two' : ''
-              } ptb--120 ptb_md--80 ptb_sm--60`}
+              } `}
               style={{
                 backgroundImage: `url(${baseUrl}${bannerList.photo})`,
               }}

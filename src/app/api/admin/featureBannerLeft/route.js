@@ -78,7 +78,7 @@ export async function POST(req) {
             return responseFun(false, {errors, status_code:400},200)
         }
         const uploadingPath = "public/uploads/banner/banner/";
-        await uploadImageFun(photo, uploadingPath, imageName, 920)
+        await uploadImageFun(photo, uploadingPath, imageName, 400)
         photoPath = `/uploads/banner/banner/${imageName}`
         if(exitBanner && exitBanner.photo){
           await deleteImageOne(exitBanner.photo);
@@ -95,7 +95,7 @@ export async function POST(req) {
             return responseFun(false, {errors, status_code:400},200)
         }
         const uploadingPath = "public/uploads/banner/banner/";
-        await uploadImageFun(photo_r, uploadingPath, imageName, 920)
+        await uploadImageFun(photo_r, uploadingPath, imageName, 400)
         photoPath_r = `/uploads/banner/banner/${imageName}`
         if(exitBanner && exitBanner.photo_r){
           await deleteImageOne(exitBanner.photo_r);
@@ -112,7 +112,7 @@ export async function POST(req) {
             return responseFun(false, {errors, status_code:400},200)
         }
         const uploadingPath = "public/uploads/banner/banner/";
-        await uploadImageFun(photo_m1, uploadingPath, imageName, 450)
+        await uploadImageFun(photo_m1, uploadingPath, imageName, 400)
         photoPath_m1 = `/uploads/banner/banner/${imageName}`
         if(exitBanner && exitBanner.photo_m1){
           await deleteImageOne(exitBanner.photo_m1);
@@ -129,7 +129,7 @@ export async function POST(req) {
             return responseFun(false, {errors, status_code:400},200)
         }
         const uploadingPath = "public/uploads/banner/banner/";
-        await uploadImageFun(photo_m2, uploadingPath, imageName, 450)
+        await uploadImageFun(photo_m2, uploadingPath, imageName, 400)
         photoPath_m2 = `/uploads/banner/banner/${imageName}`
         if(exitBanner && exitBanner.photo_m2){
           await deleteImageOne(exitBanner.photo_m2);
@@ -146,7 +146,7 @@ export async function POST(req) {
             return responseFun(false, {errors, status_code:400},200)
         }
         const uploadingPath = "public/uploads/banner/banner/";
-        await uploadImageFun(photo_m3, uploadingPath, imageName, 450)
+        await uploadImageFun(photo_m3, uploadingPath, imageName, 400)
         photoPath_m3 = `/uploads/banner/banner/${imageName}`
         if(exitBanner && exitBanner.photo_m3){
           await deleteImageOne(exitBanner.photo_m3);
@@ -163,7 +163,7 @@ export async function POST(req) {
             return responseFun(false, {errors, status_code:400},200)
         }
         const uploadingPath = "public/uploads/banner/banner/";
-        await uploadImageFun(photo_m4, uploadingPath, imageName, 450)
+        await uploadImageFun(photo_m4, uploadingPath, imageName, 400)
         photoPath_m4 = `/uploads/banner/banner/${imageName}`
         if(exitBanner && exitBanner.photo_m4){
           await deleteImageOne(exitBanner.photo_m4);
