@@ -32,9 +32,9 @@ const HomeCategoryAll = ({ categoryListAll }) => {
       if (window.innerWidth >= 1024) {
         newSlidesPerView = 8;
       } else if (window.innerWidth >= 768) {
-        newSlidesPerView = 3;
+        newSlidesPerView = 4;
       } else {
-        newSlidesPerView = 1;
+        newSlidesPerView = 2;
       }
 
       setSlidesPerView(newSlidesPerView);

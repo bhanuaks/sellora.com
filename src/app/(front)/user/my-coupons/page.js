@@ -1,10 +1,43 @@
-import React from 'react'
-import Sidebar from '../userComponents/Sidebar'
+"use client"
 import Link from 'next/link'
+import React, { useContext, useEffect, useState } from 'react'
+import Sidebar from '../userComponents/Sidebar'
 import { baseUrl } from '@/Http/helper'
+import { userAppContaxt } from '@/app/contaxtData/userContaxtData'
+import UserSideBarSecction from '../userSideBarSecction'
 
 
 function page() {
+
+  
+     const {globalUser, setsetGlobalUser} = useContext(userAppContaxt);
+      
+        const [user, setUser] = useState(null);
+  
+        
+            useEffect(()=>{
+        
+              if(globalUser.user){ 
+              
+                $('.loaderouter').css('display', 'flex') 
+                fetch(`${baseUrl}api/user/user-details?user_id=${globalUser.user._id}`,{
+                  method:"GET"
+                }).then((response)=>{
+        
+                  if(!response.ok){
+                    $('.loaderouter').css('display', 'none') 
+                    throw new Error("Network Error")
+                  }
+                  return response.json();
+                }).then((res)=>{
+                  if(res.status){
+                    setUser(res.data.user)
+                  }
+                  $('.loaderouter').css('display', 'none') 
+                })
+            }
+               
+            },[globalUser.user])
   return (
     <div className="details_page_outer">
   {/* rts navigation bar area start */}
@@ -13,7 +46,7 @@ function page() {
       <div className="row">
         <div className="col-lg-12">
           <div className="navigator-breadcrumb-wrapper">
-            <Link href="/">Dashboard</Link>
+            <Link href="/user/my-profile">Dashboard</Link>
             <i className="fa-regular fa-chevron-right" />
             <Link className="current" href="#">
               My Coupons
@@ -32,23 +65,7 @@ function page() {
   <div className="account-tab-area-start rts-section-gap">
     <div className="container">
       <div className="row">
-        <div className="col-lg-2">
-          <div className="side">
-            <div className="user-profile-box active-user d-flex">
-              <img
-                src={`${baseUrl}front/assets/images/ts-1.jpg`}
-                alt="avatar"
-                className="img-fluid profile-img"
-              />
-              <h2>
-                <span>Hello</span>Mary Smith
-              </h2>
-            </div>
-            <div className="nav accout-dashborard-nav flex-column nav-pills">
-                <Sidebar/>
-            </div>
-          </div>
-        </div>
+      <UserSideBarSecction user={user}/>
         <div className="col-lg-10 pl_md--10 pl_sm--10 pt_md--30 pt_sm--30">
           <div className="dashboard-account-area">
             <h2 className="title">My Coupons</h2>

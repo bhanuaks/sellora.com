@@ -243,9 +243,9 @@ const showWishlist = async (pid, vid) => {
                   }
                       
                       
-                      <div className="single-action openuptip cta-quickview product-details-popup-btn">
+                      {/* <div className="single-action openuptip cta-quickview product-details-popup-btn">
                         <i className="fa-regular fa-eye" />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="body-content">

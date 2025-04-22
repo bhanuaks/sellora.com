@@ -24,8 +24,7 @@ const CustomerReviews = ({ product_id, slug }) => {
         setStarPercentages(data.data.starPercentages);
         setReviewList(data.data.reviewList);
         setAverage(data.data.average);
-        setExistReviews(data.data.existReviews);
-        
+        setExistReviews(data.data.existReviews); 
       }
     }
     getReviewData();
@@ -141,6 +140,8 @@ const CustomerReviews = ({ product_id, slug }) => {
                   </div>
                 </div>
                 <div className="col-lg-7">
+                {reviewList.length >0  && (
+                    <>
                   <div className="suctormers_story">
                     <h6>Customers say</h6>
                     {/* <p>
@@ -202,14 +203,16 @@ const CustomerReviews = ({ product_id, slug }) => {
                         </li>
                       </ul>
                     </div> */}
-                   
-                    <div className="list_drop">
+                 
+                     <div className="list_drop">
                       <select value={orderBy} onChange={(e)=>setOrderBy(e.target.value)}>
                         <option value={"Top"}>Top Review</option>
                         <option value={"Most"}>Most Recent</option>
                       </select>
                     </div>
                     <div className="clear" />
+                    
+                   
                     <div className="col-lg-12">
                       <div className="rew_display">
                         <h6>Top reviews from the United States</h6>
@@ -244,7 +247,10 @@ const CustomerReviews = ({ product_id, slug }) => {
 
 
                     </div>
+
                   </div>
+                    </>
+                   )}
                 </div>
               </div>
             </div>

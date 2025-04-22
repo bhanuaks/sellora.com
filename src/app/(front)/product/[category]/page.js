@@ -170,7 +170,7 @@ const getReview = (value) => {
           </div>
         </div> 
         <div className="col-xl-10 col-lg-12"> 
-          <HeaderFilter getSortBy={getSortBy} /> 
+          <HeaderFilter getSortBy={getSortBy}   products={products || []} /> 
           <div className="row g-4">
             <Product products={products || []} prductProccess={prductProccess}/>
           </div>

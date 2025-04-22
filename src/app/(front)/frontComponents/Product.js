@@ -45,9 +45,7 @@ const Product = ({ products, prductProccess }) => {
     //$(".successfully-addedin-wishlist").show()
     
     if (user?._id) {
-      //console.log('kkkkkkkkkkk')
-      //toast.success("checkkkkkkkkkkkkkkkkkkkk")
-      
+     
       fetchData(user?._id)
 
       
@@ -172,8 +170,7 @@ const Product = ({ products, prductProccess }) => {
                     />
                   </div>
                 </Link>
-                <div className="action-share-option">
-
+                <div className="action-share-option"> 
                   {wishlistUser.includes(product._id) ?
                     <div className="single-action openuptip message-show-action wishlist_active" onClick={() => removeWishlist(product._id, product.variant?._id)}>
 
@@ -188,10 +185,10 @@ const Product = ({ products, prductProccess }) => {
 
 
 
-                  <div className="single-action openuptip cta-quickview product-details-popup-btn">
+                  {/* <div className="single-action openuptip cta-quickview product-details-popup-btn">
 
                     <i className="fa-regular fa-eye" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="body-content">

@@ -177,7 +177,7 @@ function page() {
 
         <div className="col-xl-10 col-lg-12">
         
-          <HeaderFilter getSortBy={getSortBy}></HeaderFilter>
+          <HeaderFilter getSortBy={getSortBy}  products={products || []}></HeaderFilter>
 
           <div className="row g-4">
           <Product products={products || []} prductProccess={prductProccess}/>

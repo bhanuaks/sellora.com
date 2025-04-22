@@ -8,6 +8,7 @@ import React, { useState, useEffect, useContext } from "react";
 import CategoryMenu from "./CategoryMenu";
 import MobileCategoryMenu from "./MobileCategoryMenu";
 import { usePathname } from "next/navigation";
+import MobileMenuSection from "./MobileMenuSection";
 
 function Header() {
   const [categories, setCategories] = useState([]);
@@ -17,24 +18,19 @@ function Header() {
   const { user } = useCart();
   const { allCategory } = useCategory();
 
- 
+  const pathname = usePathname();
 
-      const pathname = usePathname();
+  useEffect(() => {
+    $(".rts-megamenu").css("display", "none");
 
-      useEffect(() => {
-        $('.rts-megamenu').css('display', 'none');
-
-        setTimeout(() => {
-        $('.rts-megamenu').css('display', '');
-          
-        }, 200);
-
-      }, [pathname]);
-
+    setTimeout(() => {
+      $(".rts-megamenu").css("display", "");
+    }, 200);
+  }, [pathname]);
 
   useEffect(() => {
     const updateCartCount = () => {
-      const cartData = JSON.parse(localStorage.getItem("cart") || "[]"); 
+      const cartData = JSON.parse(localStorage.getItem("cart") || "[]");
       setCartItemTotal(cartData.length);
     };
 
@@ -63,27 +59,29 @@ function Header() {
     fetchCategories();
   }, []);
 
-  function logoutUser(e){
-    e.preventDefault()
-     $('.loaderouter').css('display','flex')
-            fetch(`${baseUrl}api/user/user-logout`,{
-                method:"POST", 
-                body:JSON.stringify({user_id:""})
-            }).then((response)=>{ 
-                if(!response.ok){
-                    $('.loaderouter').css('display','none')
-                    throw new Error("Network Error")
-                }
-                return response.json()
-            }).then((res)=>{
-                if(res.status){ 
-                    window.location.reload()
-                }else{ 
-                    $('.loaderouter').css('display','none')
-                }
-            })
-}
-  
+  function logoutUser(e) {
+    e.preventDefault();
+    $(".loaderouter").css("display", "flex");
+    fetch(`${baseUrl}api/user/user-logout`, {
+      method: "POST",
+      body: JSON.stringify({ user_id: "" }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          $(".loaderouter").css("display", "none");
+          throw new Error("Network Error");
+        }
+        return response.json();
+      })
+      .then((res) => {
+        if (res.status) {
+          window.location.reload();
+        } else {
+          $(".loaderouter").css("display", "none");
+        }
+      });
+  }
+
   return (
     <>
       <div>
@@ -95,16 +93,14 @@ function Header() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="logo-search-category-wrapper style-five-call-us">
-                      
                       <Link href="/" className="logo-area">
-                        
                         <img
                           src={`${baseUrl}front/assets/images/logo-01.png`}
                           alt="logo-main"
                           className="logo"
                         />
                       </Link>
-                      <Link href="#">
+                      {/* <Link href="#">
                         <div className="location-area">
                           <div className="icon">
                             
@@ -116,10 +112,9 @@ function Header() {
                             <p>India</p>
                           </div>
                         </div>
-                      </Link>
+                      </Link> */}
                       <div className="search-container">
                         <button>
-                          
                           <i className="fa-light fa-magnifying-glass" />
                         </button>
                         <input
@@ -127,11 +122,9 @@ function Header() {
                           placeholder="Search for products, categories"
                         />
                         <button>
-                          
                           <i className="fa-light fa-microphone microphone" />
                         </button>
                         <button>
-                          
                           <Image
                             src={`${baseUrl}front/assets/images/camera.png`}
                             alt="Images search"
@@ -149,7 +142,6 @@ function Header() {
                             href="/user/login"
                             className="btn-border-only account"
                           >
-                            
                             <i className="fa-light fa-user" />
                             {user ? <>{user.full_name}</> : <>Login</>}
                           </Link>
@@ -157,14 +149,12 @@ function Header() {
                             {!user ? (
                               <>
                                 <li>
-                                  
                                   <Link href={`${baseUrl}user/register`}>
                                     <i className="far fa-handshake" />
                                     New customer?
                                   </Link>
                                 </li>
                                 <li>
-                                  
                                   <Link href={`${baseUrl}user/login`}>
                                     <i className="fa fa-sign-in" />
                                     Sign In
@@ -174,35 +164,30 @@ function Header() {
                             ) : (
                               <>
                                 <li>
-                                  
                                   <Link href={`${baseUrl}user/my-profile`}>
                                     <i className="far fa-user" />
                                     My Profile
                                   </Link>
                                 </li>
                                 <li>
-                                  
                                   <Link href={`${baseUrl}user/myorders`}>
                                     <i className="far fa-shopping-cart" />
                                     My Orders
                                   </Link>
                                 </li>
                                 <li>
-                                  
                                   <Link href={`${baseUrl}user/wishList`}>
                                     <i className="far fa-heart" />
                                     Wishlist
                                   </Link>
                                 </li>
                                 <li>
-                                  
                                   <Link href={`${baseUrl}user/rewards`}>
                                     <i className="far fa-gift" />
                                     Rewards
                                   </Link>
                                 </li>
                                 <li>
-                                  
                                   <Link href="#" onClick={logoutUser}>
                                     <i className="far fa-right-from-bracket" />
                                     Logout
@@ -213,13 +198,9 @@ function Header() {
                           </ul>
                         </div>
                         <div className="btn-border-only cart">
-                          
                           <i className="fa-sharp fa-regular fa-cart-shopping" />
                           <span className="number">{cartItemTotal}</span>
-                          <Link
-                            href={`${baseUrl}cart`}
-                            className="over_link"
-                          />
+                          <Link href={`${baseUrl}cart`} className="over_link" />
                         </div>
                         <Link
                           href={`${sellerUrl}`}
@@ -244,7 +225,6 @@ function Header() {
                   <div className="nav-and-btn-wrapper">
                     <div className="nav-area-bottom-left-header-four">
                       <div className="category-btn category-hover-header five-style">
-                        
                         <img
                           className="parent"
                           src={`${baseUrl}front/assets/images/icons/14.svg`}
@@ -255,9 +235,13 @@ function Header() {
                       </div>
                       <div className="nav-area">
                         <nav>
-                          <ul className="parent-nav"> 
-
-                          <li className={`parent`} > <Link href={`${baseUrl}deals/hot-deals`}>Hot Deals</Link></li>
+                          <ul className="parent-nav">
+                            <li className={`parent`}>
+                              {" "}
+                              <Link href={`${baseUrl}deals/hot-deals`}>
+                                Hot Deals
+                              </Link>
+                            </li>
 
                             {categories && categories.length > 0 ? (
                               categories.map((category, index) => (
@@ -284,73 +268,69 @@ function Header() {
                                           <div className="row">
                                             <div className="col-lg-8">
                                               <div className="menu-container">
-                                              
-                                                  {category.subcategories.map(
-                                                    (subcategory, subIndex) => (
-                                                       
-                                                        <div className="menu-section" key={subIndex}>
-                                                          <div className="men_heading">
-                                                          <Link
-                                                            href={`${baseUrl}product/${category.slug}/${subcategory.slug}`}
-                                                          >
-                                                            <h3>
-                                                              {
-                                                                subcategory.subCategoryName
-                                                              }
-                                                            </h3>
-                                                          </Link>
-                                                          </div>
-                                                          <ul>
-                                                            {subcategory.childcategory &&
-                                                            subcategory
-                                                              .childcategory
-                                                              .length > 0 ? (
-                                                              subcategory.childcategory.map(
-                                                                (
-                                                                  child,
-                                                                  childIndex
-                                                                ) => (
-                                                                  <li
-                                                                    key={
-                                                                      childIndex
-                                                                    }
-                                                                  >
-                                                                    <Link
-                                                                      href={`${baseUrl}product/${category.slug}/${subcategory.slug}/${child.slug}`}
-                                                                    >
-                                                                      {
-                                                                        child.childCategoryName
-                                                                      }
-                                                                    </Link>
-                                                                  </li>
-                                                                )
-                                                              )
-                                                            ) : (
-                                                              <li></li>
-                                                            )}
-                                                          </ul>
-                                                        </div>
-                                                      
-                                                    )
-                                                  )}
-                                                 
+                                                {category.subcategories.map(
+                                                  (subcategory, subIndex) => (
+                                                    <div
+                                                      className="menu-section"
+                                                      key={subIndex}
+                                                    >
+                                                      <div className="men_heading">
+                                                        <Link
+                                                          href={`${baseUrl}product/${category.slug}/${subcategory.slug}`}
+                                                        >
+                                                          <h3>
+                                                            {
+                                                              subcategory.subCategoryName
+                                                            }
+                                                          </h3>
+                                                        </Link>
+                                                      </div>
+                                                      <ul>
+                                                        {subcategory.childcategory &&
+                                                        subcategory
+                                                          .childcategory
+                                                          .length > 0 ? (
+                                                          subcategory.childcategory.map(
+                                                            (
+                                                              child,
+                                                              childIndex
+                                                            ) => (
+                                                              <li
+                                                                key={childIndex}
+                                                              >
+                                                                <Link
+                                                                  href={`${baseUrl}product/${category.slug}/${subcategory.slug}/${child.slug}`}
+                                                                >
+                                                                  {
+                                                                    child.childCategoryName
+                                                                  }
+                                                                </Link>
+                                                              </li>
+                                                            )
+                                                          )
+                                                        ) : (
+                                                          <li></li>
+                                                        )}
+                                                      </ul>
+                                                    </div>
+                                                  )
+                                                )}
                                               </div>
                                             </div>
 
                                             {/* Right section with featured image */}
                                             <div className="col-lg-4">
-                                              
-                                              {category?.photo && 
-                                              <Link
-                                                href={`${baseUrl}product/${category.slug}`}
-                                                className="feature-add-megamenu-area"
-                                              >
-                                                <img
-                                                  src={`${baseUrl}${category.photo}`}
-                                                  alt={`${category.photo}`}
-                                                />
-                                              </Link>
-                                              }
+                                              {category?.photo && (
+                                                <Link
+                                                  href={`${baseUrl}product/${category.slug}`}
+                                                  className="feature-add-megamenu-area"
+                                                >
+                                                  <img
+                                                    src={`${baseUrl}${category.photo}`}
+                                                    alt={`${category.photo}`}
+                                                  />
+                                                </Link>
+                                              )}
                                             </div>
                                           </div>
                                         </div>
@@ -369,9 +349,7 @@ function Header() {
                 </div>
                 <div className="col-lg-12">
                   <div className="logo-search-category-wrapper after-md-device-header header-mid-five-call">
-                    
                     <Link href={`${baseUrl}`} className="logo-area">
-                      
                       <img
                         src={`${baseUrl}front/assets/images/logo-01.png`}
                         alt="logo-main"
@@ -380,7 +358,6 @@ function Header() {
                     </Link>
                     <div className="category-search-wrapper">
                       <div className="category-btn category-hover-header">
-                        
                         <img
                           className="parent"
                           src={`${baseUrl}front/assets/images/icons/bar-1.svg`}
@@ -389,9 +366,7 @@ function Header() {
                         <span>Categories</span>
                         <ul className="category-sub-menu">
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/01.svg`}
                                 alt="icons"
@@ -401,9 +376,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/02.svg`}
                                 alt="icons"
@@ -413,9 +386,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/03.svg`}
                                 alt="icons"
@@ -424,9 +395,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/04.svg`}
                                 alt="icons"
@@ -436,9 +405,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/05.svg`}
                                 alt="icons"
@@ -447,9 +414,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/06.svg`}
                                 alt="icons"
@@ -458,9 +423,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/07.svg`}
                                 alt="icons"
@@ -470,9 +433,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/08.svg`}
                                 alt="icons"
@@ -481,9 +442,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/09.svg`}
                                 alt="icons"
@@ -492,9 +451,7 @@ function Header() {
                             </Link>
                           </li>
                           <li>
-                            
                             <Link href="#" className="menu-item">
-                              
                               <img
                                 src={`${baseUrl}front/assets/images/icons/10.svg`}
                                 alt="icons"
@@ -511,14 +468,11 @@ function Header() {
                           required
                         />
                         <button className="rts-btn btn-primary radious-sm with-icon">
-                          
                           <span className="btn-text"> Search </span>
                           <span className="arrow-icon">
-                            
                             <i className="fa-light fa-magnifying-glass" />
                           </span>
                           <span className="arrow-icon">
-                            
                             <i className="fa-light fa-magnifying-glass" />
                           </span>
                         </button>
@@ -527,22 +481,18 @@ function Header() {
                     <div className="main-wrapper-action-2 d-flex">
                       <div className="accont-wishlist-cart-area-header">
                         <div className="category-hover-header language-hover">
-                          
                           <Link href="#" className="btn-border-only account">
-                            
                             <i className="fa-light fa-user" />
                             <span className="text">Account</span>
                           </Link>
                           <ul className="category-sub-menu dropdown_fd">
                             <li>
-                              
                               <Link
                                 href="#"
                                 data-bs-toggle="modal"
                                 data-bs-target="#signup"
                                 className="menu-item"
                               >
-                                
                                 <span>
                                   <i className="far fa-handshake" />
                                   New customer?
@@ -550,14 +500,12 @@ function Header() {
                               </Link>
                             </li>
                             <li>
-                              
                               <Link
                                 href="#"
                                 data-bs-toggle="modal"
                                 data-bs-target="#signup"
                                 className="menu-item"
                               >
-                                
                                 <span>
                                   <i className="fa fa-sign-in" />
                                   Sign Up
@@ -565,12 +513,10 @@ function Header() {
                               </Link>
                             </li>
                             <li>
-                              
                               <Link
                                 href="my-profile.html"
                                 className="menu-item"
                               >
-                                
                                 <span>
                                   <i className="far fa-user" />
                                   My Profile
@@ -578,9 +524,7 @@ function Header() {
                               </Link>
                             </li>
                             <li>
-                              
                               <Link href="myorders.html" className="menu-item">
-                                
                                 <span>
                                   <i className="far fa-shopping-cart" />
                                   My Orders
@@ -588,9 +532,7 @@ function Header() {
                               </Link>
                             </li>
                             <li>
-                              
                               <Link href="wishList.html" className="menu-item">
-                                
                                 <span>
                                   <i className="far fa-heart" />
                                   Wishlist
@@ -598,9 +540,7 @@ function Header() {
                               </Link>
                             </li>
                             <li>
-                              
                               <Link href="rewards.html" className="menu-item">
-                                
                                 <span>
                                   <i className="far fa-gift" />
                                   Rewards
@@ -610,7 +550,6 @@ function Header() {
                           </ul>
                         </div>
                         <div className="btn-border-only cart category-hover-header">
-                          
                           <i className="fa-sharp fa-regular fa-cart-shopping" />
                           <span className="text">My Cart</span>
                           <Link href="#" className="over_link" />
@@ -618,7 +557,6 @@ function Header() {
                       </div>
                       <div className="actions-area">
                         <div className="search-btn" id="search">
-                          
                           <svg
                             width={17}
                             height={16}
@@ -633,7 +571,6 @@ function Header() {
                           </svg>
                         </div>
                         <div className="menu-btn" id="menu-btn">
-                          
                           <svg
                             width={20}
                             height={16}
@@ -704,251 +641,7 @@ function Header() {
               >
                 {/* mobile menu area start */}
                 <div className="mobile-menu-main">
-                  <nav className="nav-main mainmenu-nav mt--30">
-                    <ul className="mainmenu metismenu" id="mobile-menu-active">
-                      <li>
-                        
-                        <Link href={`${baseUrl}deals/hot-deals`} className="main">
-                          Hot Deal's
-                        </Link>
-                      </li>
-
-                      {categories && categories.length > 0 ? (
-                              categories.map((category, index) => (
-                                <li className="has-droupdown" key={index}> 
-                                  <Link href="#" className="main" aria-expanded="false"
-                                  >
-                                    Fashion
-                                  </Link>
-                                      <ul
-                                        className="submenu mm-collapse"
-                                        style={{ height: "0px" }}
-                                      >
-                                        <li className="has-droupdown third-lvl">
-                                          
-                                          <Link className="main" href="#">
-                                            Sub Heading
-                                          </Link>
-                                          <ul className="submenu-third-lvl mm-collapse">
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 1
-                                            </li>
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 2
-                                            </li>
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 3
-                                            </li>
-                                          </ul>
-                                        </li>
-                                        <li className="has-droupdown third-lvl">
-                                          
-                                          <Link className="main" href="#">
-                                            Sub Heading 2
-                                          </Link>
-                                          <ul className="submenu-third-lvl mm-collapse">
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 01
-                                            </li>
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 02
-                                            </li>
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 03
-                                            </li>
-                                          </ul>
-                                        </li>
-                                        <li className="has-droupdown third-lvl">
-                                          
-                                          <Link className="main" href="#">
-                                            Sub Heading 3
-                                          </Link>
-                                          <ul className="submenu-third-lvl mm-collapse">
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 001
-                                            </li>
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 002
-                                            </li>
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 003
-                                            </li>
-                                          </ul>
-                                        </li>
-                                        <li className="has-droupdown third-lvl">
-                                          
-                                          <Link className="main" href="#">
-                                            Sub Heading 4
-                                          </Link>
-                                          <ul className="submenu-third-lvl mm-collapse">
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 0001
-                                            </li>
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 0002
-                                            </li>
-                                            <li>
-                                              <Link href="products" />
-                                              Fashion 0003
-                                            </li>
-                                          </ul>
-                                        </li>
-                                      </ul>
-                                    </li>
-                              )) 
-                            ):null}
-                      <li className="has-droupdown">
-                        
-                        <Link href="#" className="main" aria-expanded="false">
-                          Fashion
-                        </Link>
-                        <ul
-                          className="submenu mm-collapse"
-                          style={{ height: "0px" }}
-                        >
-                          <li className="has-droupdown third-lvl">
-                            
-                            <Link className="main" href="#">
-                              Sub Heading
-                            </Link>
-                            <ul className="submenu-third-lvl mm-collapse">
-                              <li>
-                                <Link href="products" />
-                                Fashion 1
-                              </li>
-                              <li>
-                                <Link href="products" />
-                                Fashion 2
-                              </li>
-                              <li>
-                                <Link href="products" />
-                                Fashion 3
-                              </li>
-                            </ul>
-                          </li>
-                          <li className="has-droupdown third-lvl">
-                            
-                            <Link className="main" href="#">
-                              Sub Heading 2
-                            </Link>
-                            <ul className="submenu-third-lvl mm-collapse">
-                              <li>
-                                <Link href="products" />
-                                Fashion 01
-                              </li>
-                              <li>
-                                <Link href="products" />
-                                Fashion 02
-                              </li>
-                              <li>
-                                <Link href="products" />
-                                Fashion 03
-                              </li>
-                            </ul>
-                          </li>
-                          <li className="has-droupdown third-lvl">
-                            
-                            <Link className="main" href="#">
-                              Sub Heading 3
-                            </Link>
-                            <ul className="submenu-third-lvl mm-collapse">
-                              <li>
-                                <Link href="products" />
-                                Fashion 001
-                              </li>
-                              <li>
-                                <Link href="products" />
-                                Fashion 002
-                              </li>
-                              <li>
-                                <Link href="products" />
-                                Fashion 003
-                              </li>
-                            </ul>
-                          </li>
-                          <li className="has-droupdown third-lvl">
-                            
-                            <Link className="main" href="#">
-                              Sub Heading 4
-                            </Link>
-                            <ul className="submenu-third-lvl mm-collapse">
-                              <li>
-                                <Link href="products" />
-                                Fashion 0001
-                              </li>
-                              <li>
-                                <Link href="products" />
-                                Fashion 0002
-                              </li>
-                              <li>
-                                <Link href="products" />
-                                Fashion 0003
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        
-                        <Link href="products" className="main">
-                          Home &amp; Kitchen
-                        </Link>
-                      </li>
-                      <li>
-                        
-                        <Link href="products" className="main">
-                          Fashion
-                        </Link>
-                      </li>
-                      <li>
-                        
-                        <Link href="products" className="main">
-                          Home &amp; Kitchen
-                        </Link>
-                      </li>
-                      <li>
-                        
-                        <Link href="products" className="main">
-                          Beauty &amp; Health
-                        </Link>
-                      </li>
-                      <li>
-                        
-                        <Link href="products" className="main">
-                          Electronics
-                        </Link>
-                      </li>
-                      <li>
-                        
-                        <Link href="products" className="main">
-                          Luxury
-                        </Link>
-                      </li>
-                      <li>
-                        
-                        <Link href="products" className="main">
-                          Holistic
-                        </Link>
-                      </li>
-                      <li>
-                        
-                        <Link href="products" className="main">
-                          Travel
-                        </Link>
-                      </li>
-                    </ul>
-                  </nav>
+                  <MobileMenuSection categories={categories}/>
                 </div>
                 {/* mobile menu area end */}
               </div>
@@ -960,8 +653,7 @@ function Header() {
                 tabIndex={0}
               >
                 <div className="category-btn category-hover-header menu-category">
-                  <MobileCategoryMenu allCategory ={allCategory  || []}/>
-                  
+                  <MobileCategoryMenu allCategory={allCategory || []} />
                 </div>
               </div>
             </div>

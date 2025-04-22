@@ -104,9 +104,9 @@ const Recommendations = ({ recommendationList, recommendationWishlist }) => {
                       <div className="single-action openuptip message-show-action" onClick={()=>handleWishlist(product._id, product.variant?._id)}>
                         <i className="fa-light fa-heart" />
                       </div>
-                      <div className="single-action openuptip cta-quickview product-details-popup-btn">
+                      {/* <div className="single-action openuptip cta-quickview product-details-popup-btn">
                         <i className="fa-regular fa-eye" />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="body-content">
