@@ -139,8 +139,7 @@ const getReview = (value) => {
       <div className="row">
         <div className="col-lg-12">
           <div className="navigator-breadcrumb-wrapper">
-          <Link href="#"><i className="fa-regular fa-chevron-right" />{formatSlugToName(category)}</Link>
-          
+          <Link href="#"><i className="fa-regular fa-chevron-right" />{formatSlugToName(category)}</Link> 
           </div>
         </div>
       </div>
@@ -166,15 +165,12 @@ const getReview = (value) => {
         }
         <CustomerReviewFilter getReview={getReview} />
         {category && 
-        <BrandFilter getBrand={getBrand} category={category} />
+          <BrandFilter getBrand={getBrand} category={category} />
         }
           </div>
-        </div>
-
-        <div className="col-xl-10 col-lg-12">
-        
-          <HeaderFilter getSortBy={getSortBy} />
-
+        </div> 
+        <div className="col-xl-10 col-lg-12"> 
+          <HeaderFilter getSortBy={getSortBy} /> 
           <div className="row g-4">
             <Product products={products || []} prductProccess={prductProccess}/>
           </div>

@@ -6,6 +6,7 @@ import { baseUrl } from '@/Http/helper';
 import '../../../../../public/front/error.css'
 import { set } from 'date-fns';
 import { ToastContainer, toast } from 'react-toastify';
+import { countriesList } from '@/Http/citizenList';
 
 
 
@@ -343,8 +344,13 @@ const PersanalInformationSection = ({user, setUser}) => {
                     name='country'
                     value={userData?.country || ''}
                     onChange={(e)=>hendleInputData(e)}
-                    disabled={!edit}>
-                      <option>Uganda</option>
+                    disabled={!edit}> 
+
+                          <option value={""}>select</option>
+                          {countriesList && countriesList.map((country, index)=>( 
+                            <option value={country} key={index}>{country}</option>
+                          ))}
+                          
                     </select>
                     {errors.country && errors.country != ""? ( 
                                   <span id="name_error" className="input-error-tip" style={{display: 'inline-block'}}>{errors.country}</span>

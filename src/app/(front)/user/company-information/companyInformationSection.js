@@ -2,6 +2,7 @@ import { baseUrl } from '@/Http/helper';
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import '../../../../../public/front/error.css'
+import { countriesList } from '@/Http/citizenList';
 
 function CompanyInformationSection({ user }) {
 
@@ -225,8 +226,11 @@ function CompanyInformationSection({ user }) {
                    value={company?.country}
                    onChange={(e)=>hendleInputData(e)}
                    disabled={!edit}
-                   >
-                    <option>United State</option>
+                   > 
+                    <option value={""}>select</option>
+                    {countriesList && countriesList.map((country, index)=>( 
+                      <option value={country} key={index}>{country}</option>
+                    ))}
                   </select>
                  
                    

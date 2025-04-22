@@ -63,7 +63,7 @@ import React, { useState, useEffect, useRef } from "react";
 const PriceFilter = (props) => {
   
   
-
+  const isFirstPriceRender = useRef(true);
   const [minPrice, setMinPrice] = useState(props.minp);
   const [maxPrice, setMaxPrice] = useState(props.maxp);
   const [minValue, setMinValue] = useState(false)
@@ -107,10 +107,14 @@ const PriceFilter = (props) => {
   
   
   useEffect(()=>{
+     
+    if (isFirstPriceRender.current) {
+      isFirstPriceRender.current = false;
+      return; 
+    }
+
     if(maxPrice > 0){
-      //console.log('jjjjjjjjjjj', minValue, minPrice, maxPrice)
-    //console.l
-    // og('kkkkkkkk', minPrice)
+      
     props.getPrice(minPrice, maxPrice)
     }
   },[minValue])

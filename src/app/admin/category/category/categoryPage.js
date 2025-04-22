@@ -131,14 +131,12 @@ function CategoryPage() {
 
       const result = await response.json();
 
-      if (response.ok) {
-         
+      if (response.ok) { 
          if(!result.success && result.data.status_code && result.data.status_code == 400){
             setErrors(result.data.errors);
             $('.loader-container').css('display', 'none');
             return
-         }
-
+         } 
         $('.loader-container').css('display', 'none')
         setMessage({ type: 'success', text: result.message });
         fetchCategories();
@@ -270,8 +268,7 @@ function CategoryPage() {
           multiple: true,
         });
   
-       
-  
+        
         // Add an onChange event listener to track changes
         $(".multiple").on("change", function () {
           const selectedValues = $(this).val(); // Get selected values
@@ -284,11 +281,17 @@ function CategoryPage() {
                 [name]:selectedValues
             }))
           }else{
-            setCategoriesVariant((preData) => {
-              const newData = { ...preData };
-              delete newData[name]; 
-              return newData;
-            });
+
+            setCategoriesVariant((preData)=>({
+              ...preData,
+              [name]:"select"
+          }))
+
+            // setCategoriesVariant((preData) => {
+            //   const newData = { ...preData };
+            //   delete newData[name]; 
+            //   return newData;
+            // });
           } 
          
         });
@@ -403,11 +406,39 @@ function addModeField(){
 
   function changeTypeVariant(e, name, field_id,  index){
     const {value} =  e.target;
-    if(value == "input" || value == "select"){ 
-      setCategoriesVariant((preData)=>({
+    console.log({value, name, field_id});
+    if(value == "none"){
+      const select = $(`select[name="${name}"]`); 
+      select.val(null).trigger('change');
+      
+      setCategoriesVariant((preData) => {
+        const newData = { ...preData };
+        delete newData[name]; 
+        return newData;
+      }); 
+     
+      return;
+    }
+
+    if(value == "input"){
+         
+        const select = $(`select[name="${name}"]`); 
+        select.val(null).trigger('change');
+
+        setCategoriesVariant((preData)=>({
           ...preData,
           [name]:value
       }))
+        return;
+    }
+
+    if(value == "select"){
+
+        setCategoriesVariant((preData)=>({
+            ...preData,
+            [name]:value
+        }))  
+
     }else{
       const selectedValues = $(`#${field_id}`).val();    
           if(selectedValues && selectedValues.length){

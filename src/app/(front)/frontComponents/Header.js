@@ -713,6 +713,101 @@ function Header() {
                         </Link>
                       </li>
 
+                      {categories && categories.length > 0 ? (
+                              categories.map((category, index) => (
+                                <li className="has-droupdown" key={index}> 
+                                  <Link href="#" className="main" aria-expanded="false"
+                                  >
+                                    Fashion
+                                  </Link>
+                                      <ul
+                                        className="submenu mm-collapse"
+                                        style={{ height: "0px" }}
+                                      >
+                                        <li className="has-droupdown third-lvl">
+                                          
+                                          <Link className="main" href="#">
+                                            Sub Heading
+                                          </Link>
+                                          <ul className="submenu-third-lvl mm-collapse">
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 1
+                                            </li>
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 2
+                                            </li>
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 3
+                                            </li>
+                                          </ul>
+                                        </li>
+                                        <li className="has-droupdown third-lvl">
+                                          
+                                          <Link className="main" href="#">
+                                            Sub Heading 2
+                                          </Link>
+                                          <ul className="submenu-third-lvl mm-collapse">
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 01
+                                            </li>
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 02
+                                            </li>
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 03
+                                            </li>
+                                          </ul>
+                                        </li>
+                                        <li className="has-droupdown third-lvl">
+                                          
+                                          <Link className="main" href="#">
+                                            Sub Heading 3
+                                          </Link>
+                                          <ul className="submenu-third-lvl mm-collapse">
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 001
+                                            </li>
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 002
+                                            </li>
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 003
+                                            </li>
+                                          </ul>
+                                        </li>
+                                        <li className="has-droupdown third-lvl">
+                                          
+                                          <Link className="main" href="#">
+                                            Sub Heading 4
+                                          </Link>
+                                          <ul className="submenu-third-lvl mm-collapse">
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 0001
+                                            </li>
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 0002
+                                            </li>
+                                            <li>
+                                              <Link href="products" />
+                                              Fashion 0003
+                                            </li>
+                                          </ul>
+                                        </li>
+                                      </ul>
+                                    </li>
+                              )) 
+                            ):null}
                       <li className="has-droupdown">
                         
                         <Link href="#" className="main" aria-expanded="false">

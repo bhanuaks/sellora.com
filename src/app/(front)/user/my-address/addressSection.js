@@ -1,3 +1,4 @@
+import { countriesList } from '@/Http/citizenList';
 import { baseUrl } from '@/Http/helper';
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -112,11 +113,16 @@ const AddressSection = ({ user, address, editAddress, setEditAddress, setUpdateA
             <label htmlFor="f-name">
               Country <span className="star">*</span>
             </label>
-            <input type="text"  
+            <select type="text"  
              name="country"
              value={address && address.country}
              onChange={(e)=>hendleInputData(e)}
-             />
+             >
+                <option value={""}>select</option>
+                {countriesList && countriesList.map((country, index)=>( 
+                  <option value={country} key={index}>{country}</option>
+                ))}
+             </select>
              {errors.country && (
               <div className='error_message'>{errors.country}</div>
             )}
@@ -171,8 +177,8 @@ const AddressSection = ({ user, address, editAddress, setEditAddress, setUpdateA
              onChange={(e)=>hendleInputData(e)}
              />
              {errors.zipcode && (
-              <div className='error_message'>{errors.zipcode}</div>
-            )}
+                <div className='error_message'>{errors.zipcode}</div>
+              )}
           </div>
           <div className="single-input">
             <label htmlFor="l-name">
@@ -193,7 +199,7 @@ const AddressSection = ({ user, address, editAddress, setEditAddress, setUpdateA
 
         <div className='button_container'  > 
                     <button className="rts-btn btn-primary ml-5" type="submit">Update</button>
-                    <button className="rts-btn btn-danger ml-5" type="button" onClick={()=>setEditAddress(null)}>Cancel</button>
+                    &nbsp;<button className="rts-btn btn-danger ml-5" type="button" onClick={()=>setEditAddress(null)}>Cancel</button>
             </div>
       </form>
     </div>
