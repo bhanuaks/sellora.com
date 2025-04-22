@@ -1,11 +1,16 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { baseUrl } from "@/Http/helper";
 import { apiRequest } from "@/Http/apiHelper";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify"; 
+import { useRouter } from "next/navigation";
+import { AppContext } from "@/app/contaxtData/contextData";
 
 const QuestionsAnswers = ({ product_id, slug }) => {
+
+  const {globalData} = useContext(AppContext)
+  const router = useRouter();
   const [question, setQuestion] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [errors, setErrors] = useState({});
@@ -40,7 +45,13 @@ const QuestionsAnswers = ({ product_id, slug }) => {
       function submitReview(e) {
        
         e.preventDefault();
-    
+
+        console.log(globalData.user);
+        if(!globalData.user){
+          router.push(`/user/login`)
+          return
+        }
+
         setProccess(true)
         fetch(`${baseUrl}api/user/product-question-answer`, {
           method: "POST",
@@ -146,7 +157,7 @@ const QuestionsAnswers = ({ product_id, slug }) => {
               </div>
             </div>
             {question &&
-              question.length &&
+              question.length > 0 &&
               question.map((item, index) => (
                 <div className="col-lg-12" bis_skin_checked={index} key={index}>
                   <div className="question_ansewer" bis_skin_checked={index}>

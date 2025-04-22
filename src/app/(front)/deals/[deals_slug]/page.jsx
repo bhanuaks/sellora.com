@@ -143,7 +143,7 @@ const getReview = (value) => {
         {products && maxP &&
         <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} minp={minP} maxp={maxP} />
         }
-        <CustomerReviewFilter getReview={getReview} />
+        <CustomerReviewFilter getReview={getReview}  />
          
         <BrandFilter getBrand={getBrand} />
         
@@ -154,7 +154,7 @@ const getReview = (value) => {
 
         <div className="col-xl-10 col-lg-12">
         
-          <HeaderFilter getSortBy={getSortBy} /> 
+          <HeaderFilter getSortBy={getSortBy} products={products || []} /> 
 
           <div className="row g-4">
             <Product products={products} prductProccess={prductProccess}/>

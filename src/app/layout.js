@@ -87,7 +87,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="index-five">
       
-        
+      <AppProvider> 
         <CartProvider >
           <CategoryProvider>
         {/* <Header />
@@ -110,6 +110,7 @@ export default function RootLayout({ children }) {
     <Script defer src="/front/assets/js/main.js"></Script>
     </CategoryProvider>
     </CartProvider>
+    </AppProvider>
       </body>
     </html>
   );

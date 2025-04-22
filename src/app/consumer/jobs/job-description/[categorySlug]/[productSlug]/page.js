@@ -54,7 +54,7 @@ const page = () => {
     <>
   <section className="discription-sec">
       {jobs.map((job, index) => (
-        <div className="container">
+        <div className="container" key={index}>
           <div className="row">
             <div className="col-lg-12">
               <div className="discription-content">
