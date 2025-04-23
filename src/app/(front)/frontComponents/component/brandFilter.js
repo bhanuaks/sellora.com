@@ -78,6 +78,11 @@ useEffect(() => {
   }
 }, [selectedValues]);
 
+
+if(brand.length == 0){
+  return (<></>)
+}
+
 if(props.mobile){
 
     return (

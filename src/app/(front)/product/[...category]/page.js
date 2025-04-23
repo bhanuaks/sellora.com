@@ -111,8 +111,7 @@ function page() {
     //console.log('pricemainmmmm ',price)
     setMinPriceVal(minPrice)
     setMaxPriceVal(maxPrice)
-    fetchProduct(category, subcategory, childcategory, brandIds, minPrice, maxPrice, sortByVal, reviewVal);
-
+    fetchProduct(category, subcategory, childcategory, brandIds, minPrice, maxPrice, sortByVal, reviewVal); 
  }
  const getSortBy = (value) => {
 
@@ -185,43 +184,46 @@ const toggleAccordion = (name) => {
             </div>
           </div>
           <div className="clearfix"></div>
-          <div id="myContent" style={{display:`${mobileFilter?"block":"none"}`}}>
-          <div className="sidebar-filter-main  ">
-                <div className="accordion">
-                  <div className={`accordion-item2 ${activeIndices.includes("category") ? 'active' : ''}`} >
-                    <div className="accordion-header"  onClick={()=>toggleAccordion("category")}>
-                      Department <span className="accordion-icon" />{" "}
-                    </div>
-                    <DepartmentFilter mobile={true}/>
-                  </div>
-                  <div className={`accordion-item2 ${activeIndices.includes("price") ? 'active' : ''}`}>
-                    <div className="accordion-header"  onClick={()=>toggleAccordion("price")}>
-                      Price Filter <span className="accordion-icon" />{" "}
-                    </div>
-                    {products && maxP &&
-                            <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} minp={minP} maxp={maxP} mobile={true} />
-                            }
-                  </div>
-                  <div className={`accordion-item2 ${activeIndices.includes("reviews") ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={()=>toggleAccordion("reviews")}>
-                      Customer Reviews <span className="accordion-icon" />{" "}
-                    </div>
-                    <CustomerReviewFilter getReview={getReview} mobile={true}/>
-                  </div>
-                  <div className={`accordion-item2 ${activeIndices.includes("brand") ? 'active' : ''}`} >
-                    <div className="accordion-header"  onClick={()=>toggleAccordion("brand")} >
-                      Select Brands <span className="accordion-icon" />{" "}
-                    </div>
-                    
-                    {category && 
-                        <BrandFilter getBrand={getBrand} category={category}  mobile={true} />
-                      }
-                  
-                  </div>
-                </div>
-              </div>
+          {mobileFilter && (
+ <div id="myContent" style={{display:`${mobileFilter?"block":"none"}`}}>
+ <div className="sidebar-filter-main  ">
+       <div className="accordion">
+         <div className={`accordion-item2 ${activeIndices.includes("category") ? 'active' : ''}`} >
+           <div className="accordion-header"  onClick={()=>toggleAccordion("category")}>
+             Department <span className="accordion-icon" />{" "}
+           </div>
+           <DepartmentFilter mobile={true}/>
+         </div>
+         <div className={`accordion-item2 ${activeIndices.includes("price") ? 'active' : ''}`}>
+           <div className="accordion-header"  onClick={()=>toggleAccordion("price")}>
+             Price Filter <span className="accordion-icon" />{" "}
+           </div>
+           {products && maxP &&
+                   <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} minp={minP} maxp={maxP} mobile={true} />
+                   }
+         </div>
+         <div className={`accordion-item2 ${activeIndices.includes("reviews") ? 'active' : ''}`}>
+           <div className="accordion-header" onClick={()=>toggleAccordion("reviews")}>
+             Customer Reviews <span className="accordion-icon" />{" "}
+           </div>
+           <CustomerReviewFilter getReview={getReview} mobile={true}/>
+         </div>
+         <div className={`accordion-item2 ${activeIndices.includes("brand") ? 'active' : ''}`} >
+           <div className="accordion-header"  onClick={()=>toggleAccordion("brand")} >
+             Select Brands <span className="accordion-icon" />{" "}
+           </div>
+           
+           {category && 
+               <BrandFilter getBrand={getBrand} category={category}  mobile={true} />
+             }
+         
+         </div>
+       </div>
+     </div>
 
-          </div> 
+ </div> 
+          )}
+         
 
           
               <div className="sidebar-filter-main theiaStickySidebar d-lg-block d-none"> 
