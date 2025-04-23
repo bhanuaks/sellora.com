@@ -85,16 +85,15 @@ if(props.mobile){
 {/* <h5 className="title">Select Brands</h5> */}
 <div className="single-filter-box">
 <div className="filterbox-body">
-  <div className="category-wrapper">
-    
-    {brand && brand.map((brandList) => { 
-    return(
-    <div className="single-category" key={brandList._id}>
-      <input id={brandList._id} type="checkbox" onChange={(e) => handleCheckboxChange(e, brandList._id)} />
-      <label htmlFor={brandList._id}>{brandList.name} </label>
-    </div>
-    )})}
+  <div className="category-wrapper"> 
 
+      {brand && brand.map((brandList) => { 
+      return(
+        <div className="single-category" key={`${brandList._id}_mobile`}>
+          <input id={`${brandList._id}_mobile`} type="checkbox" onChange={(e) => handleCheckboxChange(e, brandList._id)} />
+          <label htmlFor={`${brandList._id}_mobile`}>{brandList.name} </label>
+        </div>
+      )})} 
 
   </div>
   </div>
