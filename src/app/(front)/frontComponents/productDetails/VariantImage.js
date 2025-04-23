@@ -81,14 +81,10 @@ const VariantImage = ({ variantList, productDetails, changeVariant }) => {
         >
           <div   className={`thumb-filter filter-btn ${changeVariant.withImage == "Yes"?'':'active'} `} data-show={`.${10000 + 1}`}>
                   
-                  <Image
+                  <img
                      src={`${fileBasePath}${main_thumb_img_path}${productDetails.main_image}`}
-                     alt="Product Image"
-                     loading="lazy"
-                     width={0}
-                     height={0}
-                     sizes="100vw"
-                     style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+                     alt="thum Image"
+                     loading="lazy" 
                    />
                                      
                </div>
@@ -100,12 +96,8 @@ const VariantImage = ({ variantList, productDetails, changeVariant }) => {
                   
                    <Image
                       src={`${fileBasePath}${image}${images[index]}`}
-                      alt="Product Image"
-                      loading="lazy"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+                      alt="thum Image"
+                      loading="lazy" 
                     />
                                       
                 </div>
@@ -118,14 +110,10 @@ const VariantImage = ({ variantList, productDetails, changeVariant }) => {
                 <div key={index} className={`thumb-filter filter-btn  `} data-show={`.${index + 1}`}>
                    {/* <div className="relative w-full h-[454px]"> */}
                    
-                   <Image
+                   <img
                       src={`${fileBasePath}${image}${images[index]}`} 
                       alt="Product Image"
-                      loading="lazy"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+                      loading="lazy" 
                     />
 
                   
@@ -160,14 +148,10 @@ const VariantImage = ({ variantList, productDetails, changeVariant }) => {
                     }} 
                   >
                    {/* <div className="relative w-full h-[454px]"> */} 
-                     <Image
+                     <img
                         src={`${fileBasePath}${main_medium_img_path}/${productDetails.main_image}`} 
                         alt="Product Image"
-                        loading="lazy"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+                        loading="lazy" 
                       />
                     </div> 
                   {/* </div> */}
@@ -192,14 +176,10 @@ const VariantImage = ({ variantList, productDetails, changeVariant }) => {
                     }} 
                   >
                    {/* <div className="relative w-full h-[454px]"> */} 
-                     <Image
+                     <img
                        src={`${fileBasePath}${changeVariant.withImage == "Yes" ? variant_medium_img_paths[index]:product_medium_img_paths[index]}/${image}`} 
                       alt="Product Image"
-                      loading="lazy"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+                      loading="lazy" 
                     />
                     </div> 
                   {/* </div> */}

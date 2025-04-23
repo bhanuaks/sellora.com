@@ -13,273 +13,381 @@ const KeyAttributes = ({ productDetails, changeVariant }) => {
           <div className="row">
             <div className="col-lg-12">
               <div className="title-area-between">
-                <h2 className="title-left">Key attributes</h2> 
+                <h2 className="title-left">Key attributes</h2>
                 {/* <h2 className="title-left"> Key attributes</h2> */}
               </div>
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-6">
+            <div className="col-lg-6" >
               <h6>&nbsp;</h6>
-              <div className="additional-information_right_side">
+              <div className="additional-information_right_side" style={{height:`${showMore?"auto":"235px"}`, overflow:'hidden'}}>
                 <ul>
                   {/* if exist color in variant then show variant color else product color */}
-                 { changeVariant.customAttributes?.Color ? (
-                    <li>
-                        <span>Color</span> {changeVariant.customAttributes?.Color}
-                    </li>
-                  ):productDetails?.color && (
-                    <li>
-                      <span>Color</span> {productDetails.color}
-                    </li>
-                  )
-                  }
+                  {changeVariant.customAttributes?.Color ? (
+                    <ul className="info-list ">
+                      <li className="info-label">Color</li>
+                      <li className="info-value">
+                        {changeVariant.customAttributes?.Color}
+                      </li>
+                    </ul>
+                  ) : (
+                    productDetails?.color && (
+                      <ul className="info-list ">
+                        <li className="info-label">Color</li>
+                        <li className="info-value">{productDetails.color}</li>
+                      </ul>
+                    )
+                  )}
 
-                {/* if exist size in variant then show variant size else product size */}
-              { changeVariant.customAttributes?.Size ? (
-                    <li>
-                        <span>Size</span> {changeVariant.customAttributes?.Size}
-                    </li>
-                  ):
-                  productDetails?.size && (
-                    <li>
-                      <span>Size</span> {productDetails.size}
-                    </li>
-                  )
-                  }
-
-                  
-              
-                  
-                
+                  {/* if exist size in variant then show variant size else product size */}
+                  {changeVariant.customAttributes?.Size ? (
+                    <ul className="info-list ">
+                      <li className="info-label">Size</li>
+                      <li className="info-value">
+                        {changeVariant.customAttributes?.Size}
+                      </li>
+                    </ul>
+                  ) : (
+                    productDetails?.size && (
+                      <ul className="info-list ">
+                        <li className="info-label">Size</li>
+                        <li className="info-value">{productDetails.size}</li>
+                      </ul>
+                    )
+                  )}
 
                   {productDetails?.numberOfItem && (
-                    <li>
-                      <span>Number of Item</span> {productDetails.numberOfItem}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Number of Item</li>
+                      <li className="info-value">
+                        {productDetails.numberOfItem}
+                      </li>
+                    </ul>
                   )}
 
-              {productDetails?.material && (
-                    <li>
-                      <span>Material</span> {productDetails.material}
-                    </li>
+                  {productDetails?.material && (
+                    <ul className="info-list ">
+                      <li className="info-label">Material</li>
+                      <li className="info-value">{productDetails.material}</li>
+                    </ul>
                   )}
                   {productDetails?.pettern && (
-                    <li>
-                      <span>Pattern</span> {productDetails.pettern}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Pattern</li>
+                      <li className="info-value">{productDetails.pettern}</li>
+                    </ul>
                   )}
                   {productDetails?.unit_coun && (
-                    <li>
-                      <span>Unit Count</span>
-                      {productDetails.unit_coun}{" "}
-                      {productDetails.unit_count_type}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Unit Count</li>
+                      <li className="info-value">
+                        {productDetails.unit_coun}{" "}
+                        {productDetails.unit_count_type}
+                      </li>
+                    </ul>
                   )}
                   {productDetails?.item_type_name && (
-                    <li>
-                      <span>Item Type Name</span>
-                      {productDetails.item_type_name}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Item Type Name</li>
+                      <li className="info-value">
+                        {productDetails.item_type_name}
+                      </li>
+                    </ul>
                   )}
                   {productDetails?.recommanded_use && (
-                    <li>
-                      <span>Recommanded Use</span>
-                      {productDetails.recommanded_use}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Recommanded Use</li>
+                      <li className="info-value">
+                        {productDetails.recommanded_use}
+                      </li>
+                    </ul>
                   )}
                   {productDetails?.model_name && (
-                    <li>
-                      <span>Model Name</span>
-                      {productDetails.model_name}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Model Name</li>
+                      <li className="info-value">
+                        {productDetails.model_name}
+                      </li>
+                    </ul>
                   )}
                   {productDetails?.model_number && (
-                    <li>
-                      <span>Model Number</span>
-                      {productDetails.model_number}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Model Number</li>
+                      <li className="info-value">
+                        {productDetails.model_number}
+                      </li>
+                    </ul>
                   )}
 
                   {changeVariant.sin && (
-                    <li>
-                        <span>SIN</span> {changeVariant.sin}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">SIN</li>
+                      <li className="info-value">{changeVariant.sin}</li>
+                    </ul>
                   )}
 
                   {productDetails?.manufacture_part_number && (
-                    <li>
-                      <span>Manufacture Part Number</span>
-                      {productDetails.manufacture_part_number}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Manufacture Part Number</li>
+                      <li className="info-value">
+                        {productDetails.manufacture_part_number}
+                      </li>
+                    </ul>
                   )}
 
                   {productDetails?.manufacturer_details && (
-                    <li>
-                      <span>Manufacturer </span>
-                      {productDetails.manufacturer_details}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Manufacturer</li>
+                      <li className="info-value">
+                        {productDetails.manufacturer_details}
+                      </li>
+                    </ul>
                   )}
                   {productDetails?.packer_details && (
-                    <li>
-                      <span>Packer Contact Information</span>{" "}
-                      {productDetails.packer_details}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Packer Contact Information</li>
+                      <li className="info-value">
+                        {productDetails.packer_details}
+                      </li>
+                    </ul>
                   )}
                   {productDetails?.importer_details && (
-                    <li>
-                      <span>Importer Details</span>
-                      {productDetails.importer_details}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Importer Details</li>
+                      <li className="info-value">
+                        {productDetails.importer_details}
+                      </li>
+                    </ul>
                   )}
+
                   {productDetails?.product_length && (
-                    <li>
-                      <span>Product Dimensions </span>
-                      {productDetails.product_length}{" "}
-                      {productDetails.product_length_unit} x{" "}
-
-                      {productDetails.product_width}{" "}
-                      {productDetails.product_width_unit} x{" "}
-
-                      {productDetails.productHeight}{" "}
-                      {productDetails.productHeightUnit}; {" "}
-
-                      {productDetails.product_weight}{" "}
-                      {productDetails.product_weight_unit}
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Product Dimensions</li>
+                      <li className="info-value">
+                        {productDetails.product_length}{" "}
+                        {productDetails.product_length_unit} x{" "}
+                        {productDetails.product_width}{" "}
+                        {productDetails.product_width_unit} x{" "}
+                        {productDetails.productHeight}{" "}
+                        {productDetails.productHeightUnit};{" "}
+                        {productDetails.product_weight}{" "}
+                        {productDetails.product_weight_unit}
+                      </li>
+                    </ul>
                   )}
 
-                  
- 
                   {productDetails?.packageLength && (
-                    <li>
-                      <span>Package Dimensions</span>
-                      {productDetails.packageLength}{" "}
-                      {productDetails.packageLengthUnit} x{" "}
-
-                      {productDetails.packageWidth}{" "}
-                      {productDetails.packageWidthUnit} x{" "}
-
-                      {productDetails.packageHeight}{" "}
-                      {productDetails.packageHeightUnit};{" "}
-
-                      {productDetails.packageWeight}{" "}
-                      {productDetails.packageWeightUnit}
-
-                    </li>
+                    <ul className="info-list ">
+                      <li className="info-label">Package Dimensions</li>
+                      <li className="info-value">
+                        {productDetails.packageLength}{" "}
+                        {productDetails.packageLengthUnit} x{" "}
+                        {productDetails.packageWidth}{" "}
+                        {productDetails.packageWidthUnit} x{" "}
+                        {productDetails.packageHeight}{" "}
+                        {productDetails.packageHeightUnit};{" "}
+                        {productDetails.packageWeight}{" "}
+                        {productDetails.packageWeightUnit}
+                      </li>
+                    </ul>
                   )}
-
-                    
                 </ul>
               </div>
+              <div
+                    className="show-more"
+                    onClick={() => setShowMore(!showMore)}
+                    style={{fontWeight:600, cursor:"pointer", color:"#000"}}
+                  >
+                    ({showMore ? "Show Less" : "Show more"})
+                  </div>
             </div>
-
 
             <div className="col-lg-6">
               <h6>&nbsp;</h6>
               <div className="additional-information_right_side">
                 <ul>
                   {productDetails?.compliance?.containsLiquidContents && (
-                    <li>
-                      <span>Contains Liquid Contents</span> {productDetails?.compliance?.containsLiquidContents}
-                    </li>
+                   
+
+                        <ul className="info-list ">
+                        <li className="info-label">Contains Liquid Contents</li>
+                        <li className="info-value">
+                        {productDetails?.compliance?.containsLiquidContents}
+                        </li>
+                        </ul>
+
+
                   )}
                   {productDetails?.compliance?.liquidVolume && (
-                    <li>
-                      <span>Liquid Volume</span> {productDetails?.compliance?.liquidVolume} {productDetails?.compliance?.liquidVolumeUnit}
-                    </li>
+                     
+                      <ul className="info-list ">
+                      <li className="info-label">Liquid Volume</li>
+                      <li className="info-value">
+                      {productDetails?.compliance?.liquidVolume}{" "}
+                        {productDetails?.compliance?.liquidVolumeUnit}
+                      </li>
+                      </ul>
                   )}
 
                   {productDetails?.compliance?.isTheItemHeaSensitive && (
-                    <li>
-                      <span>Is the Item Heat Sensitive</span> {productDetails?.compliance?.isTheItemHeaSensitive}
-                    </li>
+                   
+                        <ul className="info-list ">
+                        <li className="info-label">Is the Item Heat Sensitive</li>
+                        <li className="info-value">
+                        {productDetails?.compliance?.isTheItemHeaSensitive}
+                        </li>
+                        </ul>
+
                   )}
-                  {productDetails?.compliance?.isTheItemHeaSensitiveInstructions && (
-                    <li>
-                      <span>Instructions</span>
-                      {productDetails?.compliance.isTheItemHeaSensitiveInstructions}{" "} 
+                  {productDetails?.compliance
+                    ?.isTheItemHeaSensitiveInstructions && (
+                   
+
+                    <ul className="info-list ">
+                    <li className="info-label">Instructions</li>
+                    <li className="info-value">
+                    {
+                  productDetails?.compliance
+                    .isTheItemHeaSensitiveInstructions
+                }{" "}
                     </li>
+                    </ul>
                   )}
-                  {productDetails?.compliance?.isTheLiquidProductDoubleSealed && (
-                    <li>
-                      <span>Is the liquid product double sealed?</span>
-                      {productDetails?.compliance.isTheLiquidProductDoubleSealed}
-                    </li>
+                  {productDetails?.compliance
+                    ?.isTheLiquidProductDoubleSealed && (
+                     
+                     <ul className="info-list ">
+                     <li className="info-label">Is the liquid product double sealed?</li>
+                     <li className="info-value">
+                     {
+                        productDetails?.compliance
+                          .isTheLiquidProductDoubleSealed
+                      }
+                     </li>
+                     </ul>
                   )}
-                  {productDetails?.compliance?.isTheLiquidProductDoubleSealedInstructions && (
-                    <li>
-                      <span>Instructions</span>
-                      {productDetails?.compliance.isTheLiquidProductDoubleSealedInstructions}
+                  {productDetails?.compliance
+                    ?.isTheLiquidProductDoubleSealedInstructions && (
+                  
+
+                    <ul className="info-list ">
+                    <li className="info-label">Instructions</li>
+                    <li className="info-value">
+                    {
+                                            productDetails?.compliance
+                                              .isTheLiquidProductDoubleSealedInstructions
+                                          }
                     </li>
+                    </ul>
+
                   )}
 
                   {productDetails?.compliance?.dangerousGoodsRegulations && (
-                    <li>
-                      <span>Dangerous Goods Regulations</span>
-                      {productDetails?.compliance.dangerousGoodsRegulations}
+                   
+                    <ul className="info-list ">
+                    <li className="info-label">Dangerous Goods Regulations</li>
+                    <li className="info-value">
+                    {productDetails?.compliance.dangerousGoodsRegulations}
                     </li>
+                    </ul>
                   )}
 
-                  {productDetails?.compliance?.safetyWarning && (
-                    <li>
-                      <span>Safety Warning</span>
-                      {productDetails?.compliance.safetyWarning}
+                  {productDetails?.compliance?.safetyWarning && ( 
+                    <ul className="info-list ">
+                    <li className="info-label">Safety Warning</li>
+                    <li className="info-value">
+                    {productDetails?.compliance.safetyWarning}
                     </li>
+                    </ul>
                   )}
 
-                  {productDetails?.compliance?.hasWrittenWarranty && (
-                    <li>
-                      <span>Has Written Warranty</span>
-                      {productDetails?.compliance.hasWrittenWarranty}
+                  {productDetails?.compliance?.hasWrittenWarranty && ( 
+                    <ul className="info-list ">
+                    <li className="info-label">Has Written Warranty</li>
+                    <li className="info-value">
+                    {productDetails?.compliance.hasWrittenWarranty}
                     </li>
+                    </ul>
                   )}
 
-                  {productDetails?.compliance?.ProductIsOrContainsAnElectronicComponent && (
-                    <li>
-                      <span>Product is or Contains an Electronic Component? </span>
-                      {productDetails?.compliance.ProductIsOrContainsAnElectronicComponent}
-                    </li>
+                  {productDetails?.compliance
+                    ?.ProductIsOrContainsAnElectronicComponent && (
+                    
+
+                        <ul className="info-list ">
+                        <li className="info-label">Product is or Contains an Electronic Component?{" "}</li>
+                        <li className="info-value">
+                        {
+                            productDetails?.compliance
+                              .ProductIsOrContainsAnElectronicComponent
+                          }
+                        </li>
+                        </ul>
+
                   )}
-                  {productDetails?.compliance?.productIsOrContainsThisBatteryType && (
-                    <li>
-                      <span>Product is or Contains this Battery Type?</span>{" "}
-                      {productDetails?.compliance.productIsOrContainsThisBatteryType}
-                    </li>
-                  )}  
+                  {productDetails?.compliance
+                    ?.productIsOrContainsThisBatteryType && (
+                  
 
+                        <ul className="info-list ">
+                        <li className="info-label">Product is or Contains this Battery Type?</li>
+                        <li className="info-value">
+                        {
+                              productDetails?.compliance
+                                .productIsOrContainsThisBatteryType
+                            }
+                        </li>
+                        </ul>
 
-                {productDetails?.compliance?.productIsOrContainsThisBatteryType == "Yes" && productDetails?.compliance?.areBatteriesIncluded && (
-                    <li>
-                      <span>Are batteries included?</span>{" "}
+                  )}
+
+                  {productDetails?.compliance
+                    ?.productIsOrContainsThisBatteryType == "Yes" &&
+                    productDetails?.compliance?.areBatteriesIncluded && (
+                     
+
+                      <ul className="info-list ">
+                      <li className="info-label">Are batteries included?</li>
+                      <li className="info-value">
                       {productDetails?.compliance.areBatteriesIncluded}
-                    </li>
-                  )}  
+                      </li>
+                      </ul>
 
-                {productDetails?.compliance?.productIsOrContainsThisBatteryType == "Yes" && productDetails?.compliance?.areBatteriesIncluded == "Yes" && (
-                    <li>
-                      <span>Battery Cell Composition</span>{" "}
-                      {productDetails?.compliance.batteryCellComposition}
-                    </li>
-                  )}  
+                    )}
 
- 
-                  
+                  {productDetails?.compliance
+                    ?.productIsOrContainsThisBatteryType == "Yes" &&
+                    productDetails?.compliance?.areBatteriesIncluded ==
+                      "Yes" && (
+                      
+
+                  <ul className="info-list ">
+                  <li className="info-label">Battery Cell Composition</li>
+                  <li className="info-value">
+                  {productDetails?.compliance.batteryCellComposition}
+                  </li>
+                  </ul>
+                    )}
                 </ul>
-              
+
                 <ul>
-                {productDetails?.dynamicFields?.map((item, index) =>
-                        item.field_value && item.field_value?.trim() !== "" ? (
-                          <li key={index}>
-                            <span>{item.field_name}</span> {item.field_value}
-                          </li>
-                        ) : null
-                      )}
-                  
+                  {productDetails?.dynamicFields?.map((item, index) =>
+                    item.field_value && item.field_value?.trim() !== "" ? ( 
+                    <ul className="info-list " key={index}>
+                    <li className="info-label">{item.field_name}</li>
+                    <li className="info-value">
+                    {item.field_value}
+                    </li>
+                    </ul>
+                    ) : null
+                  )}
                 </ul>
               </div>
+              
             </div>
-
+           
+           
             {/* <div className="col-lg-6">
              
 

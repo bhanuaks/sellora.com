@@ -14,7 +14,8 @@ function page() {
   
   
     const params = useParams();
-   
+    const [activeIndices, setActiveIndices] = useState([]);
+    const [mobileFilter, setMobileFilter] = useState(false);
     const [category, setCategory] = useState('');
     const [subcategory, setSubcategory] = useState('');
     const [childcategory, setChildcategory] = useState('');
@@ -81,18 +82,15 @@ function page() {
       }
     } 
   
-      useEffect(() => {
-        if (params.category) {
-          setCategory(params.category); 
-        }
-        if (params.subcategory) {
-          setSubcategory(params.subcategory);
-        }
-        if (params.childcategory) {
-          setChildcategory(params.childcategory);
-        }
-  
-      }, [params]);
+    useEffect(() => {
+      if (Array.isArray(params?.category)) {
+        const [cat, sub, child] = params.category;
+        console.log(params.category);
+        setCategory(cat || '');
+        setSubcategory(sub || '');
+        setChildcategory(child || '');
+      }
+    }, [params]);
     
       useEffect(() => {
         if (category) {
@@ -131,6 +129,20 @@ const getReview = (value) => {
 
 }
 
+function toggleContent() { 
+  if (window.innerWidth < 768) {
+    setMobileFilter(!mobileFilter)
+  }
+}
+
+const toggleAccordion = (name) => {
+  setActiveIndices((prev) =>
+    prev.includes(name)
+      ? prev.filter((i) => i !== name) // remove if already active
+      : [...prev, name]               // add if not active
+  );
+};
+
   return (
     <>
   {/* rts navigation bar area start */}
@@ -156,19 +168,74 @@ const getReview = (value) => {
     <div className="container">
       <div className="row">
         <div className="col-xl-2 col-lg-12 rts-sticky-column-item">
-          <div className="sidebar-filter-main theiaStickySidebar">
-           
-
-        <DepartmentFilter />
-        {products && maxP &&
-        <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} minp={minP} maxp={maxP} />
-        }
-        <CustomerReviewFilter getReview={getReview} />
-        {category && 
-          <BrandFilter getBrand={getBrand} category={category} />
-        }
+        {/* <!-- =========================mobile-coding ===filter======================--> */}
+          <button  onClick={()=>toggleContent()} className="d-lg-none filter_outer"> Filter
+            {/* <!-- <i className="fa fa-angle-up"></i> --> */}
+            <i className="fa fa-angle-down"></i> </button>
+            <div className="mobile_short">
+            <div className="d-flex align-items-center">
+              <div className="sort-by_0348"> <span>Sort By</span></div>
+              <div className="single-select" style={{float:'right'}}>
+                <select className="form-select">
+                  <option data-display="Best Match">Best Match</option>
+                  <option value="1">Price, low to high</option>
+                  <option value="2">Price, high to low</option>
+                </select>
+              </div>
+            </div>
           </div>
-        </div> 
+          <div className="clearfix"></div>
+          <div id="myContent" style={{display:`${mobileFilter?"block":"none"}`}}>
+          <div className="sidebar-filter-main  ">
+                <div className="accordion">
+                  <div className={`accordion-item2 ${activeIndices.includes("category") ? 'active' : ''}`} >
+                    <div className="accordion-header"  onClick={()=>toggleAccordion("category")}>
+                      Department <span className="accordion-icon" />{" "}
+                    </div>
+                    <DepartmentFilter mobile={true}/>
+                  </div>
+                  <div className={`accordion-item2 ${activeIndices.includes("price") ? 'active' : ''}`}>
+                    <div className="accordion-header"  onClick={()=>toggleAccordion("price")}>
+                      Price Filter <span className="accordion-icon" />{" "}
+                    </div>
+                    {products && maxP &&
+                            <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} minp={minP} maxp={maxP} mobile={true} />
+                            }
+                  </div>
+                  <div className={`accordion-item2 ${activeIndices.includes("reviews") ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={()=>toggleAccordion("reviews")}>
+                      Customer Reviews <span className="accordion-icon" />{" "}
+                    </div>
+                    <CustomerReviewFilter getReview={getReview} mobile={true}/>
+                  </div>
+                  <div className={`accordion-item2 ${activeIndices.includes("brand") ? 'active' : ''}`} >
+                    <div className="accordion-header"  onClick={()=>toggleAccordion("brand")} >
+                      Select Brands <span className="accordion-icon" />{" "}
+                    </div>
+                    
+                    {category && 
+                        <BrandFilter getBrand={getBrand} category={category}  mobile={true} />
+                      }
+                  
+                  </div>
+                </div>
+              </div>
+
+          </div> 
+
+          
+              <div className="sidebar-filter-main theiaStickySidebar d-lg-block d-none"> 
+              <DepartmentFilter />
+              {products && maxP &&
+              <PriceFilter getPrice={getPrice} products={products} brandId={brandIds} reviewValue={reviewVal} minp={minP} maxp={maxP} />
+              }
+              <CustomerReviewFilter getReview={getReview} />
+              {category && 
+                <BrandFilter getBrand={getBrand} category={category} />
+              }
+                </div>
+            </div>
+        
         <div className="col-xl-10 col-lg-12"> 
           <HeaderFilter getSortBy={getSortBy}   products={products || []} /> 
           <div className="row g-4">

@@ -29,7 +29,7 @@ const FeatureBanner = ({featureBannerList}) => {
                 </div>
               </Link>
             </div>
-            <div className="col-lg-3">
+            <div className="col-lg-3 col-6">
               
               <Link href={featureBannerList.url_m1 !=''?`${featureBannerList.url_m1}`:`#`}>
                 <div
@@ -58,7 +58,7 @@ const FeatureBanner = ({featureBannerList}) => {
                 </div>
               </Link>
             </div>
-            <div className="col-lg-3">
+            <div className="col-lg-3 col-6">
               
               <Link href={featureBannerList.url_m2 !=''?`${featureBannerList.url_m2}`:`#`}>
                 <div

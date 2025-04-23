@@ -13,15 +13,14 @@ console.log({products});
 
 return (
 <div className="filter-select-area">
-            <div className="top-filter">
-             
+            <div className="top-filter"> 
               <span>
-              {products?.length > 0 && (
+                    {products?.length > 0 && (
                       <>Showing 1–{products.length} of {products.length} results</>
                     )}
                     </span>
+              <div className="d-none d-lg-block">
               <div className="right-end">
-                
                 <span>Short By Latest</span>
                 <div className="single-select">
                   <select onChange={sortByLatest}>
@@ -30,6 +29,7 @@ return (
                     <option value={2}>Price, high to low</option>
                   </select>
                 </div>
+              </div>
               </div>
             </div>
           </div>

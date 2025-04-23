@@ -31,14 +31,14 @@ const HomeTrendingItems = ({ recommendationList }) => {
   
   useEffect(() => {
     const updateSlidesPerView = () => {
-      let newSlidesPerView = 1;
+      let newSlidesPerView = 2;
 
       if (window.innerWidth >= 1024) {
         newSlidesPerView = 6;
       } else if (window.innerWidth >= 768) {
-        newSlidesPerView = 3;
+        newSlidesPerView = 4;
       } else {
-        newSlidesPerView = 1;
+        newSlidesPerView = 2;
       }
 
       setSlidesPerView(newSlidesPerView);
@@ -216,14 +216,10 @@ const showWishlist = async (pid, vid) => {
                   <div className="image-and-action-area-wrapper">
                     <a href={`${baseUrl}/product-details/${product.slug}?pId=${product._id}&vId=${product.variant?._id}`}>
                       
-                       <Image
+                       <img
                         src={`${fileBasePath}${main_thumb_img_path}${product.main_image}`}
                         alt="Product Image"
-                        loading="lazy"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        style={{ width: 'auto', height: 'auto' }}
+                        loading="lazy" 
                       />
                     </a>
                     <div className="action-share-option">

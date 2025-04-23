@@ -152,21 +152,17 @@ const Product = ({ products, prductProccess }) => {
       
       {products && products.length > 0 ? (
         products.map((product, index) => (
-          <div className="col-lg-20 col-lg-4 col-md-6 col-sm-6 col-12" key={index}>
+          <div className="col-6 col-lg-20 col-lg-4 col-md-6 col-sm-6 " key={index}>
             <div className="single-shopping-card-one deals-of-day">
               <div className="image-and-action-area-wrapper">
 
                 <Link href={`${baseUrl}/product-details/${product.slug}?pId=${product._id}&vId=${product.variant?._id}`}>
 
                   <div className="w-full flex justify-center items-center" style={{ minHeight: '200px' }}>
-                    <Image
+                    <img
                       src={`${fileBasePath}${main_thumb_img_path}${product.main_image}`}
                       alt="Product Image"
-                      loading="lazy"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
+                      loading="lazy" 
                     />
                   </div>
                 </Link>

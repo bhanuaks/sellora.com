@@ -78,6 +78,32 @@ useEffect(() => {
   }
 }, [selectedValues]);
 
+if(props.mobile){
+
+    return (
+      <div className="accordion-content">
+{/* <h5 className="title">Select Brands</h5> */}
+<div className="single-filter-box">
+<div className="filterbox-body">
+  <div className="category-wrapper">
+    
+    {brand && brand.map((brandList) => { 
+    return(
+    <div className="single-category" key={brandList._id}>
+      <input id={brandList._id} type="checkbox" onChange={(e) => handleCheckboxChange(e, brandList._id)} />
+      <label htmlFor={brandList._id}>{brandList.name} </label>
+    </div>
+    )})}
+
+
+  </div>
+  </div>
+</div>
+</div>
+    )
+}
+
+
 return (
 <div className="single-filter-box">
 <h5 className="title">Select Brands</h5>
