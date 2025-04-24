@@ -214,7 +214,7 @@ const productVariantSchema = new Schema({
     },
     isProcessing:{
         type:String,
-         enum:["Processing","Approved"],
+         enum:["Processing","Approved", "Rejected"],
          default:"Processing" 
     },
     msrp:Number,

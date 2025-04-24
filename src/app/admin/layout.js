@@ -6,9 +6,15 @@ import Script from "next/script";
 import { usePathname } from "next/navigation";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
-import '../../../public/sellorloader.css'
+import '../../../public/sellorloader.css' 
+import '../../../public/assets-admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css'
+import '../../../public//assets-admin/assets/css/bootstrap.min.css'
+import '../../../public/assets-admin/assets/css/icons.min.css'
+import '../../../public/assets-admin/assets/css/app.min.css'
 import { baseUrl } from "@/Http/helper";
 import { useEffect } from "react";
+import { AppProvider } from "../(website)/contaxtData/contextData";
+// import { AppProvider } from "./contaxtData/contextData";
 
 
 
@@ -28,19 +34,20 @@ export default function SellorDashboardRootLayout({ children }) {
 
             <link rel="shortcut icon" type="image/x-icon" href="/assets-admin/favicon.ico" />
 
-            <link rel="stylesheet"
-                href="/assets-admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css"/>
+            {/* <link rel="stylesheet"
+                href="/assets-admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css"/> */}
 
-            <link
+            {/* <link
                 href="/assets-admin/assets/css/bootstrap.min.css"
                 rel="stylesheet"
             />
 
             <link rel="stylesheet" href="/assets-admin/assets/css/icons.min.css" />
 
-            <link rel="stylesheet" href="/assets-admin/assets/css/app.min.css"  />
+            <link rel="stylesheet" href="/assets-admin/assets/css/app.min.css"  /> */}
             </head>
             <body>
+                <AppProvider>
             <div className="loader-container">
                 <div className="loader-wrapper">
                     <div className="circle"></div> 
@@ -51,8 +58,8 @@ export default function SellorDashboardRootLayout({ children }) {
                 {children}
                 <Footer />
 
+                </AppProvider>
                 <div className="rightbar-overlay"></div>
-
                 <Script src="/assets-admin/assets/libs/jquery/jquery.min.js"  />
                 <Script src="/assets-admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"  />
                 <Script src="/assets-admin/assets/libs/metismenu/metisMenu.min.js"  />

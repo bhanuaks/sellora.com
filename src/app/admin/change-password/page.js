@@ -1,5 +1,5 @@
 "use client"
-import { AppContext } from '@/app/contaxtData/contextData';
+import { AppContext } from '@/app/(website)/contaxtData/contextData';
 import { baseUrl } from '@/Http/helper';
 import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'

@@ -210,7 +210,10 @@ export async function GET(request) {
                 subcategories: 1,
                 childcategories: 1,
                 brand:1,
-                variants:1
+                variants:1,
+                isProcessing:1,
+                save_as_draft:1,
+                createdAt: 1
             }
         },
         {

@@ -2,15 +2,18 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import ProductSearchFilter from './ProductSearchFilter';
-import useSWR from 'swr'; 
+import useSWR , {mutate} from 'swr'; 
 import { fetcher } from '@/Http/helper';
 import ProductListTable from './productListTable';
+import { apiRequest } from '@/Http/apiHelper';
+import { toast, ToastContainer } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 
 function page() {
   const { data:productData, error, isLoading } = useSWR('/api/admin/product-list', fetcher);
   const [productList, setProductList] = useState([]);
-
+  const [approveProccess, setApproveProccess] =  useState("")
   useEffect(()=>{
     if(productData?.data){
       setProductList(productData.data.products)
@@ -18,9 +21,41 @@ function page() {
   },[productData])
 
  
+  async function ApproveProduct(product_id, variant_id, status){
+    const message = status == 1? "Are you sure to Approve this":"Are you sure to Reject this"
+    if(!confirm(message)){
+      return
+    }
+      setApproveProccess(variant_id)
+      const response = await apiRequest('/api/admin/product-list/approve-product', "PUT", {product_id, variant_id, status})
+      setApproveProccess("")
+   
+    if(response.status){
+      toast.success(response.data)
+      mutate('/api/admin/product-list')
+    }else{
+      Swal.fire({
+        icon:"error",
+        text:response.data,
+        title:"error"
+      })
+    }
+  }
   
     return (
         <div className="main-content">
+           <ToastContainer 
+                            position="top-center"
+                            autoClose={3000} // Toast disappears after 3 seconds
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="colored"
+                        />
   <div className="page-content">
     <div className="container-fluid">
       {/* start page title */}
@@ -63,7 +98,7 @@ function page() {
                   </select>
                 </div>
               </div>
-              <ProductListTable productList={productList}/>
+              <ProductListTable productList={productList} ApproveProduct={ApproveProduct} approveProccess={approveProccess}/>
             </div>
           </div>
         </div>

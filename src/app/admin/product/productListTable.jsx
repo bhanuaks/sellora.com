@@ -23,7 +23,7 @@ import {
 import { fileBasePath } from "@/Http/urlHelper";
 import React from "react";
 
-function ProductListTable({ productList }) {
+function ProductListTable({ productList, ApproveProduct, approveProccess }) {
   return (
     <div className="table-responsive">
       {/* id="example2" */}
@@ -34,6 +34,7 @@ function ProductListTable({ productList }) {
         <thead>
           <tr>
             <th width={5}>Sl No.</th> <th width={200}>Vendor</th>
+            <th >Approve Status</th> 
             <th >Main Photo</th> 
             <th style={{minWidth:'300px'}}>Product Photo</th> 
             <th style={{minWidth:'200px'}}>Product Name</th>
@@ -59,6 +60,22 @@ function ProductListTable({ productList }) {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item?.seller?.name}</td>
+                <td>
+                  
+                  {item?.variants?.isProcessing == "Processing" && item.save_as_draft == 0 ? ( 
+                    approveProccess ==  item?.variants?._id ? (
+                      <button className="btn btn-primary" >Wait..</button> 
+                    ):( 
+                      <div style={{display:'flex', gap:"5px"}}>
+                      <button className="btn btn-primary" onClick={(e)=>ApproveProduct(item._id, item.variants?._id, 1)}>Approve</button>
+                      <button className="btn btn-danger" onClick={(e)=>ApproveProduct(item._id, item.variants?._id, 0)}>Reject</button>
+                      </div>
+                    )
+                  ):( 
+                      <a href="#" className={`${item?.variants?.isProcessing=="Rejected"?"text-danger":"text-success"}`}>{item?.variants?.isProcessing}</a>
+                    
+                  )} 
+                </td>
                 <td>
                 <div className="product_img">
                     <img
@@ -216,13 +233,22 @@ function ProductListTable({ productList }) {
                 </td>
                 <td>
                   <a href="#" className={`
-                    ${item.variants?.approved_status == 1 && "approved" }
-                    ${item.variants?.approved_status == 0 && "danger" }
-                    ${item.variants?.approved_status == 2 && ".text-warning" }
+                    ${item.variants?.listingStatus == 1 && "approved" }
+                    ${item.variants?.listingStatus == 0 && "danger" }
+                    ${item.variants?.listingStatus == 2 && "text-warning" }
                     `}>
-                    {item.variants?.approved_status == 1 && "Approved" } 
-                    {item.variants?.approved_status == 2 && "Pending" }
-                    {item.variants?.approved_status == 0 && "Rejected" } 
+                    {item?.variants?.isProcessing == "Processing" ? (
+                      <>Pending</>
+                     ):(
+                     <> 
+                     {item.variants?.listingStatus == 1 && "Active" } 
+                      {item.variants?.listingStatus == 2 && "Draft" }
+                      {item.variants?.listingStatus == 0 && "Deactive" } 
+                      {item.variants?.listingStatus == 3 && "Archive" } 
+                      {item.variants?.listingStatus == 4 && "Delete" } 
+                      </>
+                     )}
+                    
                     
                   </a>
                 </td>
