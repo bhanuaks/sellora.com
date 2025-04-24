@@ -32,7 +32,7 @@ const PriceFilter = (props) => {
 
     } else {
 
-    let product = props.products
+    /* let product = props.products
     
     let prodPrice = product.map((list,index) => {
       return list.variant.consumerSalePrice
@@ -40,6 +40,7 @@ const PriceFilter = (props) => {
     prodPrice = prodPrice.sort(
       (a, b) => a - b
     );
+    */
     //console.log('pricesssssss', prodPrice)
     //setMinPrice(prodPrice[0])
     //setMaxPrice(prodPrice[prodPrice.length - 1])
@@ -102,7 +103,61 @@ const PriceFilter = (props) => {
   };
 
   const addDrag = (toggleRef, isMin) => {
-    const toggle = toggleRef.current;
+  const toggle = toggleRef.current;
+  if (!toggle) return;
+
+  const startDrag = (startX) => {
+    const toggleWidth = toggle.offsetWidth;
+    const { left: scaleLeft, width: scaleWidth } = getScaleDimensions();
+
+    const onMove = (moveX) => {
+      let newCenter = moveX - scaleLeft;
+
+      if (isMin) {
+        newCenter = Math.max(0, newCenter);
+        const maxCenter = parseFloat(toggleMaxRef.current.style.left) + toggleWidth / 2;
+        newCenter = Math.min(newCenter, maxCenter);
+      } else {
+        newCenter = Math.min(scaleWidth, newCenter);
+        const minCenter = parseFloat(toggleMinRef.current.style.left) + toggleWidth / 2;
+        newCenter = Math.max(newCenter, minCenter);
+      }
+
+      const newValue = positionToValue(newCenter);
+      isMin ? setMinPrice(newValue) : setMaxPrice(newValue);
+
+      updateBar();
+    };
+
+    const onMouseMove = (e) => onMove(e.clientX);
+    const onTouchMove = (e) => onMove(e.touches[0].clientX);
+
+    const onEnd = () => {
+      setMinValue((val) => !val);
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onEnd);
+      document.removeEventListener("touchmove", onTouchMove);
+      document.removeEventListener("touchend", onEnd);
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onEnd);
+    document.addEventListener("touchmove", onTouchMove);
+    document.addEventListener("touchend", onEnd);
+  };
+
+  toggle.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    startDrag(e.clientX);
+  });
+
+  toggle.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    startDrag(e.touches[0].clientX);
+  });
+  
+    
+    /* const toggle = toggleRef.current;
     if (!toggle) return;
 
     toggle.addEventListener("mousedown", (e) => {
@@ -143,6 +198,7 @@ const PriceFilter = (props) => {
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
     });
+    */
   };
 
   useEffect(() => {
