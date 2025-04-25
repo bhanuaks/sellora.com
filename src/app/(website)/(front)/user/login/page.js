@@ -64,8 +64,8 @@ function Page() {
         if(res.status){
           // toast.success('Success! Login successfully.'); 
           setTimeout(() => {  
-            localStorage.setItem('loginData', JSON.stringify(res.user));
-            localStorage.setItem('userOtpDataExpiration', res.expirationTime);
+            sessionStorage.setItem('loginData', JSON.stringify(res.user));
+            sessionStorage.setItem('userOtpDataExpiration', res.expirationTime);
             route.push(`${baseUrl}user/login-otp`)
           }, 600);
           

@@ -70,7 +70,7 @@ const UserRegisterPage = () => {
                         if (otpTime > 0  || otpMinTime > 0) {
                          
                           setTimeout(() => { 
-                            const expirationTime = parseInt(localStorage.getItem('userRegisterOtpDataExpiration'), 10);
+                            const expirationTime = parseInt(sessionStorage.getItem('userRegisterOtpDataExpiration'), 10);
                             const timeLeft = expirationTime - Date.now();  
                              const minutes = Math.floor(timeLeft / (1000 * 60)); 
                              const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000); 
@@ -132,7 +132,7 @@ const UserRegisterPage = () => {
     function saveUserDetails(e){
 
         setErrors({})
-        const cartData = JSON.parse(localStorage.getItem('cart', '[]'));
+        const cartData = JSON.parse(sessionStorage.getItem('cart', '[]'));
         e.preventDefault();
         $('.loaderouter').css('display','flex')  
         fetch(`${baseUrl}api/front/${sendOtp!=0?"user-register":"send-register-otp"}`,{
@@ -149,12 +149,12 @@ const UserRegisterPage = () => {
             if(res.status){
                 if(sendOtp==0){
                     console.log(sendOtp);
-                    localStorage.setItem('userRegisterOtpDataExpiration', res.expirationTime); 
+                    sessionStorage.setItem('userRegisterOtpDataExpiration', res.expirationTime); 
                     setOtpTime(59)
                     setOtpMinTime(4)
                     setSendOtp(sendOtp+1)
                 }else{ 
-                  localStorage.setItem('cart',JSON.stringify(res.cartItem))
+                  sessionStorage.setItem('cart',JSON.stringify(res.cartItem))
                   window.dispatchEvent(new Event('cartUpdated')); 
                   window.location.href=`${baseUrl}user/my-profile`; 
                     // router.push(`${baseUrl}user/my-profile`)
@@ -198,7 +198,7 @@ const UserRegisterPage = () => {
             $('.loaderouter').css('display','none') 
 
             if(res.status){ 
-                    localStorage.setItem('userRegisterOtpDataExpiration', res.expirationTime); 
+                    sessionStorage.setItem('userRegisterOtpDataExpiration', res.expirationTime); 
                     setOtpTime(59)
                     setOtpMinTime(4)
                     setSendOtp(sendOtp+1)

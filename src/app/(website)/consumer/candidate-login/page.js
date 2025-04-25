@@ -18,7 +18,7 @@ const page = () => {
             $('.loader-container').css('display','none')
         })
 
-        const token = localStorage.getItem('careerToken');
+        const token = sessionStorage.getItem('careerToken');
         if (token) {
           setIsAuthenticated(true);
           router.push('/consumer/jobs');
@@ -67,7 +67,7 @@ const page = () => {
             });
             if (response.data.success) {
                 // document.cookie = `token=${response.data.token}; path=/`;
-                localStorage.setItem("careerToken", response.data.token); 
+                sessionStorage.setItem("careerToken", response.data.token); 
                 setIsAuthenticated(true);
               // router.push('/consumer/jobs');
               window.location.href= `${baseUrl}/consumer/jobs`

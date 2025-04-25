@@ -168,7 +168,7 @@ const JobApplyComponent = () => {
 
   useEffect(() => {
 
-    const token = localStorage.getItem('careerToken');
+    const token = sessionStorage.getItem('careerToken');
       if (!token) {
         router.push("/consumer/candidate-login");
       }
@@ -179,7 +179,7 @@ const JobApplyComponent = () => {
   }, [jobTitle]);
 
   const getUserIdFromToken = () => {
-    const token = localStorage.getItem("careerToken"); 
+    const token = sessionStorage.getItem("careerToken"); 
     const decodedToken = decodeJwt(token)
     // if (!token) return null; // If no token is found, return null
     // const decodedToken = jwt.decode(token);

@@ -39,7 +39,7 @@ const page = () => {
   
   useEffect(() => {
     fetchjob();
-    const token = localStorage.getItem('careerToken');
+    const token = sessionStorage.getItem('careerToken');
         if (!token) {
           router.push("/consumer/candidate-login");
         }

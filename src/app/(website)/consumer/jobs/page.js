@@ -105,7 +105,7 @@ const page = () => {
       if (router.isReady) {
           setCategory(router.query.category || ""); 
       }
-      const token = localStorage.getItem('careerToken');
+      const token = sessionStorage.getItem('careerToken');
         if (!token) {
           router.push("/consumer/candidate-login");
         }

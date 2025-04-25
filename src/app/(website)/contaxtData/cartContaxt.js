@@ -33,7 +33,7 @@ export const CartProvider= ({ children })=>{
 
     const addToCartInSession = (product_id, variant_id, quantity=1) => {
 
-        let cartSessionData = JSON.parse(localStorage.getItem('cart') || '[]');
+        let cartSessionData = JSON.parse(sessionStorage.getItem('cart') || '[]');
         const addToCartData = {
             product_id:product_id,
             variant_id:variant_id, 
@@ -48,7 +48,7 @@ export const CartProvider= ({ children })=>{
         } else { 
             cartSessionData.push(addToCartData);
         }
-         localStorage.setItem('cart', JSON.stringify(cartSessionData))
+         sessionStorage.setItem('cart', JSON.stringify(cartSessionData))
       };
 
 
@@ -88,11 +88,11 @@ export const CartProvider= ({ children })=>{
     
 
       const removeToCartfromSession = async (product_id, variant_id) => { 
-        let cartSessionData = JSON.parse(localStorage.getItem('cart') || '[]'); 
+        let cartSessionData = JSON.parse(sessionStorage.getItem('cart') || '[]'); 
         const filterData = cartSessionData.filter((item) => 
             !(item.product_id === product_id && item.variant_id === variant_id)
         );  
-         localStorage.setItem('cart', JSON.stringify(filterData))
+         sessionStorage.setItem('cart', JSON.stringify(filterData))
         
 
         if(user){
@@ -124,7 +124,7 @@ export const CartProvider= ({ children })=>{
 
 
      async function updateInventoryIncDec(product_id, variant_id, opration){
-        let cartSessionData = JSON.parse(localStorage.getItem('cart') || '[]');
+        let cartSessionData = JSON.parse(sessionStorage.getItem('cart') || '[]');
         
         
         // find product
@@ -141,7 +141,7 @@ export const CartProvider= ({ children })=>{
             }
         } 
         let quantity = existItem.quantity; 
-        localStorage.setItem('cart', JSON.stringify(cartSessionData))
+        sessionStorage.setItem('cart', JSON.stringify(cartSessionData))
         window.dispatchEvent(new Event("cartUpdated"));
 
         if(user){
@@ -167,7 +167,7 @@ export const CartProvider= ({ children })=>{
                 }
         }
 
-         localStorage.setItem('cart', JSON.stringify(cartSessionData))
+         sessionStorage.setItem('cart', JSON.stringify(cartSessionData))
          window.dispatchEvent(new Event("cartUpdated"));
       }
 

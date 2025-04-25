@@ -88,7 +88,7 @@ function page() {
   useEffect(() => {
     function getcarttData() {
       
-      let cartSessionData = JSON.parse(localStorage.getItem('cart') || '[]');
+      let cartSessionData = JSON.parse(sessionStorage.getItem('cart') || '[]');
       if (cartSessionData.length == 0) {
         setCartProduct([])  
       }
@@ -159,7 +159,7 @@ function page() {
 
   async function ChangeInventoryInputUpdate(quantity, product_id, variant_id) {
     setInventoryProccess(true)
-    let cartSessionData = JSON.parse(localStorage.getItem('cart') || '[]');
+    let cartSessionData = JSON.parse(sessionStorage.getItem('cart') || '[]');
     // find product
     const existItem = cartSessionData.find((item) =>
       item.product_id === product_id && item.variant_id === variant_id
@@ -167,7 +167,7 @@ function page() {
     if (existItem) {
       existItem.quantity = quantity;
     }
-    localStorage.setItem('cart', JSON.stringify(cartSessionData))
+    sessionStorage.setItem('cart', JSON.stringify(cartSessionData))
     if (!user) {
       window.dispatchEvent(new Event("cartUpdated"));
       setInventoryProccess(false)
@@ -203,7 +203,7 @@ function page() {
       })
       return
     }
-    localStorage.setItem('checkoutProducts',JSON.stringify({product:cartProducts, amountData:totalData}))
+    sessionStorage.setItem('checkoutProducts',JSON.stringify({product:cartProducts, amountData:totalData}))
     router.push(`${baseUrl}user/checkout`)
   }
  

@@ -30,7 +30,7 @@ function Header() {
 
   useEffect(() => {
     const updateCartCount = () => {
-      const cartData = JSON.parse(localStorage.getItem("cart") || "[]");
+      const cartData = JSON.parse(sessionStorage.getItem("cart") || "[]");
       setCartItemTotal(cartData.length);
     };
 

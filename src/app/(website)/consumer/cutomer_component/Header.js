@@ -10,14 +10,14 @@ const Header = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('careerToken');
+    const token = sessionStorage.getItem('careerToken');
     if (token) {
       setIsAuthenticated(true);
     }
   }, [router.pathname]);
   
   const handleLogout = () => {
-    localStorage.removeItem("careerToken"); // Remove token
+    sessionStorage.removeItem("careerToken"); // Remove token
     setIsAuthenticated(false);
     router.push("/consumer/candidate-login"); // Redirect to login page
   };

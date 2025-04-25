@@ -17,7 +17,7 @@ function page() {
   const [address, setAddress] = useState({})
   const [errors, setErrors] = useState({});
   useEffect(() => {
-    const sessionData = localStorage.getItem('checkoutProducts', null)
+    const sessionData = sessionStorage.getItem('checkoutProducts', null)
     const data = sessionData ? JSON.parse(sessionData) : null; 
     if (!data ) {
       router.push(`${baseUrl}cart`);
@@ -166,7 +166,7 @@ function page() {
           title:"Success",
           confirmButtonText:"Okay"
         }).then((response)=>{
-          localStorage.removeItem('cart');
+          sessionStorage.removeItem('cart');
           window.dispatchEvent(new Event("cartUpdated"));
           if(response.isConfirmed){
               router.push(`${baseUrl}user/myorders`)

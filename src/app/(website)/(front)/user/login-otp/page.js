@@ -18,13 +18,13 @@ function page() {
 
   useLayoutEffect(() => {
 
-    const data = localStorage.getItem('loginData')
+    const data = sessionStorage.getItem('loginData')
     if (!data) {
       // Redirect to login if no data is found
       route.push('/user/login');
       return;
     }
-    const expirationTime = parseInt(localStorage.getItem('userOtpDataExpiration'), 10);
+    const expirationTime = parseInt(sessionStorage.getItem('userOtpDataExpiration'), 10);
     const timeLeft = expirationTime - Date.now();
 
     setLoginData(JSON.parse(data))
@@ -38,7 +38,7 @@ function page() {
       setTimeout(() => {
 
 
-        const expirationTime = parseInt(localStorage.getItem('userOtpDataExpiration'), 10);
+        const expirationTime = parseInt(sessionStorage.getItem('userOtpDataExpiration'), 10);
         const timeLeft = expirationTime - Date.now();
 
 
@@ -78,7 +78,7 @@ function page() {
 
   function submitOtp(e){
     setErrors({});
-    const cartData = JSON.parse(localStorage.getItem('cart', '[]'));
+    const cartData = JSON.parse(sessionStorage.getItem('cart', '[]'));
 
     e.preventDefault();
     $('.loaderouter').css('display','flex')
@@ -98,10 +98,10 @@ function page() {
         // $('.loaderouter').css('display','none')  
         if(res.status){
           toast.success('Success! Login successfully.'); 
-          localStorage.removeItem('loginData') 
-          localStorage.removeItem('userOtpDataExpiration');
+          sessionStorage.removeItem('loginData') 
+          sessionStorage.removeItem('userOtpDataExpiration');
           // update cart item after login
-          localStorage.setItem('cart',JSON.stringify(res.cartItem))
+          sessionStorage.setItem('cart',JSON.stringify(res.cartItem))
           window.dispatchEvent(new Event('cartUpdated'));
           setTimeout(() => {  
             window.location.href=`${baseUrl}user/my-profile`; 
@@ -134,7 +134,7 @@ function page() {
       }).then((res)=>{
         $('.loaderouter').css('display','none')  
         if(res.status){
-          localStorage.setItem('userOtpDataExpiration', res.expirationTime); 
+          sessionStorage.setItem('userOtpDataExpiration', res.expirationTime); 
           setOtpTime(0)
           setOtpMinTime(5)
         }
