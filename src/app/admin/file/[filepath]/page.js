@@ -1,0 +1,9 @@
+import React from 'react'
+
+function page({params}) {
+  return (
+    <div className='main-content'>asascad aa{params.filepath}</div>
+  )
+}
+
+export default page

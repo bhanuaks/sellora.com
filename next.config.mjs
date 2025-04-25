@@ -4,7 +4,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost','sellora.in',  'clients.aksindia.com', "seller.sellora.com"], // Allow images from localhost
+    domains: ['localhost','sellora.com',  'clients.aksindia.com', "seller.sellora.com"], // Allow images from localhost
   },
   // output: 'export',
   webpack(config, { buildId, dev, isServer, defaultLoaders, webpack }) {
