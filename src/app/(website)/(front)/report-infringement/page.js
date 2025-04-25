@@ -348,7 +348,7 @@ function page() {
                     )}
                     <label htmlFor="mobile_code">Telephone Number *</label>
                     <input
-                      type="tel"
+                      type="number"
                       id="mobile_code"
                       ref={phoneInputRef}
                       name="mobile"
