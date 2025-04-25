@@ -178,12 +178,23 @@ const SingleOrderSection = ({ order, mutate }) => {
                         <button className="gift_btn return"> <img src={`${baseUrl}front/assets/images/return.png`} />Cancelled</button>
                     </Link>
                     ):(
-                        <Link href={`${baseUrl}/user/return-refund/${prodData._id}`}>
+                        
+                        prodData.order_status == '6' ? (
+                        
+                        <Link href="#">
+                            <button className="gift_btn return"> <img src={`${baseUrl}front/assets/images/return.png`} /> Refunded </button>
+                        </Link>
+                        ):(
+                            <Link href={`${baseUrl}/user/return-refund/${prodData._id}`}>
                             <button className="gift_btn return"> <img src={`${baseUrl}front/assets/images/return.png`} /> Return/Refund</button>
                         </Link>
+
+                        )
+                    
+
                     )}
                         
-                        {JSON.stringify(order.review)}
+                        
                         <Link href={`${baseUrl}/user/product-review/${prodData.product_id?.slug}`}>
                        
                             <button className="gift_btn">{order.review?"Edit Product Review":"Write a Product Review "}</button>

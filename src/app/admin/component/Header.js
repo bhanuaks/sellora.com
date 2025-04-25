@@ -151,6 +151,13 @@ const Header = () => {
                             </li> 
                             <li> <Link href="/admin/dealbanner" className={`  ${currentPath == "/admin/dealbanner" ?"dashboard":''}`}> <i data-feather="gift" /> <span>Deal Banner </span> </Link> </li> 
                             <li> <Link href="/admin/featurebanner" className={`  ${currentPath == "/admin/featurebanner" ?"dashboard":''}`}> <i data-feather="gift" /> <span>Feature Banner </span> </Link> </li>
+
+                            <li> <Link href="" className={`has-arrow ${["/admin/contact-us", "/admin/report-infringement"].includes(currentPath)?"dashboard":''}`}> <i data-feather="users" /> <span data-key="t-apps">Enquiry</span> </Link>
+                                <ul className="sub-menu" aria-expanded="false">
+                                    <li><Link href="/admin/contact-us"> Contact Us</Link></li>
+                                    <li><Link href="/admin/report-infringement"> Report Infringement</Link></li> 
+                                </ul>
+                            </li>
                         </ul>
                      </div>
                     {/* Sidebar */}

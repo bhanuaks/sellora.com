@@ -9,22 +9,62 @@ import { useCart } from '@/app/(website)/contaxtData/cartContaxt'
 import { useRouter } from 'next/navigation'
 import UserSideBarSecction from '../userSideBarSecction'
 import useSWR, {mutate} from 'swr'
+import '../../../../../../public/front/loader.css'
 
 
 function page() {
 
-  const {data:orderData, error, isLoading } = useSWR(`${baseUrl}api/user/my-order`, fetcher)
+  
+  const [searchVal, setSearchVal] = useState("")
+  const [yearSearch, setYearSearch] = useState("")
+  const [activeTab, setActiveTab] = useState('order'); 
+  const [searchUrl, setSearchUrl] = useState(`${baseUrl}api/user/my-order`);
+  const [yearAll, setYearAll] = useState([])
+  const [searchTabVal, setSearchTabVal] = useState("")
+  const {data:orderData, error, isLoading } = useSWR(searchUrl, fetcher)
 
   const orders = orderData?.data?.orders || [];
    const {globalUser} = useContext(userAppContaxt);
     const [user, setUser] = useState(null); 
     const {addToCartProduct} = useCart()
     const router = useRouter();
-
+    
   // const [orders, setOrders] = useState([])
 
 
-   useLayoutEffect(()=>{
+  const handleSearch = (e) => {
+    setSearchVal(e.target.value)
+  }
+
+  const fetchSearchAll = (search, yearSearch, searchTab) => {
+    $('.loaderouter').css('display', 'flex')
+    const trimmedQuery = search.trim();
+    const url = `${baseUrl}api/user/my-order?search=${trimmedQuery}&year=${yearSearch}&searchTab=${searchTab}` 
+    setSearchUrl(url);
+    $('.loaderouter').css('display', 'none')
+
+  }
+
+  const handleSearchButton = (e) => {
+    fetchSearchAll(searchVal, yearSearch, searchTabVal)
+  }
+  
+  const handleSearchOrder = (e) => {
+    let value = e.target.value
+    setYearSearch(value)
+    fetchSearchAll(searchVal, value, searchTabVal)
+
+  }
+
+  const searchTab = (e, value) => {
+    e.preventDefault();
+    setSearchTabVal(value)
+    setActiveTab(value)
+    fetchSearchAll(searchVal, yearSearch, value)
+
+  }
+  
+  useLayoutEffect(()=>{
       
             if(globalUser.user){ 
             
@@ -67,7 +107,17 @@ function page() {
      
   // },[])
 
+useEffect(() => {
+  const currentYear = new Date().getFullYear();  
+  const targetStartYear = 2025;
+  const yearList = [];
+  for (let year = targetStartYear; year <= currentYear; year++) {
+    yearList.push(year)
+  }
 
+  setYearAll(yearList)
+
+},[])
 
   return (
     <>
@@ -76,7 +126,7 @@ function page() {
         href={`${baseUrl}front/assets/css/my_order.css`}
         as="style"
       />
-
+      <div className="loaderouter"><div className="loader"></div></div>
       <div className="details_page_outer">
         {/* rts navigation bar area start */}
         <div className="rts-navigation-area-breadcrumb">
@@ -111,13 +161,14 @@ function page() {
                     <div className="orderTop">
                       <h2 className="hidden-xs">My Orders</h2>
                       <div className="search-container2">
-                        <form action="#">
+                        <form name="search">
                           <input
                             type="text"
                             placeholder="Search all orders"
                             name="search"
+                            onChange={handleSearch}
                           />
-                          <button type="submit">
+                          <button type="button" onClick={handleSearchButton}>
                             <i className="fa fa-search" />
                           </button>
                         </form>
@@ -125,19 +176,19 @@ function page() {
                     </div>
                     <div className="order_tab">
                       <ul className="tabs">
-                        <li className="tab-link current" data-tab="order_tab">
+                        <li className={`tab-link ${activeTab == 'order' ? 'current' : ''}`} data-tab="order_tab" onClick={(e)=>searchTab(e, 'order')}>
                           Orders
                         </li>
-                        <li className="tab-link" data-tab="buy_again">
+                        <li className={`tab-link ${activeTab == 'buy_again' ? 'current' : ''}`} data-tab="buy_again">
                           Buy Again
                         </li>
-                        <li className="tab-link" data-tab="open_orders">
+                        <li className={`tab-link ${activeTab == 'notshipped' ? 'current' : ''}`} data-tab="open_orders" onClick={(e)=>searchTab(e, 'notshipped')}>
                           Not Yet Shipped
                         </li>
-                        <li className="tab-link" data-tab="cancelled_orders">
+                        <li className={`tab-link ${activeTab == 'cancel' ? 'current' : ''}`} data-tab="cancelled_orders" onClick={(e)=>searchTab(e, 'cancel')}>
                           Cancelled Orders
                         </li>
-                        <li className="tab-link" data-tab="returns">
+                        <li className={`tab-link ${activeTab == 'return' ? 'current' : ''}`} data-tab="returns" onClick={(e)=>searchTab(e, 'return')}>
                           Returns
                         </li>
                       </ul>
@@ -154,7 +205,11 @@ function page() {
                               <span className="num-orders">{orders.length} orders</span> placed in
                             </div>
                             <span className="a-dropdown-container">
-                              <select defaultValue={"last30"}>
+                              <select defaultValue={""} name="orderYear" onChange={handleSearchOrder}>
+                              <option data-ref="d" value="">
+
+                                Select...
+                                </option>
                                 <option data-ref="d30" value="last30">
 
                                   last 30 days
@@ -163,49 +218,14 @@ function page() {
 
                                   past 3 months
                                 </option>
-                                <option data-ref="y2024" value="year-2024">
+                                {yearAll && yearAll.map((yearList, index) => {
 
-                                  2024
-                                </option>
-                                <option data-ref="y2023" value="year-2023">
+                                return(
+                                <option key={index} data-ref={`y${yearList}`} value={`${yearList}`}>
 
-                                  2023
+                                  {yearList}
                                 </option>
-                                <option data-ref="y2022" value="year-2022">
-
-                                  2022
-                                </option>
-                                <option data-ref="y2021" value="year-2021">
-
-                                  2021
-                                </option>
-                                <option data-ref="y2020" value="year-2020">
-
-                                  2020
-                                </option>
-                                <option data-ref="y2019" value="year-2019">
-
-                                  2019
-                                </option>
-                                <option data-ref="y2018" value="year-2018">
-
-                                  2018
-                                </option>
-                                <option data-ref="y2017" value="year-2017">
-
-                                  2017
-                                </option>
-                                <option
-                                  data-ref="y2016"
-                                  value="year-2016"
-                                >
-
-                                  2016
-                                </option>
-                                <option data-ref="archived" value="archived">
-
-                                  Archived Orders
-                                </option>
+                                )})}
                               </select>
                             </span>
                           </div>
@@ -218,452 +238,13 @@ function page() {
                       {/* second-id======open======================= */}
                       {/* second-id========end================= */}
                     </div>
-                    <div  id="buy_again" className="orderCardWrap tab-content1">
-                      <div className="again">
-                        <h2>Electronics/Accessories</h2>
-                        <div className="row g-4">
-                          <div className="col-lg-20 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div className="single-shopping-card-one deals-of-day">
-                              <div className="image-and-action-area-wrapper">
+                    
+                    
+                    
 
-                                <Link href="product-details.html">
 
-                                  <img src={`${baseUrl}front/assets/images/grocery/17.jpg`} />
-                                </Link>
-                                <div className="action-share-option">
-                                  <div className="single-action openuptip message-show-action">
 
-                                    <i className="fa-light fa-heart" />
-                                  </div>
-                                  <div className="single-action openuptip cta-quickview product-details-popup-btn">
 
-                                    <i className="fa-regular fa-eye" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="body-content">
-                                <div className="start-area-rating">
-
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                </div>
-                                <Link href="product-details.html">
-                                  <h4 className="title">
-                                    Electric 1.8 liter Multi Cooker
-                                  </h4>
-                                </Link>
-                                {/*  */}
-                                <div className="price-area">
-
-                                  <span className="current">$499</span>
-                                  <div className="previous">$516.00</div>
-                                </div>
-                                <div className="cart-counter-action">
-
-                                  <Link
-                                    href="#"
-                                    className="rts-btn btn-primary radious-sm with-icon"
-                                  >
-                                    <div className="btn-text"> Add To Cart </div>
-                                    <div className="arrow-icon">
-
-                                      <i className="fa-regular fa-cart-shopping" />
-                                    </div>
-                                    <div className="arrow-icon">
-
-                                      <i className="fa-regular fa-cart-shopping" />
-                                    </div>
-                                  </Link>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-lg-20 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div className="single-shopping-card-one deals-of-day">
-                              <div className="image-and-action-area-wrapper">
-
-                                <Link href="product-details.html">
-
-                                  <img src={`${baseUrl}front/assets/images/grocery/25.jpg`} />
-                                </Link>
-                                <div className="action-share-option">
-                                  <div className="single-action openuptip message-show-action">
-
-                                    <i className="fa-light fa-heart" />
-                                  </div>
-                                  <div className="single-action openuptip cta-quickview product-details-popup-btn">
-
-                                    <i className="fa-regular fa-eye" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="body-content">
-                                <div className="start-area-rating">
-
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                </div>
-                                <Link href="product-details.html">
-                                  <h4 className="title">
-                                    Natural Wood Ceiling Pendant Light Shade
-                                  </h4>
-                                </Link>
-                                {/*  */}
-                                <div className="price-area">
-
-                                  <span className="current">$499</span>
-                                  <div className="previous">$516.00</div>
-                                </div>
-                                <div className="cart-counter-action">
-
-                                  <Link
-                                    href="#"
-                                    className="rts-btn btn-primary radious-sm with-icon"
-                                  >
-                                    <div className="btn-text"> Add To Cart </div>
-                                    <div className="arrow-icon">
-
-                                      <i className="fa-regular fa-cart-shopping" />
-                                    </div>
-                                    <div className="arrow-icon">
-
-                                      <i className="fa-regular fa-cart-shopping" />
-                                    </div>
-                                  </Link>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-lg-20 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <div className="single-shopping-card-one deals-of-day">
-                              <div className="image-and-action-area-wrapper">
-
-                                <Link href="product-details.html">
-
-                                  <img src={`${baseUrl}front/assets/images/grocery/26.jpg`} />
-                                </Link>
-                                <div className="action-share-option">
-                                  <div className="single-action openuptip message-show-action">
-
-                                    <i className="fa-light fa-heart" />
-                                  </div>
-                                  <div className="single-action openuptip cta-quickview product-details-popup-btn">
-
-                                    <i className="fa-regular fa-eye" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="body-content">
-                                <div className="start-area-rating">
-
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                  <i className="fa-solid fa-star" />
-                                </div>
-                                <Link href="product-details.html">
-                                  <h4 className="title">
-                                    Sony Standard Portable Wireless Camera
-                                  </h4>
-                                </Link>
-                                {/*  */}
-                                <div className="price-area">
-
-                                  <span className="current">$499</span>
-                                  <div className="previous">$516.00</div>
-                                </div>
-                                <div className="cart-counter-action">
-
-                                  <Link
-                                    href="#"
-                                    className="rts-btn btn-primary radious-sm with-icon"
-                                  >
-                                    <div className="btn-text"> Add To Cart </div>
-                                    <div className="arrow-icon">
-
-                                      <i className="fa-regular fa-cart-shopping" />
-                                    </div>
-                                    <div className="arrow-icon">
-
-                                      <i className="fa-regular fa-cart-shopping" />
-                                    </div>
-                                  </Link>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* ================not-ye-shiped=open============= */}
-                    <div id="open_orders" className="orderCardWrap tab-content1">
-                      <div className="a-row a-spacing-base">
-                        <div className="row align-items-center">
-                          <div className="col-lg-4">
-                            <div className="aok-inline-block">
-                              <span className="num-orders">1 unshipped</span> orders
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="orderCard">
-                        <div className="orderHead">
-                          <ul className="orderLeft">
-                            <li>
-                              <p>
-                                ORDER PLACED <span>13 September 2024</span>
-                              </p>
-                            </li>
-                            <li>
-                              <p>
-                                TOTAL <span>$413.00</span>
-                              </p>
-                            </li>
-                            {/*   <li>
-  <p>SHIP TO <span className="customerName">Mary Smith</span> <span className="cstmrInfo"> <strong>Mary Smith</strong>WA-117 First Floor, Shakarpur
-    NEW DELHI, DELHI 110092
-    India</span> </p>
-</li> */}
-                          </ul>
-                          <div className="invoiceDetails">
-                            <p>ORDER # 171-8448362-6456308 </p>
-                            <div>
-                              <span>
-                                <Link href="/user/order-details">Order Details</Link>
-                              </span>
-                              <span className="showInvoice">
-                                <Link href="javascript:void(0)">
-                                  Invoice
-                                  <i
-                                    className="fa fa-chevron-down"
-                                    aria-hidden="true"
-                                  />
-                                </Link>
-                              </span>
-                            </div>
-                            <div className="invioceModel">
-                              <ul>
-                                <li>
-                                  <Link href="#">Payment receipt</Link>
-                                </li>
-                              </ul>
-                              <span className="modelClose">
-                                <i className="fa fa-times" aria-hidden="true" />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="itemDetails">
-                          <h3>Successful</h3>
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry.
-                          </p>
-                          <div className="itemInfo">
-                            <div className="itemImg">
-
-                              {/* <div className="order_img"><img src={`${baseUrl}front/assets/images/518faREyvPL._AC_AA180_.jpg`}></div> */}
-                              <img src={`${baseUrl}front/assets/images/518faREyvPL._AC_AA180_.jpg`} />
-                            </div>
-                            <div className="itemDesc">
-                              <h4>
-                                Apple AirPods Max Over-Ear Wireless Headphone Lorem
-                              </h4>
-                              <p>
-                                Colour: <span>Black</span>
-                              </p>
-                              <div className="d-flex">
-                                <button className="buy_again mr_10">
-                                  Buy it again
-                                </button>
-                                {/*  <button className="view_your_item">View your item</button> */}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="btn_group">
-                            {/*  <button className="buy_again">Return or replace items</button>
-    <button className="gift_btn">Share gift receipt</button> */}
-                            {/*   <button className="gift_btn">Write a Product Review</button> */}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* ================not-ye-shiped===end=========== */}
-                    <div id="cancelled_orders" className="orderCardWrap tab-content1">
-                      <div className="a-row a-spacing-base">
-                        <div className="row align-items-center">
-                          <div className="col-lg-4">
-                            <div className="aok-inline-block">
-                              <span className="num-orders">1 cancelled order </span>
-                              placed in the last 6 months
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="orderCard">
-                        <div className="orderHead">
-                          <ul className="orderLeft">
-                            <li>
-                              <p>
-                                ORDER PLACED <span>12 March 2024</span>
-                              </p>
-                            </li>
-                            <li>
-                              <p>
-                                TOTAL <span>$0.00</span>
-                              </p>
-                            </li>
-                            {/*   <li>
-      <p>SHIP TO <span className="customerName">Customer Name</span> <span className="cstmrInfo"> <strong>Customer Name</strong> Lorem Ipsum is simply dummy text </span> </p>
-    </li> */}
-                          </ul>
-                          <div className="invoiceDetails">
-                            <p>ORDER # 171-8448362-6456308</p>
-                          </div>
-                        </div>
-                        <div className="itemDetails">
-                          <h3>Refund initiated</h3>
-                          <p>
-                            Recharge failed. Money deducted from your card/bank
-                            account would be refunded within 3-5 business days.
-                          </p>
-                          <div className="itemInfo">
-                            <div className="itemImg">
-
-                              <img
-                                src={`${baseUrl}front/assets/images/518faREyvPL._AC_AA180_.jpg`}
-                                alt=""
-                              />
-                            </div>
-                            <div className="itemDesc">
-                              <h4>
-                                Apple AirPods Max Over-Ear Wireless Headphone Lorem
-                              </h4>
-                              <p>
-                                Colour: <span>Black</span>
-                              </p>
-                              <span className="itemPrice">$0.00</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* ================Return===open=========== */}
-                    <div id="returns" className="orderCardWrap tab-content1">
-                      <div className="a-row a-spacing-base">
-                        <div className="row align-items-center">
-                          <div className="col-lg-4">
-                            <div className="aok-inline-block">
-                              <span className="num-orders">Returns </span> received
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="orderCard">
-                        <div className="orderHead">
-                          <ul className="orderLeft">
-                            <li>
-                              <p>
-                                Returns <span>12 March 2019</span>
-                              </p>
-                            </li>
-                            <li>
-                              <p>
-                                TOTAL <span>$360.00</span>
-                              </p>
-                            </li>
-                            <li>
-                              <p>
-                                SHIP TO
-                                <span className="customerName">Mary Smith</span>
-                                <span className="cstmrInfo">
-
-                                  <strong>Mary Smith</strong>WA-117 First Floor,
-                                  Shakarpur NEW DELHI, DELHI 110092 India
-                                </span>
-                              </p>
-                            </li>
-                          </ul>
-                          <div className="invoiceDetails">
-                            <p>ORDER # 4534-58945-568590 </p>
-                            <div>
-                              <span>
-                                <Link href="#">Order Details</Link>
-                              </span>
-                              <span className="showInvoice">
-                                <Link href="javascript:void(0)">
-                                  Invoice
-                                  <i
-                                    className="fa fa-chevron-down"
-                                    aria-hidden="true"
-                                  />
-                                </Link>
-                              </span>
-                            </div>
-                            <div className="invioceModel">
-                              <ul>
-                                <li>
-                                  <Link href="#">P-slip/Warranty 1</Link>
-                                </li>
-                                <li>
-                                  <Link href="#">Request invoice</Link>
-                                </li>
-                                <li>
-                                  <Link href="#">Printable Order Summary</Link>
-                                </li>
-                              </ul>
-                              <span className="modelClose">
-                                <i className="fa fa-times" aria-hidden="true" />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="itemDetails">
-                          <h3>Return received</h3>
-                          <p className="mb--10">
-                            We’ve received your return. Your replacement is complete.
-                          </p>
-                          <div className="itemInfo">
-                            <div className="itemImg">
-
-                              {/* <div className="order_img"><img src={`${baseUrl}front/assets/images/518faREyvPL._AC_AA180_.jpg`}></div> */}
-                              <img src={`${baseUrl}front/assets/images/41RwYpmIwxL._SY90_.jpg`} />
-                            </div>
-                            <div className="itemDesc">
-                              <h4>Moto G 3rd Generation</h4>
-                              <p>
-                                Colour: <span>(Black, 16GB)</span>
-                              </p>
-                              <span className="itemPrice2">$360.00</span>
-                              <div className="d-flex">
-                                <button className="buy_again mr_10">
-                                  Buy it again
-                                </button>
-                                <button className="view_your_item">
-                                  View your item
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="btn_group">
-                            <button className="buy_again">
-                              View Return/Refund Status
-                            </button>
-                            {/*    <button className="gift_btn">Share gift receipt</button> */}
-                            <button className="gift_btn">
-                              Write a Product Review
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                   <div className="clear" />
                 </div>

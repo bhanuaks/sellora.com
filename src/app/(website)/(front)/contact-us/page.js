@@ -1,12 +1,158 @@
+'use client'
+import { apiRequest } from '@/Http/apiHelper'
 import { baseUrl } from '@/Http/helper'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
+import $ from 'jquery'
+import '../../../../../public/front/loader.css'
+import 'intl-tel-input/build/css/intlTelInput.css';
+import intlTelInput from 'intl-tel-input';
+import { useRouter } from 'next/navigation'
+
 
 const page = () => {
+  
+  const router = useRouter();
+  const phoneInputRef = useRef(null);
+  const [captcha, setCaptcha] = useState("");
+  const [formData, setFormData] = useState({
+    name:'',
+    email:'',
+    mobile:'',
+    subject:'',
+    feedback:'',
+    message:'',
+    captcha:'',
+    mobile_code:'1',
+    country_s_name:'us',
+
+  });  
+        const [errors, setErrors] = useState({});
+        const [message, setMessage] = useState(null);
+  
+  const generateCaptcha = () => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+  };
+  const refreshCaptcha = () => {
+    const newCaptcha = generateCaptcha();
+    setCaptcha(newCaptcha);
+    //onChange(""); // reset input
+  };
+
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: name === 'photo' ? files[0] : value,
+      }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
+  };
+  const validate = () => {
+    const errors = {};
+
+    // Validation checks
+    
+    return errors;
+  }
+  
+  const handleSubmit = async (e) => {
+      e.preventDefault(); 
+      setErrors({})
+      
+      
+  
+              $('.loaderouter').css('display', 'flex')
+              const response = await apiRequest(`${baseUrl}/api/front/contact-us`,"POST", { name:formData.name, email:formData.email, mobile:formData.mobile, subject:formData.subject, feedback:formData.feedback, message:formData.message, captcha:captcha, userCaptcha:formData.captcha, mobile_code:formData.mobile_code, country_s_name:formData.country_s_name })
+              $('.loaderouter').css('display', 'none')
+              
+              //console.log(response)
+              
+              if(response.status){
+                  //mutate(`${baseUrl}api/user/my-order`)
+                  //router.push('/user/myorders');
+                  toast.success("Contact us form submitted successfully.")
+                  setFormData({
+                    name:'',
+                    email:'',
+                    mobile:'',
+                    subject:'',
+                    feedback:'',
+                    message:'',
+                    captcha:'',
+                    mobile_code:'1',
+                    country_s_name:'us'
+
+                  })
+                  refreshCaptcha()
+  
+              } else {
+                setErrors(response.data.errors);
+                $('.loaderouter').css('display', 'none');
+              }
+              
+              
+  
+  
+    }
+  
+  useEffect(() => {
+          const input = document.querySelector('#mobile_code');
+      
+          if (input) {
+            const iti = intlTelInput(phoneInputRef.current, {
+              initialCountry: formData && formData.country_s_name?formData.country_s_name:'us',
+              separateDialCode: true,
+              // utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/utils.js', 
+            });
+      
+           
+            const onCountryChange = () => {
+              const selectedCountryData = iti.getSelectedCountryData();  
+              setFormData((preData)=>({
+                  ...preData,
+                  mobile_code:selectedCountryData.dialCode,
+                  country_s_name:selectedCountryData.iso2,
+              }))
+            }; 
+            phoneInputRef.current.addEventListener('countrychange', onCountryChange);
+            
+            return () => {
+              iti.destroy();  
+            };
+          }
+        }, [setFormData, formData?.country_s_name]);
+  
+    useEffect(() => {
+    setCaptcha(generateCaptcha());
+  }, []);
+
+  
+  
+  
+  
   return (
     <>
   <div className="rts-navigation-area-breadcrumb">
+    <ToastContainer 
+                                  position="top-center"
+                                  autoClose={3000} 
+                                  hideProgressBar={false}
+                                  newestOnTop={false}
+                                  closeOnClick
+                                  rtl={false}
+                                  pauseOnFocusLoss
+                                  draggable
+                                  pauseOnHover
+                                  theme="colored"
+                              />
+
+<div className="loaderouter"><div className="loader"></div></div>
+    
     <div className="container">
       <div className="row">
         <div className="col-lg-12">
@@ -84,53 +230,95 @@ const page = () => {
         <div className="col-lg-6 pl--50 pl_sm--5 pl_md--5">
           <div className="contact-form-wrapper-1">
             <h3 className="title">Fill Up The Form If You Have Any Question</h3>
-            <form action="#" className="contact-form-1">
+            <form onSubmit={handleSubmit}  className="contact-form-1">
               <div className="contact-form-wrapper--half-area">
                 <div className="single">
-                  <input type="text" placeholder="Name" />
+                  <input type="text" placeholder="Name" name="name" value={formData.name} onChange={handleChange} />
+                  {errors.name && (
+                            <>
+                            <span className="text-danger">{errors.name}</span>
+                            <br></br>
+                            </>
+                          )}
                 </div>
                 <div className="single">
-                  <input type="text" placeholder="Email" />
+                  <input type="text" placeholder="Email" name="email" value={formData.email} onChange={handleChange} />
+                  {errors.email && (
+                            <>
+                            <span className="text-danger">{errors.email}</span>
+                            <br></br>
+                            </>
+                          )}
                 </div>
               </div>
               <div className="contact-form-wrapper--half-area">
                 <div className="single">
-                  <input type="text" placeholder="Phone Number" />
+                  <input type="text" id="mobile_code" ref={phoneInputRef} placeholder="Phone Number" name="mobile" value={formData.mobile} onChange={handleChange} />
+                  {errors.mobile && (
+                            <>
+                            <span className="text-danger">{errors.mobile}</span>
+                            <br></br>
+                            </>
+                          )}
                 </div>
                 <div className="single">
-                  <input type="text" placeholder="Subject" />
+                  <input type="text" placeholder="Subject" name="subject" value={formData.subject} onChange={handleChange} />
+                  {errors.subject && (
+                            <>
+                            <span className="text-danger">{errors.subject}</span>
+                            <br></br>
+                            </>
+                          )}
                 </div>
               </div>
               <div className="single-select">
-                <select className="form-select">
-                  <option >Feedback</option>
-                  <option value={1}>Good Service</option>
-                  <option value={2}>Vendor Support</option>
-                  <option value={3}>Timely Delivery</option>
-                  <option>Quality Assurance</option>
+                <select className="form-select" name="feedback" value={formData.feedback} onChange={handleChange}>
+                  <option value="">Feedback</option>
+                  <option value="Good Service">Good Service</option>
+                  <option value="Vendor Support">Vendor Support</option>
+                  <option value="Timely Delivery">Timely Delivery</option>
+                  <option value="Quality Assurance">Quality Assurance</option>
                 </select>
+                {errors.feedback && (
+                            <>
+                            <br></br><span className="text-danger">{errors.feedback}</span>
+                            <br></br>
+                            </>
+                          )}
               </div>
               <textarea
                 name="message"
                 placeholder="Write Message Here"
                  
-              />
+                 value={formData.message} onChange={handleChange} />
+                {errors.message && (
+                          <>
+                          <span className="text-danger">{errors.message}</span>
+                          <br></br>
+                          </>
+                        )}
               <div className="contact-form-wrapper--half-area">
                 <div className="single">
-                  <input type="text" placeholder="Captcha Code Here" />
+                  <input type="text" placeholder="Captcha Code Here" name="captcha" value={formData.captcha} onChange={handleChange} />
+                  {errors.captcha && (
+                            <>
+                            <span className="text-danger">{errors.captcha}</span>
+                            <br></br>
+                            </>
+                          )}
                 </div>
                 <div className="single">
-                  <div className="captcha">sdjrdk</div>
+                  <div className="captcha">{captcha}</div>
                 </div>
                 <div className="single">
                   <div className="refresh">
-                    <a href=""> 
+                    <Link href="#" onClick={refreshCaptcha}> 
                       <i className="fa fa-refresh" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
-              <button className="rts-btn btn-primary mt--20">
+              <button type="submit" className="rts-btn btn-primary mt--20">
                 Send Message
               </button>
             </form>
