@@ -113,10 +113,10 @@ function OtherBannerPage() {
     }
 
     const formDataToSubmit = new FormData();
-    formDataToSubmit.append('id', formData._id);
-    formDataToSubmit.append('title', formData.title);
+    formDataToSubmit.append('id', formData._id || "");
+    formDataToSubmit.append('title', formData.title || "");
     formDataToSubmit.append('pid', 1);
-    formDataToSubmit.append('url', formData.url);
+    formDataToSubmit.append('url', formData.url || "");
     
      
 
@@ -179,10 +179,10 @@ function OtherBannerPage() {
     }
 
     const formDataToSubmit = new FormData();
-    formDataToSubmit.append('id', formDataRight._id);
-    formDataToSubmit.append('title', formDataRight.title);
+    formDataToSubmit.append('id', formDataRight._id || "");
+    formDataToSubmit.append('title', formDataRight.title || "");
     formDataToSubmit.append('pid', 2);
-    formDataToSubmit.append('url', formDataRight.url);
+    formDataToSubmit.append('url', formDataRight.url || "");
     
      
 
@@ -535,7 +535,7 @@ const fetchBannersRight = async () => {
                             <span className="text-danger">{errors.photo}</span>
                           )}
                         </div>
-                        <div style={{color:'red'}}><span>Note: </span> Image size of 402px (width) × 550px (height) </div>
+                        <div style={{color:'red'}}><span>Note: </span> Image size of 322px (width) × 440px (height) </div>
                       </div>
 
                       
@@ -622,7 +622,7 @@ const fetchBannersRight = async () => {
                             <span className="text-danger">{errorsRight.photo}</span>
                           )}
                         </div>
-                        <div style={{color:'red'}}><span>Note: </span> Image size of 402px (width) × 550px (height) </div>
+                        <div style={{color:'red'}}><span>Note: </span> Image size of 322px (width) × 440px (height) </div>
                       </div>
 
                       

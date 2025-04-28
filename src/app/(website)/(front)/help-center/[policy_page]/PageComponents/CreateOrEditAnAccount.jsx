@@ -37,7 +37,7 @@ function CreateOrEditAnAccount() {
           Visit Sellora.com and click <strong>Account</strong>.
         </li>
         <li>
-          Select <strong>Sign In or Create an Account</strong>.
+          Select <strong> <a href='/user/login'>Sign In</a> or <a href='/user/register'>Create an Account</a></strong>.
         </li>
         <li>
           Enter your <strong>email address</strong> or{" "}

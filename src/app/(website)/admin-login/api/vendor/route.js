@@ -19,6 +19,10 @@ export async function GET(req) {
         $gte: new Date(queryParams.from_date),
         $lte: new Date(queryParams.to_date),
       };
+    }else if (queryParams.from_date ) {
+      filter.createdAt = {
+        $gte: new Date(queryParams.from_date), 
+      };
     }
 
     const data = await sellerModel

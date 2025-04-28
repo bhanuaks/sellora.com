@@ -164,8 +164,8 @@ function Page() {
                         <div className="another-way-to-registration">
                           <div className="new_customer">
                             By continuing, you agree to Sellora’s{" "}
-                            <Link href="#">Terms of Use</Link> &amp;{" "}
-                            <Link href="#">Privacy Policy</Link>
+                            <Link href="/help-center/terms-of-use">Terms of Use</Link> &amp;{" "}
+                            <Link href="/help-center/privacy-policy">Privacy Policy</Link>
                           </div>
                         </div>
                       </form>

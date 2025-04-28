@@ -20,9 +20,13 @@ const FeatureBanner = ({featureBannerList}) => {
                 >
                   {/* <h2>Toys under $499</h2> */}
                   {/*  <div className="img_big2"> <img src={`${baseUrl}front/assets/images/banner01.jpg`}> </div> */}
-                  <div className="top_header_button">
+                 
+                  {featureBannerList.title && (
+                    <div className="top_header_button">
                     {featureBannerList.title}
                   </div>
+                  )}
+                   
                   {featureBannerList.url !='' &&
                   <div className="bottom_footer_button">See more</div>
                     }
@@ -36,11 +40,14 @@ const FeatureBanner = ({featureBannerList}) => {
                   className="gw-card-layout2 box-card-item"
                   style={{ background: `url(${baseUrl}${featureBannerList.photo_m1})` }}
                 >
-                  <div className="main-title white-text">
-                    {featureBannerList.title_m1}
-                  </div>
+                  {featureBannerList.title_m1 && (
+                    <div className="main-title white-text">
+                      {featureBannerList.title_m1}
+                    </div>
+                  )}
+                  
                   {featureBannerList.url_m1 !='' &&
-                  <div className="bottom_footer_button">See more</div>
+                    <div className="bottom_footer_button">See more</div>
                     }
                 </div>
               </Link>
@@ -49,9 +56,12 @@ const FeatureBanner = ({featureBannerList}) => {
                   className="gw-card-layout2 box-card-item"
                   style={{ background: `url(${baseUrl}${featureBannerList.photo_m3})` }}
                 >
-                  <div className="main-title">
-                  {featureBannerList.title_m3}
-                  </div>
+                  {featureBannerList.title_m3 && ( 
+                    <div className="main-title">
+                      {featureBannerList.title_m3}
+                    </div>
+                  )}
+                  
                   {featureBannerList.url_m3 !='' &&
                   <div className="bottom_footer_button">See more</div>
                     }
@@ -65,9 +75,12 @@ const FeatureBanner = ({featureBannerList}) => {
                   className="gw-card-layout2 box-card-item"
                   style={{ background: `url(${baseUrl}${featureBannerList.photo_m2})` }}
                 >
-                  <div className="main-title">
-                  {featureBannerList.title_m2}
-                  </div>
+                  {featureBannerList.title_m2 && (
+                    <div className="main-title">
+                        {featureBannerList.title_m2}
+                    </div>
+                  )}
+                 
                   {featureBannerList.url_m2 !='' &&
                   <div className="bottom_footer_button">See more</div>
                     }
@@ -78,9 +91,12 @@ const FeatureBanner = ({featureBannerList}) => {
                   className="gw-card-layout2 box-card-item"
                   style={{ background: `url(${baseUrl}${featureBannerList.photo_m4})` }}
                 >
-                  <div className="main-title white-text">
-                  {featureBannerList.title_m4}
-                  </div>
+                  {featureBannerList.title_m4 && (
+                    <div className="main-title white-text">
+                      {featureBannerList.title_m4}
+                    </div>
+                  )}
+                  
                   {featureBannerList.url_m4 !='' &&
                   <div className="bottom_footer_button">See more</div>
                     }
@@ -96,9 +112,12 @@ const FeatureBanner = ({featureBannerList}) => {
                 >
                   {/* <h2>Toys under $499</h2> */}
                   {/*  <div className="img_big2"> <img src={`${baseUrl}front/assets/images/banner01.jpg`}> </div> */}
-                  <div className="top_header_button">
-                  {featureBannerList.title_r}
-                  </div>
+                  {featureBannerList.title_r && (
+                    <div className="top_header_button">
+                      {featureBannerList.title_r}
+                    </div>
+                  )}
+                  
                   {featureBannerList.url_r !='' &&
                   <div className="bottom_footer_button">See more</div>
                     }

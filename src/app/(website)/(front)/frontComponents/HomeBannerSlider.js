@@ -57,11 +57,15 @@ const HomeBannerSlider = () => {
               }}
             >
               <div className="banner-one-inner-content">
-                <span className="pre">{bannerList.subtitle}</span>
-                <h1 className="title">{bannerList.title}</h1>
-                <div className="offer-text">
-                  Starting At Only <span>${bannerList.price}</span>
-                </div>
+                {bannerList.subtitle && (<span className="pre">{bannerList.subtitle}</span>)} 
+                {bannerList.title && (<h1 className="title">{bannerList.title}</h1>)} 
+                {bannerList.price && ( 
+                  <div className="offer-text">
+                       Starting At Only <span>${bannerList.price}</span>
+                  </div>
+                )}
+               
+                {bannerList.url && ( 
                 <Link
                   href={`${bannerList.url}`}
                   className="rts-btn btn-primary radious-sm with-icon"
@@ -71,6 +75,9 @@ const HomeBannerSlider = () => {
                     <i className="fa-light fa-arrow-right" />
                   </div>
                 </Link>
+
+                )}
+                
               </div>
             </div>
           </SwiperSlide>

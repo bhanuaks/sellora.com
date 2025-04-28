@@ -591,8 +591,8 @@ const UserRegisterPage = () => {
                                     checked={userData.term_n_condition == "accept"?true:false}
                                 />  I agree to (a)
                                 &nbsp;<Link href="#">Free Membership Agreement</Link>, (b)
-                                &nbsp;<Link href="#">Terms of Use</Link>, and (c)
-                                &nbsp;<Link href="#">Privacy Policy</Link>. I agree to receive
+                                &nbsp;<Link href="/help-center/terms-of-use">Terms of Use</Link>, and (c)
+                                &nbsp;<Link href="/help-center/privacy-policy">Privacy Policy</Link>. I agree to receive
                                 more information from sellora.com about its products
                                 and services.
 
@@ -628,7 +628,7 @@ const UserRegisterPage = () => {
                                 </div>
                                 <div className="new_customer">
                                   Already have an account?
-                                  <Link href="/user/login">Sign in</Link>
+                                  {" "} <Link href="/user/login">Sign in</Link>
                                 </div>
                               </div>
                             </form>
@@ -639,32 +639,7 @@ const UserRegisterPage = () => {
                   </div>
                 </div>
               </div>
-              {/*   <h3 className="title animated fadeIn">Login Into Your Account</h3>
-                  <form action="#" className="registration-form">
-                      <div className="input-wrapper">
-                          <label for="email">Email*</label>
-                          <input type="email" id="email">
-                      </div>
-                      <div className="input-wrapper">
-                          <label for="password">Password*</label>
-                          <input type="password" id="password">
-                      </div>
-                      <button className="rts-btn btn-primary">Login Account</button>
-                      <div className="another-way-to-registration">
-                          <div className="registradion-top-text">
-                              <span>Or Register With</span>
-                          </div>
-                          <div className="login-with-brand">
-                              <Link href="#" className="single">
-                                  <img src={`${baseUrl}front/assets/images/form/google.svg`} alt="login">
-                              </Link>
-                              <Link href="#" className="single">
-                                  <img src={`${baseUrl}front/assets/images/form/facebook.svg`} alt="login">
-                              </Link>
-                          </div>
-                          <p>Already Have Account? <Link href="#">Login</Link></p>
-                      </div>
-                  </form> */}
+              
             </div>
           </div>
         </div>

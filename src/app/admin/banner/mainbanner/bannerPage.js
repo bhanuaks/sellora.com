@@ -62,11 +62,9 @@ function BannerPage() {
     setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
   };
   const validate = () => {
-    const errors = {};
-
-    // Validation checks
-    if (!formData.title) {
-      errors.title = "Title is required.";
+    const errors = {}; 
+    if (!formData.photo) {
+      errors.photo = "file is required.";
     }
     return errors;
   }
@@ -81,11 +79,11 @@ function BannerPage() {
     }
 
     const formDataToSubmit = new FormData();
-    formDataToSubmit.append('id', formData._id);
-    formDataToSubmit.append('title', formData.title);
-    formDataToSubmit.append('subtitle', formData.subtitle);
-    formDataToSubmit.append('price', formData.price);
-    formDataToSubmit.append('url', formData.url);
+    formDataToSubmit.append('id', formData._id || "");
+    formDataToSubmit.append('title', formData.title ||  "");
+    formDataToSubmit.append('subtitle', formData.subtitle || "");
+    formDataToSubmit.append('price', formData.price || "");
+    formDataToSubmit.append('url', formData.url || "");
     formDataToSubmit.append('status', formData.status);
      
 
@@ -472,7 +470,7 @@ function addModeField(){
                             className="form-control"
                             type="text"
                             name="title"
-                            required
+                            
                             value={formData.title}
                             onChange={handleChange}
                             placeholder="Enter title"
@@ -489,7 +487,7 @@ function addModeField(){
                             className="form-control"
                             type="text"
                             name="subtitle"
-                            required
+                            
                             value={formData.subtitle}
                             onChange={handleChange}
                             placeholder="Enter sub title"
@@ -507,7 +505,7 @@ function addModeField(){
                             className="form-control"
                             type="number"
                             name="price"
-                            required
+                            
                             value={formData.price}
                             onChange={handleChange}
                             placeholder="Enter price"

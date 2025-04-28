@@ -56,7 +56,7 @@ export async function POST(req) {
 
 
         const uploadingPath = "public/uploads/banner/banner/";
-        await uploadImageFun(photo, uploadingPath, imageName, 402)
+        await uploadImageFun(photo, uploadingPath, imageName, 322)
         photoPath = `/uploads/banner/banner/${imageName}`
         if(exitBanner && exitBanner.photo){
           await deleteImageOne(exitBanner.photo);
@@ -77,9 +77,9 @@ export async function POST(req) {
       }
 
       // Update category
-      banner.title = title || banner.title;
-      banner.pid = pid || banner.pid;
-      banner.url = url || banner.url;
+      banner.title = title || "";
+      banner.pid = pid || "";
+      banner.url = url || "";
       banner.photo = photoPath || banner.photo; 
       
       await banner.save();

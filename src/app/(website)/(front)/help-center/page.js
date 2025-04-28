@@ -34,15 +34,20 @@ function page() {
             <div className="contact-left-area-main-wrapper text-center">
               <h2>How Can We Help You ?</h2>
               <div className="help-options">
+                  <Link href="/help-center/track-your-order" >
                 <div className="option">
                   {" "}
-                  <img
-                    src={`${baseUrl}front/assets/images/track-my-order.jpg`}
-                    alt="Track my order"
-                  />{" "}
-                  <span>Track my order</span>{" "}
+                   
+                      <img
+                        src={`${baseUrl}front/assets/images/track-my-order.jpg`}
+                        alt="Track my order"
+                      />{" "}
+                      <span>Track my order</span>{" "}
+                   
                 </div>
+                  </Link>
                 {/* <div class="option"> <img src="assets/images/phone.jpg" alt="Contact Us"> <span>Contact Us</span> </div> */}
+                <Link href="/help-center/pick-up-and-delivery" >
                 <div className="option">
                   {" "}
                   <img
@@ -51,6 +56,7 @@ function page() {
                   />{" "}
                   <span>Pick Up &amp; Delivery</span>{" "}
                 </div>
+                </Link>
               </div>
             </div>
           </div>

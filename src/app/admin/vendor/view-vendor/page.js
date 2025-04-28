@@ -197,28 +197,29 @@ function Page() {
                           <input type="date" id="to_date" name="to_date" value={formData.to_date} onChange={handleChange} className="form-control" />
                         </div>
                       </div>
-                      <div className="col-lg-3">
+                      {/* <div className="col-lg-3">
                         <div className="mb-3">
                           <label htmlFor="seller_name" className="form-label">Select Vendor</label>
                           <select className="form-select" id="seller_name" name="seller_name" value={formData.seller_name} onChange={handleChange}>
                             <option value="">All</option>
                             {sellerName.length > 0 && (
                               sellerName.map((seller, index) => (
-                                <option key={index} value={seller.name || seller.id}>
+                                <option key={index} value={seller._id}>
                                   {seller.name || 'All'}
                                 </option>
                               ))
                             )}
                           </select>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-lg-2">
                         <div className="mb-3">
-                          <label htmlFor="approval_status" className="form-label">Status</label>
+                          <label htmlFor="approval_status" className="form-label">Approve Status</label>
                           <select className="form-select" id="approval_status" name="approval_status" value={formData.approval_status} onChange={handleChange}>
                             <option value="">All</option>
-                            <option value="Active">Active</option>
-                            <option value="Deactive">Deactive</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
                           </select>
                         </div>
                       </div>
@@ -263,7 +264,7 @@ function Page() {
                         sellers.map((value, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{value.name}</td>
+                            <td><a href={`/admin/vendor/view-vendor/${value._id}`}>{value.name}</a> </td>
                             <td>{value.mobile}</td>
                             <td>{value.email}</td>
                             <td>{value?.sellerBusinessData?.[0]?.business_name || 'N/A'}</td>

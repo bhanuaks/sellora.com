@@ -17,7 +17,7 @@ function TrackYourOrder() {
     <ul className="list_3">
       <li>Sign in to your Sellora.com account.</li>
       <li>On Sellora.com, select Account.</li>
-      <li>Select Purchase History</li>
+      <li>Select <a href='/user/myorders' target='_blank'>Purchase History</a></li>
       <li>Select Track Shipment.</li>
     </ul>
   </div>

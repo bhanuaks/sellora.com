@@ -60,7 +60,7 @@ export default function ImageModal({modalIsOpen, setIsOpen, path,type}) {
             style={{ border: 'none' }}
           ></iframe>
           ):( 
-            <img src={`${baseUrl}${path}`} alt='cirtificate' />
+            <img src={`${baseUrl}${path}`} alt='cirtificate' style={{maxWidth:"100%"}} />
           )}
          </div>
       </Modal>

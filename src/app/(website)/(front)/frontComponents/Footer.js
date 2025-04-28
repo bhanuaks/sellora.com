@@ -69,10 +69,10 @@ function Footer() {
               <div className="footer-nav">
                 <ul>
                   <li>
-                    <Link href="/payment">Payment</Link>
+                    <Link href="/help-center/payment">Payment</Link>
                   </li>
                   <li>
-                    <Link href="/shipping">Shipping</Link>
+                    <Link href="/help-center/delivery-information">Shipping</Link>
                   </li>
                   {/* <li>
                     <Link href="/cancellation-and-return">
@@ -97,24 +97,24 @@ function Footer() {
               <div className="footer-nav">
                 <ul>
                   <li>
-                    <Link href="/terms-of-use">Terms of Use</Link>
+                    <Link href="/help-center/terms-of-use">Terms of Use</Link>
                   </li>
                   <li>
-                    <Link href="/privacy-policy">Privacy Policy</Link>
+                    <Link href="/help-center/privacy-policy">Privacy Policy</Link>
                   </li>
                   
                   <li>
-                    <Link href="/cancellation-return-policy">
+                    <Link href="/help-center/cancellation-policy">
                       Cancellation &amp; Return Policy
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link href="/delivery-information">
                       Delivery Information
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
-                    <Link href="/faq">FAQ</Link>
+                    <Link href="/help-center/faq">FAQ</Link>
                   </li>
                 </ul>
               </div>

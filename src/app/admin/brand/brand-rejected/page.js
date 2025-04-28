@@ -111,20 +111,36 @@ function page() {
                             <td>
                               <p>{child.name}</p>
                               <p>Brand Owner : {child.brand_owner}</p>
-                             <p><span onClick={()=>viewFile(child.certificate)} style={{cursor:"pointer"}}>Brand File</span>  
+                             <p><span onClick={()=>viewFile(child.certificate)} style={{color:'#0000ffd6', cursor:"pointer"}}>View Certificate</span>  
                                {/* <i className="fa fa-edit" /> */}
                                </p>
                             </td>
                             <td>
-                              <p>Selling  Other Platform : {child.are_you_selling_in_other_platform}</p>
-                              <p>Plateform Name : {child.platform_name}</p>
-                              <p>Store Link <Link href={child.platform_link}><i className="fa fa-edit" /></Link> </p>
+                            <div style={{maxWidth:"200px"}}>
+                                <p>Selling  Other Platform : {child.are_you_selling_in_other_platform}</p> 
+                                {child.platform_name  && (
+                                <p>Plateform Name : {child.platform_name}</p> 
+                                )}
+
+                                {child.platform_link && ( 
+                                    <p>Store Link: <Link href={child.platform_link} style={{color:'#0000ffd6', cursor:"pointer"}} >{child.platform_link}</Link> </p>
+                                )}
+                              </div>
+
                             </td>
                             <td>
+                            {child.tm_number && ( 
                               <p>Enter TM Number : {child.tm_number}</p>
+                            )}
+                            {child.tm_status && ( 
                               <p>TM Status : {child.tm_status}</p>
+                            )}
+                            {child.tm_class && ( 
                               <p>Enter TM Class : {child.tm_class}</p>
+                            )}
+                            {child.tm_type && ( 
                               <p>TM Type : {child.tm_type}</p>
+                            )}
                             </td>
                             <td>{child.seller_id.name}</td>
                             <td><div className='active2'>Rejected</div></td>
