@@ -66,7 +66,7 @@ export async function POST(request) {
         
         const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
         if(email && !regex.test(email)){
-            errors.email = `Email is not valid?` 
+            errors.email = `Email is not valid.` 
         }
         if (mobile && !/^\d+$/.test(mobile)) {
             errors.mobile = "Only numeric values allowed.";

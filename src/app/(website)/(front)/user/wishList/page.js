@@ -183,6 +183,7 @@ function page() {
   }
 
   const handleSearchButton = (e) => {
+    e.preventDefault()
     //setSearchButton(searchVal)
     //setSearchVal(searchVal)
     fetchData(user?._id, sortVal, searchVal)
@@ -273,6 +274,7 @@ function page() {
                 </div>
                 <div className="col-lg-2">
                   <div className="relativ">
+                    <form name="search" onSubmit={handleSearchButton}>
                     <div className="searchBar">
                       <input
                         type="text" 
@@ -285,6 +287,7 @@ function page() {
                         <i className="fa fa-search fa-lg" />
                       </div>
                     </div>
+                    </form>
                   </div>
                 </div>
                 <div className="col-lg-2">

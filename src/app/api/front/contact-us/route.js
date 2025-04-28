@@ -62,11 +62,11 @@ export async function POST(request) {
         if(isEmpty(userCaptcha))errors.captcha = `Captcha is required.`
 
         if(userCaptcha && captcha != userCaptcha){ 
-            errors.captcha = `Captcha is not valid?` 
+            errors.captcha = `Captcha is not valid.` 
         }
         const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
         if(email && !regex.test(email)){
-            errors.email = `Email is not valid?` 
+            errors.email = `Email is not valid.` 
         }
         if (!/^\d+$/.test(mobile)) {
             errors.mobile = "Only numeric values allowed.";

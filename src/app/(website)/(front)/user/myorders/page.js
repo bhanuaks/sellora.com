@@ -46,6 +46,7 @@ function page() {
   }
 
   const handleSearchButton = (e) => {
+    e.preventDefault()
     fetchSearchAll(searchVal, yearSearch, searchTabVal)
   }
   
@@ -161,14 +162,14 @@ useEffect(() => {
                     <div className="orderTop">
                       <h2 className="hidden-xs">My Orders</h2>
                       <div className="search-container2">
-                        <form name="search">
+                        <form name="search" onSubmit={handleSearchButton}>
                           <input
                             type="text"
                             placeholder="Search all orders"
                             name="search"
                             onChange={handleSearch}
                           />
-                          <button type="button" onClick={handleSearchButton}>
+                          <button type="submit" onClick={handleSearchButton}>
                             <i className="fa fa-search" />
                           </button>
                         </form>

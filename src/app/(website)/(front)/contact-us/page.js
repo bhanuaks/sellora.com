@@ -253,7 +253,7 @@ const page = () => {
               </div>
               <div className="contact-form-wrapper--half-area">
                 <div className="single">
-                  <input type="text" id="mobile_code" ref={phoneInputRef} placeholder="Phone Number" name="mobile" value={formData.mobile} onChange={handleChange} />
+                  <input type="number" id="mobile_code" ref={phoneInputRef} placeholder="Phone Number" name="mobile" value={formData.mobile} onChange={handleChange} />
                   {errors.mobile && (
                             <>
                             <span className="text-danger">{errors.mobile}</span>
