@@ -328,7 +328,10 @@ export default function Home() {
         <div className="container">
           <div className="row g-5">
             <div className="col-lg-6">
-              <div className="feature-product-area-large-2 bg_image" style={{ backgroundImage: `url(${baseUrl}${dealBannerLeft.photo})` }}>
+              <div className="feature-product-area-large-2 bg_image" style={{ backgroundImage: `url(${baseUrl}${dealBannerLeft.photo})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'top'
+                     }}>
                 <div className="inner-feature-product-content">
                   {/*     <span>Weekend Discount</span> */}
                   {dealBannerLeft?.title &&
@@ -348,7 +351,11 @@ export default function Home() {
               </div>
             </div>
             <div className="col-lg-6">
-              <div className="feature-product-area-large-2 bg_2 bg_image" style={{ backgroundImage: `url(${baseUrl}${dealBannerRight.photo})` }}>
+              <div className="feature-product-area-large-2 bg_2 bg_image" style={{ backgroundImage: `url(${baseUrl}${dealBannerRight.photo})` 
+                ,
+                backgroundSize: 'cover',
+                backgroundPosition: 'top'
+              }}>
                 <div className="inner-feature-product-content">
                   {/*  <span>Weekend Discount</span> */}
                   {dealBannerRight?.title &&
@@ -386,10 +393,8 @@ export default function Home() {
         {homeTrendingList &&
           <HomeTrendingItems recommendationList={homeTrendingList} />
         }
-      </Suspense>
-
-
-
+      </Suspense> 
+      
       <Suspense fallback={<div className='row'>Loading...</div>}>
         {featureBannerList &&
           <FeatureBanner featureBannerList={featureBannerList} />

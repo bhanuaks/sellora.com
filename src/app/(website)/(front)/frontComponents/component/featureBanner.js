@@ -89,7 +89,10 @@ const FeatureBanner = ({featureBannerList}) => {
               <Link href={featureBannerList.url_m4 !=''?`${featureBannerList.url_m4}`:`#`}>
                 <div
                   className="gw-card-layout2 box-card-item"
-                  style={{ background: `url(${baseUrl}${featureBannerList.photo_m4})` }}
+                  style={{ background: `url(${baseUrl}${featureBannerList.photo_m4})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'top'
+                  }}
                 >
                   {featureBannerList.title_m4 && (
                     <div className="main-title white-text">
@@ -108,7 +111,11 @@ const FeatureBanner = ({featureBannerList}) => {
               <Link href={featureBannerList.url_r !=''?`${featureBannerList.url_r}`:`#`}>
                 <div
                   className="gw-card-layout p0 box-card-item"
-                  style={{ background: `url(${baseUrl}${featureBannerList.photo_r})` }}
+                  style={{ background: `url(${baseUrl}${featureBannerList.photo_r})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'top'
+                   }}
+                  
                 >
                   {/* <h2>Toys under $499</h2> */}
                   {/*  <div className="img_big2"> <img src={`${baseUrl}front/assets/images/banner01.jpg`}> </div> */}

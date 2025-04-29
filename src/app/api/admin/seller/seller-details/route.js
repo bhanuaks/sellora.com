@@ -1,5 +1,6 @@
 import { responseFun } from "@/Http/helper";
-import { sellerModel, sellerPickupAddressModel, sellerReturnAddressModel, sellorAccountInformationModel, sellorCardInformationModel, sellorSettingModel, sellorShippingTempleteModel } from "@/Http/Models/sellerModel";
+import { sellerModel, sellerPickupAddressModel, sellerReturnAddressModel, sellorAccountInformationModel, sellorBusinessAndBeneficiaryAddressModel, sellorCardInformationModel, sellorSettingModel, sellorShippingTempleteModel } from "@/Http/Models/sellerModel";
+import { sellerTaxInformationModel } from "@/Http/Models/sellerTaxInformation";
 import mongoose from "mongoose";
 
 
@@ -17,6 +18,8 @@ export async function GET(request) {
         const sippingTemplete = await sellorShippingTempleteModel.find({seller_id: new mongoose.Types.ObjectId(seller_id)}).lean();
         const accountInfo = await sellorAccountInformationModel.findOne({seller_id: new mongoose.Types.ObjectId(seller_id)}).lean();
         const cartInfo = await sellorCardInformationModel.findOne({seller_id: new mongoose.Types.ObjectId(seller_id)}).lean();
+        const businessInfo = await sellorBusinessAndBeneficiaryAddressModel.findOne({seller_id: new mongoose.Types.ObjectId(seller_id)}).lean();
+        const taxInfo = await sellerTaxInformationModel.findOne({seller_id: new mongoose.Types.ObjectId(seller_id)}).lean();
         const sellerData = {
             ...seller.toObject(),
             pickupAddress,
@@ -24,7 +27,9 @@ export async function GET(request) {
             Setting,
             sippingTemplete,
             accountInfo,
-            cartInfo
+            cartInfo,
+            businessInfo,
+            taxInfo
         }
         return responseFun(true, sellerData, 200)
     }catch(error){

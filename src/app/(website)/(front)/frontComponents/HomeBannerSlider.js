@@ -53,7 +53,9 @@ const HomeBannerSlider = () => {
                 index === 0 ? 'two' : ''
               } `}
               style={{
-                backgroundImage: `url(${baseUrl}${bannerList.photo})`,
+                backgroundImage: `url(${baseUrl}${bannerList.photo}) `,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '100% 100%',
               }}
             >
               <div className="banner-one-inner-content">

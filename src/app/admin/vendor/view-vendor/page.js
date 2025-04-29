@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 function Page() {
   const [sellers, setSellers] = useState([]);
   const [sellerName, setSellerName] = useState([]);
+  const [pagination, setPagination] = useState(null)
   
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -36,6 +37,7 @@ function Page() {
         setSellers(result.data);
         setSellerName(result.sellerName);
         setTotalPages(result.totalPages);
+        setPagination(result.pagination)
       } else {
         alert(result.message || 'Failed to fetch sellers.');
       }
@@ -158,6 +160,13 @@ function Page() {
     fetchSeller(currentPage, formData);
   }, [currentPage, formData]);
 
+
+  
+  function paginationFun(page, size, e){
+    e.preventDefault();
+    setCurrentPage(page)
+  }
+
   return (
     <div className="main-content">
       <div className="page-content">
@@ -243,7 +252,7 @@ function Page() {
           <div className="col-lg-12">
             <div className="card">
               <div className="card-body">
-                <div className="table-responsive">
+                <div className="table-responsive fixTableHead"  >
                   <table className="table table-bordered table-hover">
                     <thead>
                       <tr>
@@ -263,13 +272,12 @@ function Page() {
                       {sellers.length > 0 ? (
                         sellers.map((value, index) => (
                           <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td><a href={`/admin/vendor/view-vendor/${value._id}`}>{value.name}</a> </td>
+                            <td>{((pagination.page -1) * pagination.pageSize) + (index+1) }</td>
+                            <td><a href={`/admin/vendor/view-vendor/${value._id}`} target='_blank'>{value.name}</a> </td>
                             <td>{value.mobile}</td>
                             <td>{value.email}</td>
                             <td>{value?.sellerBusinessData?.[0]?.business_name || 'N/A'}</td>
-                            <td>{value?.sellerBusinessData?.[0]?.business_address || 'N/A'}</td>
-
+                            <td>{value?.sellerBusinessData?.[0]?.business_address || 'N/A'}</td> 
                             <td>{value.show_password? decryptText(value.show_password):''}</td>
                             <td>
                               <div style={{maxWidth:'80px'}}> 
@@ -299,27 +307,74 @@ function Page() {
                       )}
                     </tbody>
                   </table>
-                                {/* <div className="pagination-container">
-                  <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="btn btn-secondary"
-                  >
-                    Previous
-                  </button>
-                  <span>
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="btn btn-secondary"
-                  >
-                    Next
-                  </button>
-                </div> */}
+                                
+                
                 </div>
+
+                
               </div>
+
+              <div className="fixed-table-pagination">
+        <div className="row">
+          <div className="col-lg-8"> </div>
+          <div className="col-lg-4">
+            <div className="pull-right  pagination d-flex">
+              
+              {pagination && pagination.totalPages>1 ?(
+                  <ul className="pagination">
+
+                    
+                  <li className={`page-pre ${pagination.page <= 1? "pointer-events-none opacity-50 deactive_btn":""}`}>
+                    <Link href="#" onClick={(e)=>{
+                      if(pagination.page > 1){ 
+                        paginationFun((pagination.page-1),  pagination.pageSize, e)
+                      }else{
+                        e.preventDefault();
+                      }
+                    }
+                      }> 
+                      <i className="fa fa-arrow-left" />
+                    </Link>
+                  </li>
+                  
+
+            {Array.from({length:pagination.totalPages}, (_, i)=>{
+                if (Math.abs(pagination.page - (i + 1)) <= 3) {
+                  return ( 
+                    <li className={`page-number current  ${i} ${pagination.page== (i+1)?'active':''}`} key={i} >
+                        <a   href="#"  onClick={(e)=>paginationFun((i+1),  pagination.pageSize, e)}>
+                          {i + 1} 
+                        </a>
+                    </li> 
+                  );
+                } 
+                return null; 
+               })} 
+                  
+                  <li
+                      className={`page-next ${pagination.page == pagination.totalPages ? "pointer-events-none opacity-10 deactive_btn" : ""}`}
+                    >
+                      <Link
+                        href="#"
+                        onClick={(e) => {
+                          if (pagination.page < pagination.totalPages) {
+                            paginationFun(parseInt(pagination.page) + 1, pagination.pageSize, e);
+                          } else {
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        <i className="fa fa-arrow-right" />
+                      </Link>
+                    </li>
+                  </ul>
+              ):null}
+             
+            </div>
+          </div>
+        </div>
+      </div>
+
             </div>
           </div>
         </div>

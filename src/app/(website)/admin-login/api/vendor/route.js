@@ -28,8 +28,8 @@ export async function GET(req) {
     const data = await sellerModel
       .find(filter)
       .sort({ createdAt: -1 })
-      // .skip((page - 1) * limit)
-      // .limit(limit) 
+      .skip((page - 1) * limit)
+      .limit(limit) 
       .select('+show_password');
     
         const sellerBusiness = await Promise.all(
@@ -42,13 +42,22 @@ export async function GET(req) {
             }) 
         ) 
         
-        const totalRecords = await sellerModel.countDocuments();
+
+        const totalRecords = await sellerModel.countDocuments(filter);
         const totalPages = Math.ceil(totalRecords / limit);
+        let pagination= {
+          totalCount:totalRecords,
+          page,
+          pageSize:limit, 
+          totalPages,
+      };
+
+       
 
         const sellerName = await sellerModel
         .find({ status: 'Active' }) 
         .select('name')
-        .sort({ name: 1 }).lean();;
+        .sort({ name: 1 }).lean();
 
     return new Response(
         JSON.stringify({ 
@@ -57,6 +66,7 @@ export async function GET(req) {
             totalRecords,
             totalPages,
             sellerName,
+            pagination,
             message: 'Seller fetch successfully'
          }),
         { status: 200 }

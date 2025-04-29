@@ -1,10 +1,11 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import SellerDetails from "../SellerDetails";
 import { apiRequest } from "@/Http/apiHelper";
 
 function page({ params }) {
-  const seller_id = params.seller_id;
+  // const seller_id = params.seller_id;
+  const { seller_id } = use(params);
     const [seller, setSeller] = useState(null) 
 
   async function getSellerDetails(seller_id) {
@@ -25,7 +26,7 @@ function page({ params }) {
     <div className="main-content">
       <div className="page-content">
         <div className="container-fluid">
-          <SellerDetails />
+          <SellerDetails seller={seller} />
         </div>
       </div>
     </div>

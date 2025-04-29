@@ -23,9 +23,9 @@ import {
 import { fileBasePath } from "@/Http/urlHelper";
 import React from "react";
 
-function ProductListTable({ productList, ApproveProduct, approveProccess }) {
+function ProductListTable({ productList, ApproveProduct, approveProccess, pagination }) {
   return (
-    <div className="table-responsive">
+    <div className="table-responsive fixTableHead">
       {/* id="example2" */}
       <table
         className="table table-bordered table-hover"
@@ -58,7 +58,7 @@ function ProductListTable({ productList, ApproveProduct, approveProccess }) {
           {productList.length > 0 &&
             productList.map((item, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
+                <td>{((pagination.page -1) * pagination.pageSize) + (index+1) }</td>
                 <td>{item?.seller?.name}</td>
                 <td>
                   
