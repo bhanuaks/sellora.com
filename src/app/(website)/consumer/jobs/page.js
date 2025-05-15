@@ -1,20 +1,24 @@
 "use client"
 import Link from 'next/link'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import {  toast } from 'react-toastify';
-import { useRouter } from 'next/navigation'; 
+import { useRouter, useSearchParams } from 'next/navigation'; 
 
 
-const page = () => {
+const JobPage = () => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState([]);
   const [locations, setLocations] = useState([]);
   const [jobs, setJobs] = useState([]);
   const router = useRouter();
-  
+  const jobSectionRef = useRef();
+  const searchParams = useSearchParams();
+  const category_slug = searchParams.get("category") || "";
+   
+
   const [searchData, setSearchData] = useState({
-      jobTitle: "",
-      location: "",
+      jobTitle: searchParams.get("jobTitle") || "",
+      location: searchParams.get("location") || "",
   });
   
  
@@ -65,7 +69,9 @@ const page = () => {
     
     
     try {
+      $('.loaderouter').css('display', 'flex')
       const response = await fetch(`/api/career/job?status=Active&categoryF=${category}&jobTitle=${searchData.jobTitle}&location=${searchData.location}`);
+      $('.loaderouter').css('display', 'none')
       const result = await response.json();
       if (response.ok) {
        setJobs(result.data);
@@ -107,9 +113,16 @@ const page = () => {
       }
       const token = sessionStorage.getItem('careerToken');
         if (!token) {
-          router.push("/consumer/candidate-login");
+          // router.push("/consumer/candidate-login");
         }
     }, []);
+
+
+     useEffect(() => {
+    if (jobSectionRef.current && category_slug) {
+     jobSectionRef.current.scrollIntoView({  behavior: "smooth" });
+    }
+  }, [category_slug]);
   return (
     <>
   <section className="page-title jobs-bg">
@@ -126,7 +139,7 @@ const page = () => {
       </div>
     </div>
   </section>
-  <section className="shop-grid-sidebar-area rts-section-gap job-section">
+  <section className="shop-grid-sidebar-area rts-section-gap job-section" ref={jobSectionRef}>
     <div className="container">
       <div className="row">
         <div className="col-lg-12">
@@ -161,7 +174,7 @@ const page = () => {
               </h1>
             </div>
           </div>
-          <div className="search-sec job-search-sec">
+          <div className="search-sec job-search-sec" >
             <form onSubmit={handleSubmit} method="post" noValidate="novalidate">
               <div className="row">
                 <div className="col-lg-9 col-md-10 col-sm-10">
@@ -242,4 +255,12 @@ const page = () => {
   )
 }
 
+
+const page = () => {
+  return (
+    <Suspense fallback={<>Loading</>}>
+      <JobPage/>
+    </Suspense>
+  )
+}
 export default page

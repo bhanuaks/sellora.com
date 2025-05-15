@@ -48,40 +48,14 @@ const HomeBannerSlider = () => {
       >
         {banner.map((bannerList, index) => (
           <SwiperSlide key={index}>
-            <div
-              className={`banner-bg-image bg_image bg_one-banner ${
-                index === 0 ? 'two' : ''
-              } `}
-              style={{
-                backgroundImage: `url(${baseUrl}${bannerList.photo}) `,
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: '100% 100%',
-              }}
-            >
-              <div className="banner-one-inner-content">
-                {bannerList.subtitle && (<span className="pre">{bannerList.subtitle}</span>)} 
-                {bannerList.title && (<h1 className="title">{bannerList.title}</h1>)} 
-                {bannerList.price && ( 
-                  <div className="offer-text">
-                       Starting At Only <span>${bannerList.price}</span>
-                  </div>
-                )}
-               
-                {bannerList.url && ( 
-                <Link
-                  href={`${bannerList.url}`}
-                  className="rts-btn btn-primary radious-sm with-icon"
-                >
-                  <div className="btn-text">Shop Now</div>
-                  <div className="arrow-icon">
-                    <i className="fa-light fa-arrow-right" />
-                  </div>
-                </Link>
 
-                )}
-                
-              </div>
-            </div>
+            <a href={`${bannerList.url?bannerList.url:"#"}`}>
+                          {/* <!-- <div class="banner-bg-image bg_image" style="background: url(assets/images/banner/08.jpg) center center; background-repeat: no-repeat; background-size: 100% 100%;"> </div> --> */}
+
+                          <div className="slier_img">
+                            <img src={`${baseUrl}${bannerList.photo}`} /></div>
+                        </a> 
+           
           </SwiperSlide>
         ))}
 

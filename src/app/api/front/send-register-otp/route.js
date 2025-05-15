@@ -1,6 +1,11 @@
-import { isEmpty, responseFun } from "@/Http/helper";
+import RegisterOtpEmailTemplate from "@/app/emailTemplate/RegisterOtpEmailTemplate";
+import { dynamincOtp, isEmpty, responseFun } from "@/Http/helper";
 import { userModal } from "@/Http/Models/userModel";
 import { NextResponse } from "next/server";
+import React from "react";
+import { sendMailByNodeMailer } from "../../sendMail/route";
+import { sendMobileSMS } from "@/Http/smsHelper";
+const ReactDOMServer =  require('react-dom/server');
 
 
 export async function POST(request) {
@@ -60,32 +65,45 @@ export async function POST(request) {
                     return responseFun(false, {errors, status_code:400}, 200); 
                 }
          
-        const new_otp = 123456  
+        const new_otp = dynamincOtp(100000, 999999)  
         const subject = "Registration OTP";
         const message = `<p>Registration OTP is ${new_otp}. This otp valid for 5 minutes.</p>` 
           
-        return sentOtoFun(mobile, new_otp, subject, message);  
+        return sentOtoFun(mobile, new_otp, subject, message, email, full_name, mobile_code);  
          
     }catch(error){
         console.log(error);
-        return responseFun(false, {error}, 200);
+        return responseFun(false, {error:error.message}, 200);
     }
 
 }
 
 
-export function sentOtoFun(mobile, otp, subject, message){
+export async function sentOtoFun(mobile, otp, subject, message, email, full_name, mobile_code){
     const new_otp = otp  
     const expirationTime =  Date.now() + (5 * 60 * 1000);
     const otpData = {
         otp:new_otp,
         otp_for:"user_otp",
-        time: new Date().getTime(), 
-       
+        time: new Date().getTime(),  
     } 
+
+    const htmlContent = ReactDOMServer.renderToString(
+        React.createElement(RegisterOtpEmailTemplate, {name:full_name, otp: new_otp})
+    )
+
+     await sendMailByNodeMailer(email, subject, htmlContent)
+
+        const sender = "sellora";
+        const receiver = `+${mobile_code}${mobile}`;
+        const message1 = `Dear ${full_name}. Your one-time password (OTP) for registeration is: ${new_otp}`;
+       const smsres = await sendMobileSMS(sender, receiver, message1);
+        
+
+
     const response = NextResponse.json({
         message:"Login Success",
-        status:true, 
+        status:true,
         expirationTime
     },  { status: 200 }); 
     response.cookies.set('user_otp', JSON.stringify(otpData), {

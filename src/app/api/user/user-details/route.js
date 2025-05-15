@@ -26,3 +26,8 @@ export async function GET(request) {
         return responseFun(false, {error}, 401)
     }
  }
+
+
+ export async function POST(params) { 
+    return responseFun(false, "", 200)
+ }

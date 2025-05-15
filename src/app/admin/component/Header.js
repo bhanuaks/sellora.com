@@ -82,9 +82,21 @@ const Header = () => {
                     <div id="sidebar-menu">
                         <ul className="metismenu list-unstyled" id="side-menu">
                               <li> <Link href="/admin/dashboard" className={`${currentPath == "/admin/dashboard"?"dashboard":''}`}> <i data-feather="home" /> <span data-key="t-dashboard">Dashboard</span></Link></li>
-                           
+{/*                            
+                            <li> <Link href="/admin/collections" className={`${currentPath == "/admin/collections"?"dashboard":''}`}> 
+                            <i data-feather="briefcase" /> <span>Collections</span> </Link> </li> 
+                            */}
+                            <li> <Link href=""   className={`has-arrow ${["/admin/collections", "/admin/view-collection" ].includes(currentPath)?"dashboard":''}`}> <i data-feather="grid" /> <span data-key="t-apps">Collections</span></Link>
+                                <ul className="sub-menu" aria-expanded="false">
+                                    <li><Link href="/admin/collections"> Create Collection</Link></li>
+                                    <li><Link href="/admin/view-collection">View Collections</Link></li> 
+                                </ul>
+                            </li>
+
+
                             <li> <Link href="/admin/add-variant" className={`${currentPath == "/admin/add-variant"?"dashboard":''}`}> 
                             <i data-feather="briefcase" /> <span>Add Variant</span> </Link> </li> 
+
 
                             <li> <Link href=""   className={`has-arrow ${["/admin/category/sub-category", "/admin/category/category", "/admin/category/child-category" ].includes(currentPath)?"dashboard":''}`}> <i data-feather="grid" /> <span data-key="t-apps">Category</span></Link>
                                 <ul className="sub-menu" aria-expanded="false">
@@ -150,6 +162,7 @@ const Header = () => {
                                 </ul>
                             </li> 
                             <li> <Link href="/admin/dealbanner" className={`  ${currentPath == "/admin/dealbanner" ?"dashboard":''}`}> <i data-feather="gift" /> <span>Deal Banner </span> </Link> </li> 
+                            <li> <Link href="/admin/dealbanner2" className={`  ${currentPath == "/admin/dealbanner2" ?"dashboard":''}`}> <i data-feather="gift" /> <span>Deal Banner 2 </span> </Link> </li> 
                             <li> <Link href="/admin/featurebanner" className={`  ${currentPath == "/admin/featurebanner" ?"dashboard":''}`}> <i data-feather="gift" /> <span>Feature Banner </span> </Link> </li>
 
                             <li> <Link href="" className={`has-arrow ${["/admin/contact-us", "/admin/report-infringement"].includes(currentPath)?"dashboard":''}`}> <i data-feather="users" /> <span data-key="t-apps">Enquiry</span> </Link>

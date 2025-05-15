@@ -549,7 +549,7 @@ function addModeField(){
                             <span className="text-danger">{errors.photo}</span>
                           )}
                         </div>
-                        <div style={{color:'red'}}><span>Note: </span> Image size of 767px (width) × 440px (height) </div>
+                        <div style={{color:'red'}}><span>Note: </span> Image size of  411px (width) × 422px (height) </div>
                       </div>
 
                       

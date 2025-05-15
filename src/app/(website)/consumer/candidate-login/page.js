@@ -60,24 +60,31 @@ const page = () => {
         }
 
         try {
-            $('.loader-container').css('display','flex')
+            $('.loaderouter').css('display','flex')
             const response = await axios.post('/api/career/career-login', {
               email,
               password,
             });
-            if (response.data.success) {
+            if (response.status) {
                 // document.cookie = `token=${response.data.token}; path=/`;
                 sessionStorage.setItem("careerToken", response.data.token); 
                 setIsAuthenticated(true);
               // router.push('/consumer/jobs');
-              window.location.href= `${baseUrl}/consumer/jobs`
+               const requestUrl = sessionStorage.getItem("requestUrl") || "";
+               if(requestUrl){
+                  sessionStorage.removeItem("requestUrl");
+                  window.location.href= requestUrl
+               }else{ 
+                 window.location.href= `${baseUrl}/consumer/jobs`
+               }
             } else {
               console.log(response.data);
-                $('.loader-container').css('display','none')
+               $('.loaderouter').css('display','none')
                 setError({password : response.data.message});
 
             }
           } catch (err) {
+            $('.loaderouter').css('display','none')
             setError({password : "Invalid Credentials"});
           }
         };
@@ -89,7 +96,7 @@ const page = () => {
     <div className="row">
       <div className="col-lg-12">
         <div className="discription-content job-apply-heading">
-          <h1 className="text-white">Candidate Login</h1>
+          <h1 className="text-white">Candidate Register/Login</h1>
         </div>
       </div>
     </div>
@@ -136,8 +143,7 @@ const page = () => {
                                     id="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="form-control"
-                                    defaultValue="password"
+                                    className="form-control" 
                                   />
                                   <i className={`toggle-password fa fa-fw ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`} 
                                     onClick={() => setShowPassword(!showPassword)}

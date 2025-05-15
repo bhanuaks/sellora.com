@@ -11,11 +11,14 @@ export function middleware(request){
     const sellerAuth = request.cookies.get('sellerAuthToken','');
     const adminAuth = request.cookies.get('adminAuthToken', '');
     const userAuth = request.cookies.get('userAuthToken', '');
+    // const career = request.cookies.get('careerToken', '');
     const requestUrl = request.nextUrl;
 
     const isSellerLogin = sellerAuth && sellerAuth.name == "sellerAuthToken";
     const isAdminLogin = adminAuth && adminAuth.name == "adminAuthToken";
     const isUserLogin = userAuth && userAuth.name == "userAuthToken";
+   
+    
     
      const accesWithoutLoginPage = ['/sellor/sell-online', '/sellor/fees-n-commission', '/sellor/grow', '/sellor/learn', '/sellor/login', '/sellor/register', '/sellor/login-otp']
     if(requestUrl.pathname.startsWith('/sellor') && !accesWithoutLoginPage.includes(requestUrl.pathname)){

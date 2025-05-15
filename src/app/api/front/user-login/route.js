@@ -5,6 +5,11 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { connectDb } from "../../../../../lib/dbConnect";
 import { userModal } from "@/Http/Models/userModel";
+import LoginOtpEmailTemplate from "@/app/emailTemplate/LoginOtpEmailTemplate";
+import { sendMailByNodeMailer } from "../../sendMail/route";
+import React from "react";
+import { sendMobileSMS } from "@/Http/smsHelper";
+const ReactDOMServer =  require('react-dom/server');
 
 
 export async function POST(request) {
@@ -24,7 +29,7 @@ export async function POST(request) {
                 { email: username },
                 { mobile: username }
             ]
-        }).select('password email mobile')
+        }).select('password email mobile_code mobile full_name')
        
         if(!user){
                 errors.username = "invalid username"
@@ -38,17 +43,22 @@ export async function POST(request) {
         }
          
 
-        const new_otp = 123456 //dynamincOtp(111111, 999999);
+        const new_otp =  dynamincOtp(111111, 999999);
         const subject = "Login Otp";
-        const message = `<p>login Otp is ${new_otp}. This otp valid for 10 minutes.</p>`
-        
+        const htmlContent = ReactDOMServer.renderToString(
+            React.createElement(LoginOtpEmailTemplate, {name:user.full_name, otp: new_otp})
+        ) 
+         await sendMailByNodeMailer(user.email, subject, htmlContent)
         const otpData = {
             otp:new_otp,
             otp_for:"Login",
             time: new Date().getTime()
         }
 
-
+        const sender = "sellora";
+        const receiver = `+${user.mobile_code}${user.mobile}`;
+        const message = `Dear ${user.full_name}. Your one-time password (OTP) for login is: ${new_otp}`;
+        await sendMobileSMS(sender, receiver, message);
         const expirationTime = Date.now() + (5 * 60 * 1000);
         const response = NextResponse.json({
             message:"Login Success",
@@ -66,7 +76,7 @@ export async function POST(request) {
 
     }catch(error){
         console.log(error);
-        return responseFun(false,{error},200)
+        return responseFun(false,{error:error.message},200)
 
     }
 }

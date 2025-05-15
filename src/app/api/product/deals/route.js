@@ -1,183 +1,166 @@
-import { isEmpty, rand, responseFun, slugify } from "@/Http/helper";
-import path from 'path'
+import { responseFun } from "@/Http/helper";
 import { productModel, productVariantModel } from "@/Http/Models/productModel";
 import { ProductReviewModal } from "@/Http/Models/ProductReview";
+import { collectionModal } from "@/Http/Models/CollectionModel";
+import mongoose from "mongoose";
+
+// product query
+const buildProductQuery = (params, collectionProductIds) => {
+  const { brands, minPrice, maxPrice } = params;
+  const objectIds = collectionProductIds;
+  
+  const query = {
+    save_as_draft: 0,
+    _id: { $in: objectIds }
+  };
+
+  if (brands) {
+    query.brand_id = { $in: brands.split(',') };
+  }
+
+  return query;
+};
+
+// variant query
+const buildVariantQuery = (productId, { minPrice, maxPrice }) => {
+  const query = {
+    product_id: productId,
+    listingStatus: 1,
+    isProcessing: 'Approved'
+  };
+
+  if (minPrice || maxPrice) {
+    query.consumerSalePrice = {};
+    if (minPrice) query.consumerSalePrice.$gte = minPrice;
+    if (maxPrice) query.consumerSalePrice.$lte = maxPrice;
+  }
+
+  return query;
+};
+
+// calculate average ratings
+const getProductRatings = async (productId, minReview) => {
+  const matchStage = { product_id: productId };
+  if (minReview > 0) {
+    matchStage.star = { $gte: minReview };
+  }
+
+  const pipeline = [
+    { $match: matchStage },
+    { $group: { _id: null, avgRating: { $avg: "$star" } } }
+  ];
+
+  const reviewAvg = await ProductReviewModal.aggregate(pipeline);
+  return reviewAvg.length > 0 ? reviewAvg[0].avgRating : 0;
+};
+
+// Helper function to sort products
+const sortProducts = (products, sortVal) => {
+  if (sortVal === 1) {
+    return [...products].sort((a, b) => a.variant.consumerSalePrice - b.variant.consumerSalePrice);
+  }
+  if (sortVal === 2) {
+    return [...products].sort((a, b) => b.variant.consumerSalePrice - a.variant.consumerSalePrice);
+  }
+  return products;
+};
 
 export async function POST(req) {
-    try {
-       
-        const url = new URL(req.url);
-        const deal = url.searchParams.get('deal');
-        const category = url.searchParams.get('category');
-        const subcategory = url.searchParams.get('subcategory');
-        const childcategory = url.searchParams.get('childcategory');
-        const brands = url.searchParams.get('brands');
-        const minPrice = url.searchParams.get('minPrice');
-        const maxPrice = url.searchParams.get('maxPrice');
-        const sortVal = url.searchParams.get('sortVal');
-        const reviewVal = url.searchParams.get('reviewVal');
+  try {
+    const url = new URL(req.url);
+    const params = {
+      deal: url.searchParams.get('deal'),
+      brands: url.searchParams.get('brands'),
+      minPrice: url.searchParams.get('minPrice'),
+      maxPrice: url.searchParams.get('maxPrice'),
+      sortVal: parseInt(url.searchParams.get('sortVal')) || 0,
+      reviewVal: parseInt(url.searchParams.get('reviewVal')) || 0,
+      page: parseInt(url.searchParams.get('page')) || 1,
+      limit: parseInt(url.searchParams.get('limit')) || 10
+    };
 
-        
-
-        const  filterBy ="";
-        const  start_price = minPrice;
-        const  end_price = maxPrice;
-        const  brand = [];
-        
-        //console.log('routessssss', category, subcategory)
-
-        let query = {};
-        query.save_as_draft = 0;
-        
-        
-        //{ brand_id: { $in: brandIds } }
-        if(brands){
-            let newBrands = brands.split(',')
-            query.brand_id= {
-                $in:newBrands
-            }
-        }
-
-        
-        //console.log('querrrrrr', query)
-        // fetch  product data
-        
-        const products = await productModel.find(query);
-        
-        //console.log('dddddd', query)
-        // get variant data
-         let productWithVariant = await Promise.all(
-                    products.map(async (prod)=>{
-                        let variantQuery = {
-                            product_id: prod._id,
-                            listingStatus: 1,
-                            isProcessing:'Approved'
-                        }; 
-
-                        if(start_price){
-                            variantQuery.consumerSalePrice  = {...variantQuery.consumerSalePrice, $gte:start_price }
-                        }
-                        if(end_price){
-                            variantQuery.consumerSalePrice = {...variantQuery.consumerSalePrice, $lte:end_price}
-                        }
-
-                        //let variantQueryBuilder = await productVariantModel.find(variantQuery).sort({consumerSalePrice:-1 })
-
-                        let variantQueryBuilder  = await productVariantModel.find(variantQuery)
-                        
-                        
-                        /* if(sortVal==1){
-                            variantQueryBuilder = await productVariantModel.find(variantQuery).sort({consumerSalePrice:1 })
-                        } else if(sortVal == 2){
-                            variantQueryBuilder = await productVariantModel.find(variantQuery).sort({consumerSalePrice:-1 })
-                        } else {
-                            variantQueryBuilder = await productVariantModel.find(variantQuery)
-                        }
-                            */
-                         
-                        
-                        //console.log("Mongoose query:");
-                        //console.log("Mongoose .find() query filter:", variantQueryBuilder.getQuery());      // filters
-                        //console.log("Mongoose .find() query options:", variantQueryBuilder.getOptions());   // sort, limit, etc.
-
-                        //await variantQueryBuilder.exec();
-                        //variantQueryBuilder = await variantQueryBuilder.exec();
-                        if (filterBy) {
-                            let sortOrder = filterBy === "ASC"? 1:-1;
-                            variantQueryBuilder = variantQueryBuilder.sort({consumerSalePrice: sortOrder }).limit(1);
-                        }
-                        //  const variant =  variantQueryBuilder; 
-
-                         
-                        
-                        if (!variantQueryBuilder.length) return null;
-
-                         
-                        let pipeline
-                        
-                        if (reviewVal > 0) {
-                            //pipeline.push({ $match: { star: 4 } });
-                            
-                            
-                                pipeline = [
-                                    { $match: { product_id: prod._id, star: { $gte : parseInt(reviewVal)} } },
-                                    { $group: { _id: null, avgRating: { $avg: "$star" } } },
-                                ];
-                            
-
-                        } else {
-                            pipeline = [
-                                { $match: { product_id: prod._id } },
-                                { $group: { _id: null, avgRating: { $avg: "$star" } } },
-                            ];
-                        }
-                        
-                        const reviewAvg = await ProductReviewModal.aggregate(pipeline);
-
-
-                        /* const reviewAvg = await ProductReviewModal.aggregate([
-                            { $match: { product_id: prod._id } },
-                            { $group: { _id: null, avgRating: { $avg: "$star" } } },
-                            
-                        ]);
-                        */
-                        //console.log('ratinggggg',reviewAvg)
-                        //const avgRating = reviewAvg.length > 0 ? reviewAvg[0].avgRating : 0;
-                        if(reviewVal > 0){
-                            if(reviewAvg.length > 0){
-                                const avgRating = reviewAvg.length > 0 ? reviewAvg[0].avgRating : 0;
-                                return {
-                                    ...prod.toObject(),
-                                    variant:variantQueryBuilder[0],
-                                    avgRating:avgRating
-                                }
-
-                            }
-                        } else {
-                            const avgRating = reviewAvg.length > 0 ? reviewAvg[0].avgRating : 0;
-                                return {
-                                    ...prod.toObject(),
-                                    variant:variantQueryBuilder[0],
-                                    avgRating:avgRating
-                                }
-
-                        }
-
-
-                    })
-                 )
-
-               productWithVariant = productWithVariant.filter((item)=> item != null)
-               
-               if(sortVal==1){
-                
-                //console.log('okkkkk')
-                productWithVariant = productWithVariant.sort(
-                    (a, b) => a.variant.consumerSalePrice - b.variant.consumerSalePrice
-                  );
-                } else if(sortVal == 2){
-                    productWithVariant = productWithVariant.sort(
-                        (a, b) => b.variant.consumerSalePrice - a.variant.consumerSalePrice
-                      );
-                } 
-               
-                if (reviewVal > 0) {
-                    if(sortVal > 0){ } else {
-                    productWithVariant = productWithVariant.sort(
-                        (a, b) => a.avgRating - b.avgRating
-                      );
-                    }
-
-
-                }
-                
-
-
-       
-        return responseFun(true, productWithVariant, 200);
-          
-      } catch (error) {
-        console.log(error);
-       return responseFun(false, {message:"An error occurred while fetching products"}, 500)
+    // Validate required parameters
+    if (!params.deal) {
+      return responseFun(false, { message: "Deal parameter is required" }, 400);
     }
+
+    let highestPrice = 0;
+    let lowestPrice = 0;
+
+    // Find collection
+    const collection = await collectionModal.findOne({ slug: params.deal });
+    if (!collection) {
+      return responseFun(false, { message: "Deal not found!" }, 404);
+    }
+
+    // Build and execute product query
+    const productQuery = buildProductQuery(params, collection.productIds);
+    // const totalCount = await productModel.countDocuments(productQuery);
+    
+    const products = await productModel.find(productQuery)
+    // const products = collection.productIds
+      // .skip((params.page - 1) * params.limit)
+      // .limit(params.limit);
+
+    // Process products with variants and ratings
+    const productProcessing = products.map(async (prod) => {
+      const variantQuery = buildVariantQuery(prod._id, params);
+      const variants = await productVariantModel.find(variantQuery).limit(1);
+      
+      if (!variants.length) return null;
+
+      const avgRating = await getProductRatings(prod._id, params.reviewVal);
+      
+      // If review filter is active, skip products that don't meet the rating
+      if (params.reviewVal > 0 && avgRating < params.reviewVal) {
+        return null;
+      }
+
+      return {
+        ...prod.toObject(),
+        variant: variants[0],
+        avgRating
+      };
+    });
+
+    let productWithVariant = (await Promise.all(productProcessing)).filter(Boolean);
+    
+    // Apply sorting
+    productWithVariant = sortProducts(productWithVariant, params.sortVal);
+
+    let filterPrice = null;
+    if (params.page === 1 && productWithVariant.length > 0) {
+      const prices = productWithVariant.map(item => item.variant.consumerSalePrice);
+      const highestPrice = Math.max(...prices);
+      const lowestPrice = Math.min(...prices);
+    
+      filterPrice = {
+        highestPrice,
+        lowestPrice
+      };
+    }
+
+    const totalCount = productWithVariant.length;
+    const startIndex = (params.page - 1) * params.limit;
+    const endIndex = startIndex + params.limit;
+    const paginatedResult = productWithVariant.slice(startIndex, endIndex);
+    return responseFun(true, {
+      products: paginatedResult,
+      pagination: {
+        totalCount,
+        totalPages: Math.ceil(totalCount / params.limit),
+        page: params.page,
+        pageSize: params.limit
+      },
+      filterPrice
+      
+    }, 200);
+
+  } catch (error) {
+    console.error("Product fetch error:", error);
+    return responseFun(false, { 
+      message: "An error occurred while fetching products",
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    }, 500);
+  }
 }

@@ -64,7 +64,7 @@ function ProductListPage() {
    
     if(response.status){
       toast.success(response.data)
-      mutate('/api/admin/product-list')
+      mutate(`/api/admin/product-list?page=${page}&from_date=${from_date}&to_date=${to_date}&seller_name=${seller_name}&approval_status=${approval_status}&product_name=${product_name}`)
     }else{
       Swal.fire({
         icon:"error",

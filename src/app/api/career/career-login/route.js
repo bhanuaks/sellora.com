@@ -2,6 +2,7 @@ import { connectDb } from "../../../../../lib/dbConnect";
 import CareerUser from "../../../../../lib/career/CareerUser";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
@@ -45,9 +46,18 @@ export async function POST(req) {
       expiresIn: "7d",
     });
 
-    return new Response(JSON.stringify({ success: true, message: "Login successful", token }), {
-      status: 200,
-    });
+      const response = NextResponse.json(
+         { status:true, data:{token} },
+          { status: 200 });
+
+          response.cookies.set('careerToken',token,{
+              expireIn:"1d",
+          });
+
+          return response;
+    // return new Response(JSON.stringify({ success: true, message: "Login successful", token }), {
+    //   status: 200,
+    // });
 
   } catch (error) {
     console.error("Error in POST request:", error);

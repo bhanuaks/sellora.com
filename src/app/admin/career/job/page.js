@@ -119,8 +119,7 @@ function Page() {
            toast.success(result.message);
         } else {
           $('.loader-container').css('display', 'none')
-          setMessage({ type: 'error', text: result.message || 'Failed to save job.' });
-         
+          setMessage({ type: 'error', text: result.message || 'Failed to save job.' }); 
         }
       } catch (error) {
         console.error('Error saving job:', error);

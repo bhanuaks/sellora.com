@@ -1,11 +1,11 @@
+import { getUserByToken } from "@/Http/getUserHelper";
 import { isEmpty, responseFun } from "@/Http/helper";
 import { userModal } from "@/Http/Models/userModel";
 import mongoose from "mongoose";
 
 
 export async function POST(request) {
-    const {
-        _id,
+    const { 
         full_name,
         email,
         mobile,
@@ -18,9 +18,20 @@ export async function POST(request) {
 
     } = await request.json();
 
+    const userToken = request.headers.get('user-token'); 
+    if(!userToken){
+        return responseFun(false, { errors: 'Unauthorized user' }, 403) 
+    } 
+    const user = getUserByToken(userToken)
+    const _id = user?._id 
+
     const errors = {}
 
     if(isEmpty(_id))errors._id = "User id is required.";
+
+    if(isEmpty(mobile_code))errors.mobile_code = "mobile_code is required.";
+    if(isEmpty(mobile_s_name))errors.mobile_s_name = "mobile_s_name is required.";
+
     if(isEmpty(full_name))errors.full_name = "Name is required.";
     if(isEmpty(email))errors.email = "Email is required.";
     if(isEmpty(mobile))errors.mobile = "Mobile is required.";
@@ -29,6 +40,8 @@ export async function POST(request) {
     if(Object.keys(errors).length > 0){
         return responseFun(false, {errors, status_code:400},200)
     }
+
+   
 
     try{ 
         const mobileExiste =  await userModal.findOne({

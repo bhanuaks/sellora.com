@@ -17,6 +17,12 @@ function DealBannerPage() {
   
 
   const formRef = useRef(null);
+  const imgRef = useRef(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+    const imgRef2 = useRef(null);
+  const [previewUrl2, setPreviewUrl2] = useState(null);
+
   const [dynamicProductField, setDynamicProductField] = useState([
      
   ]); 
@@ -59,6 +65,34 @@ function DealBannerPage() {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     
+     if(name === 'photo'){
+        const file = files[0];
+
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedTypes.includes(file.type)) {
+          alert('Please select a JPG or PNG image.');
+          return;
+        }
+
+        if(file){
+           const reader = new FileReader();
+           reader.onloadend=()=>{
+            setPreviewUrl(reader.result);
+           }
+          reader.readAsDataURL(file);
+        }
+
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: name === 'photo' ? files[0] : value,
+        })); 
+         return
+
+      }
+
+
       setFormData((prevData) => ({
         ...prevData,
         [name]: name === 'photo' ? files[0] : value,
@@ -70,6 +104,35 @@ function DealBannerPage() {
   const handleChangeRight = (e) => {
     const { name, value, files } = e.target;
     
+    
+     if(name === 'photo'){
+        const file = files[0];
+
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedTypes.includes(file.type)) {
+          alert('Please select a JPG or PNG image.');
+          return;
+        }
+
+        if(file){
+           const reader = new FileReader();
+           reader.onloadend=()=>{
+            setPreviewUrl2(reader.result);
+           }
+          reader.readAsDataURL(file);
+        }
+
+        setFormDataRight((prevData) => ({
+          ...prevData,
+          [name]: name === 'photo' ? files[0] : value,
+        })); 
+         return
+
+      }
+
+
       setFormDataRight((prevData) => ({
         ...prevData,
         [name]: name === 'photo' ? files[0] : value,
@@ -489,9 +552,9 @@ const fetchBannersRight = async () => {
                             onChange={handleChange}
                             ref={bannerImageRef}
                           />
-                          {formData.photo && typeof formData.photo ==="string" ?( 
+                          {/* {formData.photo && typeof formData.photo ==="string" ?( 
                           <a href={`${baseUrl}${formData.photo}`} target="_blank" style={{color:'#333383'}}>View Image</a>
-                          ):''}
+                          ):''} */}
                           {errors.photo && (
                             <span className="text-danger">{errors.photo}</span>
                           )}
@@ -501,8 +564,28 @@ const fetchBannersRight = async () => {
 
                       
                        
+                      <div className="col-lg-12"></div>
 
-                      
+                      <div className="col-lg-6">
+                        <div className="mb-3">
+                          {(()=>{
+                            let imageUrl = null;
+                            if(previewUrl){ 
+                                imageUrl = previewUrl;
+                            }else if(formData?.photo){
+                                imageUrl = formData?.photo; 
+                            }
+                            return <img src={imageUrl}
+                           style={{maxWidth:'100%'}}
+                           ref={imgRef}
+                           />
+                          })()}
+                           
+                          
+                        </div>
+                      </div>
+
+
 
                        <div className="col-lg-12">
                        <div className="mt-4">
@@ -575,8 +658,7 @@ const fetchBannersRight = async () => {
                           <input
                             className="form-control"
                             type="text"
-                            name="url"
-                            
+                            name="url" 
                             value={formDataRight.url}
                             onChange={handleChangeRight}
                             placeholder="Enter URL"
@@ -596,21 +678,39 @@ const fetchBannersRight = async () => {
                             onChange={handleChangeRight}
                             ref={bannerImageRefRight}
                           />
-                          {formDataRight.photo && typeof formDataRight.photo ==="string" ?( 
+                          {/* {formDataRight.photo && typeof formDataRight.photo ==="string" ?( 
                           <a href={`${baseUrl}${formDataRight.photo}`} target="_blank" style={{color:'#333383'}}>View Image</a>
-                          ):''}
+                          ):''} */}
                           {errorsRight.photo && (
                             <span className="text-danger">{errorsRight.photo}</span>
                           )}
                         </div>
                         <div style={{color:'red'}}><span>Note: </span> Image size of 740px (width) × 350px (height) </div>
                       </div>
+ 
 
-                      
-                       
 
-                      
+                      <div className="col-lg-12"></div>
+                      <div className="col-lg-6">
+                        <div className="mb-3">
+                          {(()=>{
+                            let imageUrl = null;
+                            if(previewUrl2){ 
+                                imageUrl = previewUrl2;
+                            }else if(formDataRight?.photo){
+                                imageUrl = formDataRight.photo; 
+                            }
+                            return <img src={imageUrl}
+                           style={{maxWidth:'100%'}}
+                           ref={imgRef2}
+                           />
+                          })()}
+                           
+                          
+                        </div>
+                      </div>
 
+                
                        <div className="col-lg-12">
                        <div className="mt-4">
                         

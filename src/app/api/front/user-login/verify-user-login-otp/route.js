@@ -75,7 +75,7 @@ export async function POST(request) {
        
            }catch(error){
                console.log(error);
-               return responseFun(false,{error},200)
+               return responseFun(false,{error:error.message},200)
        
            }
 }

@@ -2,21 +2,21 @@
 import React from "react";
 import Link from 'next/link'
 
-const HeaderFilter = ({getSortBy, products}) => {
+const HeaderFilter = ({getSortBy, products, pageInfo}) => {
 
   const sortByLatest = (e) => {
     //console.log('latest', e.target.value)
     
     getSortBy(e.target.value)
   }
-console.log({products});
+ 
 
 return (
 <div className="filter-select-area">
             <div className="top-filter"> 
               <span>
                     {products?.length > 0 && (
-                      <>Showing 1–{products.length} of {products.length} results</>
+                      <>Showing 1–{products.length} of {pageInfo?.totalCount} results</>
                     )}
                     </span>
               <div className="d-none d-lg-block">

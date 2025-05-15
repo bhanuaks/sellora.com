@@ -10,6 +10,7 @@ export async function apiRequest(url, method = "GET", body = null, headers = {})
             }
         } 
         const response = await fetch(url, options); 
+        
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || "Something went wrong");

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import MetisMenu from 'metismenujs';
 
-function MobileMenuSection({ categories }) {
+function MobileMenuSection({ categories, collections }) {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -15,11 +15,16 @@ function MobileMenuSection({ categories }) {
   return (
     <nav className="nav-main mainmenu-nav mt--30">
       <ul className="mainmenu metismenu" id="mobile-menu-active" ref={menuRef}>
-        <li>
-          <Link href={`${baseUrl}deals/hot-deals`} className="main">
-            Hot Deal's
-          </Link>
-        </li>
+
+         {collections && collections.length > 0 && collections.map((deal, keyIndex)=>(
+              <li key={keyIndex}>
+                {" "}
+                <Link href={`${baseUrl}deals/${deal.slug}`}>
+                  Hot Deals
+                </Link>
+              </li>
+            ))}
+        
 
         {categories?.map((category, index) => (
           <li className="has-droupdown" key={index}>

@@ -1,6 +1,7 @@
 import { connectDb } from '../../../../../lib/dbConnect';
 import CareerCategory from '../../../../../lib/career/CareerCategory';
 import CareerJob from '../../../../../lib/career/CareerJob';
+import { slugify } from '@/Http/helper';
 
 export async function POST(req) {
   try {

@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link'
-import { useState, useEffect, useContext, Suspense  } from "react";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, useEffect, useContext, Suspense, useLayoutEffect  } from "react";
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 // import jwtDecode from "jwt-decode";
 // import jwt from "jsonwebtoken";
 import { ToastContainer, toast } from 'react-toastify';
@@ -12,6 +12,7 @@ const JobApplyComponent = () => {
   const { globalData } = useContext(AppContext)
   const [jobTitles, setJobTitle] = useState('');
   const searchParams = useSearchParams(); 
+  const pathname = usePathname(); 
   const jobTitle = searchParams.get("jobTitle") || "";
   const router  = useRouter();
   const [formData, setFormData] = useState({
@@ -62,12 +63,12 @@ const JobApplyComponent = () => {
       
 
       try {
-        $('.loader-container').css('display', 'flex')
+       $('.loaderouter').css('display', 'flex')
         const response = await fetch("/api/career/job-apply", {
           method: "POST",
           body: formDataToSubmit,
         });
-  
+        $('.loaderouter').css('display', 'none')
         const result = await response.json();
   
         if (response.ok) {
@@ -166,10 +167,12 @@ const JobApplyComponent = () => {
       return newErrors;
     };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
 
     const token = sessionStorage.getItem('careerToken');
       if (!token) {
+        const requestUrl = `${pathname}?${searchParams}`;
+        sessionStorage.setItem('requestUrl', requestUrl); 
         router.push("/consumer/candidate-login");
       }
 
@@ -252,6 +255,7 @@ const JobApplyComponent = () => {
                                           data-action="file-input#display"
                                           name="uploadResume"
                                           onChange={handleChange} 
+                                          accept='application/*'
                                         />
                                     <div className="input-group-append">
                                       <label className="btn choose-filebtn mb-0" htmlFor="customFile">

@@ -12,7 +12,7 @@ export async function POST(request) {
     const {email, mobile} = await request.json(); 
 
     try{ 
-        const new_otp = 123456 //dynamincOtp(111111, 999999);
+        const new_otp =  dynamincOtp(100000, 999999);
         const subject = "Login Otp";
         const message = `<p>login Otp is ${new_otp}. This otp valid for 10 minutes.</p>` 
         const expirationTime =  Date.now() + (5 * 60 * 1000);

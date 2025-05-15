@@ -10,13 +10,13 @@ export async function sendMailByNodeMailer(to, subject, htmlContent, isBcc=false
         port: 465,
         secure: true, // true for port 465, false for port 587
         auth: {
-          user: process.env.EMAIL_USER,  
-          pass: process.env.EMAIL_PASS,  
+          user: process.env.EMAIL_USER || "php1@aksindia.com",  
+          pass: process.env.EMAIL_PASS || "jjcgeyodnzeigeyn", 
         },
       });
 
       const mailOptions = {
-        from: '"universalstudenthomes.com" book@universalstudenthomes.com', // Sender address
+        from: '"sellora.com" php1@aksindia.com', // Sender address
         to: to, // Recipient email
         subject: subject, // Email subject
         html: htmlContent, // Rendered HTML 

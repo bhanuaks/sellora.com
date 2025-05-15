@@ -535,7 +535,7 @@ const fetchBannersRight = async () => {
                             <span className="text-danger">{errors.photo}</span>
                           )}
                         </div>
-                        <div style={{color:'red'}}><span>Note: </span> Image size of 322px (width) × 440px (height) </div>
+                        <div style={{color:'red'}}><span>Note: </span> Image size of 411px (width) × 422px (height) </div>
                       </div>
 
                       
@@ -622,7 +622,7 @@ const fetchBannersRight = async () => {
                             <span className="text-danger">{errorsRight.photo}</span>
                           )}
                         </div>
-                        <div style={{color:'red'}}><span>Note: </span> Image size of 322px (width) × 440px (height) </div>
+                        <div style={{color:'red'}}><span>Note: </span> Image size of  411px (width) × 422px (height) </div>
                       </div>
 
                       

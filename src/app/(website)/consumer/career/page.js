@@ -1,10 +1,67 @@
 "use client"
-import { baseUrl } from '@/Http/helper'
+import { apiRequest } from '@/Http/apiHelper'
+import { baseUrl, fetcher } from '@/Http/helper'
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { Suspense, useEffect, useState } from 'react'
+import useSWR from 'swr'
 
-const page = () => {
+const CareerPage = () => {
 
+  const [showSearchPopup, setShowSearchPopup] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchData, setSearchData] = useState("");
+  const [jobList, setJobList] = useState([]);
+  const [selectedLocation, setLocation] = useState("");
+  const router = useRouter();
+
+  const {data:locationData, error, isLoading:loadingLoaction } = useSWR(`/api/front/career/locations`, fetcher)
+  const locationList = locationData?.data?.locations || [];
+
+  const showPopupFun=()=>{
+    setShowSearchPopup(true)
+  }
+
+   useEffect(() => {
+          function handleClickOutside(event) { 
+              const clickedInsideInput = event.target.classList.contains("search-slt2");
+               const insidePopup = event.target.closest(".product-popup"); 
+              if (!clickedInsideInput && !insidePopup) {
+                  setShowSearchPopup(false);
+              }
+          } 
+          document.addEventListener("click", handleClickOutside);
+      
+          return () => {
+              document.removeEventListener("click", handleClickOutside);
+          };
+      }, []);
+
+
+
+        async function searchProducts(searchText) {
+          setIsLoading(true);
+          const response = await apiRequest(
+            `/api/front/career/search-job?searchText=${searchText}&location=${selectedLocation}`
+          );
+          setIsLoading(false); 
+          if (response.status) {
+            setJobList(response.data.jobs);
+          }
+      
+        }
+      
+        useEffect(() => {
+          const timeout = setTimeout(() => {
+            searchProducts(searchData);
+          }, 300);
+          return () => clearTimeout(timeout);
+        }, [searchData, selectedLocation]);
+
+
+        function hendleSearchSubmit(){
+          router.push(`/consumer/jobs?jobTitle=${searchData}&location=${selectedLocation}`)
+        }
 
 
   return (
@@ -49,7 +106,53 @@ const page = () => {
                       className="form-control search-slt search-slt2"
                       placeholder="Explore jobs by title or keyword"
                       required=""
+                      onClick={()=>showPopupFun()}
+                       value={searchData || ""}
+                            onChange={(e) => {
+                              setSearchData(e.target.value);
+                            }}
                     />
+                     
+                    
+                  {/* <!-- ===============popup-window=============== --> */}
+                          <div className="product-popup" id="productPopup" style={{display:`${showSearchPopup?"block":"none"}`}} >
+                          
+                          {(()=>{
+                                    if(!searchData){
+                                      return (<div className="ml-5"> Search Job </div>)  
+                                    }else if(searchData && jobList.length == 0){
+                                        return (<div style={{display:"flex", justifyContent:"center"}} > Record Not found! </div>)   
+                                    }else if(searchData && isLoading){
+                                        return (<div style={{display:"flex", justifyContent:"center"}} > Seaching... </div>)  
+                                    } 
+                                    return null  
+                                })()}
+
+
+                          <ul>
+                                
+                            {jobList.length > 0 && searchData &&
+                                jobList.map((item, index) => (
+                                  <li
+                                    key={index} 
+                                  > 
+                                    <div className="product-info">
+                                      <Link href={`/consumer/jobs/job-description/${item.categoryId?.slug}/${item.slug}`}>
+                                          <strong>{item.jobTitle}</strong>
+                                      </Link>
+                                        
+                                    </div>
+                                  </li>
+                                ))}
+                            
+                               
+                      
+                                
+                            {/* <!-- Add more products as needed --> */}
+                          </ul>
+                        </div>
+                      {/* <!-- ===============popup-window=end============== --> */}
+ 
                     <Link
                       href="javascript: void(0);"
                       className="rts-btn radious-sm with-icon"
@@ -65,15 +168,18 @@ const page = () => {
                   <select
                     className="form-control search-slt seerch-select select-job-location"
                     id="exampleFormControlSelect1"
+                    value={selectedLocation || ""}
+                    onChange={(e)=>setLocation(e.target.value)}
                   >
-                    <option>Location</option>
-                    <option>Noida</option>
-                    <option>Delhi</option>
-                    <option>US</option>
+                    <option value={""}>Location</option>
+                    {locationList.length && locationList.map((item, index)=>(
+                     <option value={item._id} key={index} >{item.name}</option> 
+                    ))}
+                     
                   </select>
                 </div>
                 <div className="col-lg-2 col-md-2 col-sm-2 col-12 p-0">
-                  <button type="button" className="btn wrn-btn ">
+                  <button type="button" className="btn wrn-btn " onClick={()=>hendleSearchSubmit()}>
                     <i className="fa-solid fa-arrow-right fa-arrow-right-bg" />
                   </button>
                 </div>
@@ -287,7 +393,7 @@ const page = () => {
               our current openings and join a dynamic team that’s transforming
               e-commerce.
             </p>
-            <Link href="jobs.html" className="animate-btn-style3 applybtn">
+            <Link href="/consumer/jobs" className="animate-btn-style3 applybtn">
               Browse Opportunities
             </Link>
           </div>
@@ -300,4 +406,11 @@ const page = () => {
   )
 }
 
+const page = () => {
+  return (
+    <Suspense fallback={<>Loading</>}>
+      <CareerPage/>
+    </Suspense>
+  )
+}
 export default page

@@ -52,15 +52,7 @@ const Product = ({ products, prductProccess }) => {
     }
   }, [user])
 
-  if (prductProccess) {
-    return (
-      <div className='row'>
-        {Array.from({ length: 12 }, (_, i) => (
-          <ListingLoaderSkeleton key={i} />
-        ))}
-      </div>
-    )
-  }
+  
 
   const showWishlist = async (pid, vid) => {
     //toast.success("pls login")
@@ -134,7 +126,8 @@ const Product = ({ products, prductProccess }) => {
   return (
     <>
 
-      <div className="successfully-addedin-wishlist">  <div className="d-flex" > <i className="fa-regular fa-check"></i>    <p>Your item has already added in wishlist successfully</p>  </div></div>
+      <div className="successfully-addedin-wishlist"> 
+         <div className="d-flex" > <i className="fa-regular fa-check"></i>    <p>Your item has already added in wishlist successfully</p>  </div></div>
 
       <ToastContainer
         position="top-center"
@@ -244,8 +237,20 @@ const Product = ({ products, prductProccess }) => {
           </div>
         ))
       ) : (
-        <div className="col-12">No products found</div>
+        !prductProccess && <div className="col-12">No products found</div>
       )}
+
+      {(()=>{
+          if (prductProccess) {
+            return (
+              <div className='row'>
+                {Array.from({ length: 12 }, (_, i) => (
+                  <ListingLoaderSkeleton key={i} />
+                ))}
+              </div>
+            )
+          }
+      })()}
     </>
   )
 }

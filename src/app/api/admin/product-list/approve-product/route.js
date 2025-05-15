@@ -34,3 +34,8 @@ export async function PUT(request) {
         return responseFun(false, error.message, 500)
     }
 }
+
+
+export async function  POST(request){ 
+    return responseFun(false, "", 500)
+}

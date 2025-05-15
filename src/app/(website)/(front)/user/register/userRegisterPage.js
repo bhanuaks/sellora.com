@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import intlTelInput from 'intl-tel-input';
 import { useRouter } from 'next/navigation'
+import { countriesList } from '@/Http/citizenList'
 
 
 
@@ -294,10 +295,10 @@ const UserRegisterPage = () => {
                                     onChange={(e)=>hendleInputs(e)}>
 
                                       <option value="">select</option>
-                                      <option>United States of America</option>
-                                      <option>Tuvalu</option>
-                                      <option>Uganda</option>
-                                      <option>Ukraine</option>
+                                      {countriesList && countriesList.map((country, index)=>(
+                                        <option value={country} key={index}>{country}</option>
+                                      ))}
+                                      
                                     </select>
                                     {errors.country && ( 
                                         <div className='error_message'>{errors.country}</div>

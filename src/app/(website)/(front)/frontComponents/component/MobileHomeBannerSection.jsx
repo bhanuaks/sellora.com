@@ -6,59 +6,29 @@ function MobileHomeBannerSection({ bannerRight, bannerLeft }) {
   return (
     <>
       {/* ========================mobile============== */}
-      <div className="col-lg-3 col-6 d-lg-none d-block">
-        <Link href={`${bannerLeft.url}`}>
-          <div
-            className="banner-five-right-content bg_image"
-            style={{ backgroundImage: `url(${baseUrl}${bannerLeft.photo})` }}
-          >
-            <div className="content-area">
-              {/*  <Link href="#" className="rts-btn btn-primary">Weekend Discount</Link> */}
-              {bannerLeft.title && (<h3 className="title">{bannerLeft.title}</h3>)} 
-             
-              {bannerLeft.url && (
-                <Link href={`${bannerLeft.url}`} className="shop-now-goshop-btn">
-                  <span className="text">Shop Now</span>
-                    {/* <div className="plus-icon">
-                      <i className="fa-sharp fa-regular fa-plus" />
-                    </div>
-                    <div className="plus-icon">
-                      <i className="fa-sharp fa-regular fa-plus" />
-                  </div> */}
-                </Link>
-              )}
-             
-            </div>
-          </div>
-        </Link>
-      </div>
 
-      <div className="col-lg-3 col-6 d-lg-none d-block">
-        <Link href={`${bannerRight.url}`}>
-          <div
-            className="banner-five-right-content bg_image"
-            style={{ backgroundImage: `url(${baseUrl}${bannerRight.photo})` }}
-          >
-            <div className="content-area">
-              {/*  <Link href="#" className="rts-btn btn-primary">Weekend Discount</Link> */}
-              {bannerRight.title && (<h3 className="title">{bannerRight.title}</h3>)} 
+                      {bannerLeft.photo && (
+                        <div className="col-lg-3 col-6 d-lg-none d-block"> 
+                        <a href={`${bannerLeft.url?bannerLeft.url:"#"}`}>
+                                  <div className="small_banner_1"> <img src={`${baseUrl}${bannerLeft.photo}`} /> 
+                                  </div>
+                              </a> 
+                          </div>
+                      )}
+       
 
-              {bannerRight.url && (
-                <Link href={`${bannerRight.url}`} className="shop-now-goshop-btn">
-                <span className="text">Shop Now</span>
-                {/* <div className="plus-icon">
-                  <i className="fa-sharp fa-regular fa-plus" />
-                </div>
-                <div className="plus-icon">
-                  <i className="fa-sharp fa-regular fa-plus" />
-                </div> */}
-              </Link>
-              )}
-              
-            </div>
-          </div>
-        </Link>
-      </div>
+
+                        {bannerRight.photo && (
+                        <div className="col-lg-3 col-6 d-lg-none d-block"> 
+                        <a href={`${bannerRight.url?bannerRight.url:"#"}`}>
+                                <div className="small_banner_1"> 
+                                  <img src={`${baseUrl}${bannerRight.photo}`} /> 
+                                </div>
+                              </a> 
+                          </div>
+                        )}
+      
+ 
     </>
   );
 }

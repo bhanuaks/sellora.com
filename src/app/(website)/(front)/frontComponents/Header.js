@@ -9,8 +9,10 @@ import CategoryMenu from "./CategoryMenu";
 import MobileCategoryMenu from "./MobileCategoryMenu";
 import { usePathname } from "next/navigation";
 import MobileMenuSection from "./MobileMenuSection";
+import NavbarCategorySection from "./NavbarCategorySection";
 
 function Header() {
+  const [collections, setCollections] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubCategories] = useState([]);
   const [childcategories, setChildCategories] = useState([]);
@@ -22,9 +24,14 @@ function Header() {
 
   useEffect(() => {
     $(".rts-megamenu").css("display", "none");
+    $(".category-sub-menu2").css("display", "none");
+    $("#side-bar").removeClass("show");
+    $("#anywhere-home").removeClass("bgshow");
 
     setTimeout(() => {
       $(".rts-megamenu").css("display", "");
+      $(".category-sub-menu2").css("display", "");
+
     }, 200);
   }, [pathname]);
 
@@ -82,6 +89,22 @@ function Header() {
       });
   }
 
+
+  useEffect(()=>{
+
+    fetch('/api/front/collections')
+    .then((response)=>{
+      if(!response.ok){
+        throw new Error("Network Error")
+      }
+      return response.json();
+    }).then((res)=>{
+      if(res.status){
+        setCollections(res.data.collection)
+      }
+    })
+  },[])
+
   return (
     <>
       <div>
@@ -100,19 +123,14 @@ function Header() {
                           className="logo"
                         />
                       </Link>
-                      {/* <Link href="#">
-                        <div className="location-area">
-                          <div className="icon">
-                            
-                            <i className="fa-light fa-location-dot" />
-                          </div>
-                          <div className="information">
-                            
-                            <span>Deliver to</span>
-                            <p>India</p>
-                          </div>
-                        </div>
-                      </Link> */}
+                      {/* all category start */}
+                     <div className="category-btn">
+  {" "}
+          <span className="ml--10 toggle-menu">All Category</span>
+          <CategoryMenu allCategory={allCategory} />
+        </div>
+
+{/* all category end */}
                       <div className="search-container">
                         <button>
                           <i className="fa-light fa-magnifying-glass" />
@@ -125,14 +143,9 @@ function Header() {
                           <i className="fa-light fa-microphone microphone" />
                         </button>
                         <button>
-                          <Image
+                          <img
                             src={`${baseUrl}front/assets/images/camera.png`}
-                            alt="Images search"
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            loading="lazy"
-                            style={{ width: "auto", height: "auto" }}
+                            alt="Images search" 
                           />
                         </button>
                       </div>
@@ -207,8 +220,9 @@ function Header() {
                           target="_blank"
                           className="btn-narrow"
                         >
-                          <div className="rts-btn btn-primary btn-primary2">
-                            <i className="fa-regular fa-user" /> Become a Seller
+                          <div className="rts-btn become_a_seller">
+                            {/* <i className="fa-regular fa-user" />  */}
+                            Become a Seller
                           </div>
                         </Link>
                       </div>
@@ -218,396 +232,17 @@ function Header() {
               </div>
             </div>
           </div>
-          <div className="rts-header-nav-area-one header--sticky">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="nav-and-btn-wrapper">
-                    <div className="nav-area-bottom-left-header-four">
-                      <div className="category-btn category-hover-header five-style">
-                        <img
-                          className="parent"
-                          src={`${baseUrl}front/assets/images/icons/14.svg`}
-                          alt="icons"
-                        />
-                        <span className="ml--10">All Categories</span>
-                        <CategoryMenu allCategory={allCategory || []} />
-                      </div>
-                      <div className="nav-area">
-                        <nav>
-                          <ul className="parent-nav">
-                            <li className={`parent`}>
-                              {" "}
-                              <Link href={`${baseUrl}deals/hot-deals`}>
-                                Hot Deals
-                              </Link>
-                            </li>
 
-                            {categories && categories.length > 0 ? (
-                              categories.map((category, index) => (
-                                <li
-                                  className={`parent ${
-                                    category.subcategories &&
-                                    category.subcategories.length > 0
-                                      ? "with-megamenu"
-                                      : ""
-                                  }`}
-                                  key={index}
-                                >
-                                  <Link
-                                    href={`${baseUrl}product/${category.slug}`}
-                                  >
-                                    {category.name}
-                                  </Link>
 
-                                  {/* Subcategory list */}
-                                  {category.subcategories &&
-                                    category.subcategories.length > 0 && (
-                                      <div className="rts-megamenu">
-                                        <div className="wrapper">
-                                          <div className="row">
-                                            <div className="col-lg-8">
-                                              <div className="menu-container">
-                                                {category.subcategories.map(
-                                                  (subcategory, subIndex) => (
-                                                    <div
-                                                      className="menu-section"
-                                                      key={subIndex}
-                                                    >
-                                                      <div className="men_heading">
-                                                        <Link
-                                                          href={`${baseUrl}product/${category.slug}/${subcategory.slug}`}
-                                                        >
-                                                          <h3>
-                                                            {
-                                                              subcategory.subCategoryName
-                                                            }
-                                                          </h3>
-                                                        </Link>
-                                                      </div>
-                                                      <ul>
-                                                        {subcategory.childcategory &&
-                                                        subcategory
-                                                          .childcategory
-                                                          .length > 0 ? (
-                                                          subcategory.childcategory.map(
-                                                            (
-                                                              child,
-                                                              childIndex
-                                                            ) => (
-                                                              <li
-                                                                key={childIndex}
-                                                              >
-                                                                <Link
-                                                                  href={`${baseUrl}product/${category.slug}/${subcategory.slug}/${child.slug}`}
-                                                                >
-                                                                  {
-                                                                    child.childCategoryName
-                                                                  }
-                                                                </Link>
-                                                              </li>
-                                                            )
-                                                          )
-                                                        ) : (
-                                                          <li></li>
-                                                        )}
-                                                      </ul>
-                                                    </div>
-                                                  )
-                                                )}
-                                              </div>
-                                            </div>
-
-                                            {/* Right section with featured image */}
-                                            <div className="col-lg-4">
-                                              {category?.photo && (
-                                                <Link
-                                                  href={`${baseUrl}product/${category.slug}`}
-                                                  className="feature-add-megamenu-area"
-                                                >
-                                                  <img
-                                                    src={`${baseUrl}${category.photo}`}
-                                                    alt={`${category.photo}`}
-                                                  />
-                                                </Link>
-                                              )}
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    )}
-                                </li>
-                              ))
-                            ) : (
-                              <li></li>
-                            )}
-                          </ul>
-                        </nav>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-12">
-                  <div className="logo-search-category-wrapper after-md-device-header header-mid-five-call">
-                    <Link href={`${baseUrl}`} className="logo-area">
-                      <img
-                        src={`${baseUrl}front/assets/images/logo-01.png`}
-                        alt="logo-main"
-                        className="logo"
-                      />
-                    </Link>
-                    <div className="category-search-wrapper">
-                      <div className="category-btn category-hover-header">
-                        <img
-                          className="parent"
-                          src={`${baseUrl}front/assets/images/icons/bar-1.svg`}
-                          alt="icons"
-                        />
-                        <span>Categories</span>
-                        <ul className="category-sub-menu">
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/01.svg`}
-                                alt="icons"
-                              />
-                              <span>Breakfast &amp; Dairy</span>
-                              <i className="fa-regular fa-plus" />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/02.svg`}
-                                alt="icons"
-                              />
-                              <span>Meats &amp; Seafood</span>
-                              <i className="fa-regular fa-plus" />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/03.svg`}
-                                alt="icons"
-                              />
-                              <span>Breads &amp; Bakery</span>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/04.svg`}
-                                alt="icons"
-                              />
-                              <span>Chips &amp; Snacks</span>
-                              <i className="fa-regular fa-plus" />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/05.svg`}
-                                alt="icons"
-                              />
-                              <span>Medical Healthcare</span>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/06.svg`}
-                                alt="icons"
-                              />
-                              <span>Breads &amp; Bakery</span>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/07.svg`}
-                                alt="icons"
-                              />
-                              <span>Biscuits &amp; Snacks</span>
-                              <i className="fa-regular fa-plus" />
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/08.svg`}
-                                alt="icons"
-                              />
-                              <span>Frozen Foods</span>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/09.svg`}
-                                alt="icons"
-                              />
-                              <span>Grocery &amp; Staples</span>
-                            </Link>
-                          </li>
-                          <li>
-                            <Link href="#" className="menu-item">
-                              <img
-                                src={`${baseUrl}front/assets/images/icons/10.svg`}
-                                alt="icons"
-                              />
-                              <span>Other Items</span>
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
-                      <form action="#" className="search-header">
-                        <input
-                          type="text"
-                          placeholder="Search for products, categories or brands"
-                          required
-                        />
-                        <button className="rts-btn btn-primary radious-sm with-icon">
-                          <span className="btn-text"> Search </span>
-                          <span className="arrow-icon">
-                            <i className="fa-light fa-magnifying-glass" />
-                          </span>
-                          <span className="arrow-icon">
-                            <i className="fa-light fa-magnifying-glass" />
-                          </span>
-                        </button>
-                      </form>
-                    </div>
-                    <div className="main-wrapper-action-2 d-flex">
-                      <div className="accont-wishlist-cart-area-header">
-                        <div className="category-hover-header language-hover">
-                          <Link href="#" className="btn-border-only account">
-                            <i className="fa-light fa-user" />
-                            <span className="text">Account</span>
-                          </Link>
-                          <ul className="category-sub-menu dropdown_fd">
-                          {!user ? (
-                            <>
-                            <li>
-                              <Link
-                                href={`${baseUrl}user/register`}
-                                
-                                className="menu-item"
-                              >
-                                <span>
-                                  <i className="far fa-handshake" />
-                                  New customer?
-                                </span>
-                              </Link>
-                            </li>
-
-                            <li>
-                              <Link
-                                href={`${baseUrl}user/login`}
-                                
-                                className="menu-item"
-                              >
-                                <span>
-                                <i className="fa fa-sign-in" />
-                                Sign In
-                                </span>
-                              </Link>
-                            </li>
-                            </>
-                          ):(
-                            <>
-                            
-                            <li>
-                              <Link
-                                href={`${baseUrl}user/my-profile`}
-                                className="menu-item"
-                              >
-                                <span>
-                                <i className="far fa-user" />
-                                My Profile
-                                </span>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link href={`${baseUrl}user/myorders`}className="menu-item">
-                                <span>
-                                  <i className="far fa-shopping-cart" />
-                                  My Orders
-                                </span>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link href={`${baseUrl}user/wishList`} className="menu-item">
-                                <span>
-                                  <i className="far fa-heart" />
-                                  Wishlist
-                                </span>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link href={`${baseUrl}user/rewards`} className="menu-item">
-                                <span>
-                                  <i className="far fa-gift" />
-                                  Rewards
-                                </span>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link href="#" onClick={logoutUser} className="menu-item">
-                                <span>
-                                  <i className="far fa-gift" />
-                                  Logout
-                                </span>
-                              </Link>
-                            </li>
-
-                            </>
-                          )}
-                            
-                            
-                          </ul>
-                        </div>
-                        <div className="btn-border-only cart category-hover-header">
-                          <i className="fa-sharp fa-regular fa-cart-shopping" />
-                          <span className="text">My Cart</span>
-                          <Link href="/cart" className="over_link" />
-                        </div>
-                      </div>
-                      <div className="actions-area">
-                        <div className="search-btn" id="search">
-                          <svg
-                            width={17}
-                            height={16}
-                            viewBox="0 0 17 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M15.75 14.7188L11.5625 10.5312C12.4688 9.4375 12.9688 8.03125 12.9688 6.5C12.9688 2.9375 10.0312 0 6.46875 0C2.875 0 0 2.9375 0 6.5C0 10.0938 2.90625 13 6.46875 13C7.96875 13 9.375 12.5 10.5 11.5938L14.6875 15.7812C14.8438 15.9375 15.0312 16 15.25 16C15.4375 16 15.625 15.9375 15.75 15.7812C16.0625 15.5 16.0625 15.0312 15.75 14.7188ZM1.5 6.5C1.5 3.75 3.71875 1.5 6.5 1.5C9.25 1.5 11.5 3.75 11.5 6.5C11.5 9.28125 9.25 11.5 6.5 11.5C3.71875 11.5 1.5 9.28125 1.5 6.5Z"
-                              fill="#1F1F25"
-                            />
-                          </svg>
-                        </div>
-                        <div className="menu-btn" id="menu-btn">
-                          <svg
-                            width={20}
-                            height={16}
-                            viewBox="0 0 20 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect y={14} width={20} height={2} fill="#1F1F25" />
-                            <rect y={7} width={20} height={2} fill="#1F1F25" />
-                            <rect width={20} height={2} fill="#1F1F25" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <NavbarCategorySection 
+           allCategory={allCategory || []}
+           collections={collections || []}
+           categories={categories || []}
+           user={user}
+           logoutUser={logoutUser}
+           cartItemTotal={cartItemTotal}
+           />
+         
         </div>
 
         <div id="side-bar" className="side-bar header-two">
@@ -659,7 +294,7 @@ function Header() {
               >
                 {/* mobile menu area start */}
                 <div className="mobile-menu-main">
-                  <MobileMenuSection categories={categories}/>
+                  <MobileMenuSection categories={categories} collections={collections}/>
                 </div>
                 {/* mobile menu area end */}
               </div>

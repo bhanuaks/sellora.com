@@ -76,7 +76,7 @@ const Header = () => {
                 ) : (
                     <Link href="/consumer/candidate-login" className="btn-border-only account">
                         <i className="fa-light fa-user" />
-                        Candidate Login
+                        Candidate Register/Login
                     </Link>
                 )}
                 </div>

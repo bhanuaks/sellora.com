@@ -20,7 +20,9 @@ const page = () => {
     const productSlug = segments[4]  || '';
 
     try {
+      $('.loaderouter').css('display', 'flex')
       const response = await fetch(`/api/career/job?status=Active&categorySlug=${categorySlug}&productSlug=${productSlug}`);
+      $('.loaderouter').css('display', 'none') 
       const result = await response.json();
       
       if (response.ok) {
@@ -35,19 +37,23 @@ const page = () => {
   };
 
 
-  console.log(jobs);
-  
+ 
   useEffect(() => {
     fetchjob();
     const token = sessionStorage.getItem('careerToken');
         if (!token) {
-          router.push("/consumer/candidate-login");
+          // router.push("/consumer/candidate-login");
         }
 
   }, []);
 
 
   
+  if(!jobs || jobs.length == 0){
+    return (
+      <div style={{height:'60vh', width:'100%'}}></div>
+    )
+  }
 
   return (
 
@@ -95,14 +101,14 @@ const page = () => {
                 <div dangerouslySetInnerHTML={{ __html: job.whyWorkWithUs }} />
               </div>
               <div className="text-center apply-now-brn-wrapper">
-                <a
+                <Link
                   href={`/consumer/job-apply?jobCategory=${job?.categoryId?.slug}&job=${job.slug}&jobTitle=${job.jobTitle}`}
                   data-toggle="modal"
                   data-target="#applypopup"
                   className="animate-btn-style3 applynow-btn"
                 >
                   Apply Now
-                </a>
+                </Link>
               </div>
             </div>
           </div>

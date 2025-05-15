@@ -10,7 +10,9 @@ import Header from "./cutomer_component/Header";
 import Footer from "./cutomer_component/Footer";
 // import Footer from "../(front)/frontComponents/Footer";
 // Footer
-
+import '../../../../public/front/assets/css/plugins.css';
+import '../../../../public/front/assets/css/style.css';
+import '../../../../public/front/loader.css'
 
 
 
@@ -49,23 +51,24 @@ export default function RootLayout({ children }) {
       <title>Sellora</title>
       <link rel="shortcut icon" href="/front/favicon.ico" type="image/x-icon" />
     
-      <link rel="stylesheet preload" href="/front/assets/css/plugins.css" as="style" />
-      <link rel="stylesheet preload" href="/front/assets/css/style.css" as="style" />
+      {/* <link rel="stylesheet preload" href="/front/assets/css/plugins.css" as="style" />
+      <link rel="stylesheet preload" href="/front/assets/css/style.css" as="style" /> */}
       <body className="index-five">
         {/* <Header />
         {children}
         <Footer/> */}
-
+   <div className="loaderouter"><div className="loader"></div></div> 
         <Header />
+        
         {children}
          <Footer />
    
 
    
          <Script defer src="/front/assets/js/plugins.js"></Script>
-    <Script defer src="/front/assets/js/main.js"></Script>
-    <Script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></Script>
-    <Script src="/front/assets/js/jquery.min.js"></Script>
+        <Script defer src="/front/assets/js/main.js"></Script>
+        <Script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></Script>
+        <Script src="/front/assets/js/jquery.min.js"></Script>
 
 
 

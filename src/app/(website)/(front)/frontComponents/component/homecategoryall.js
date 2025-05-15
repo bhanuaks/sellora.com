@@ -16,6 +16,7 @@ const HomeCategoryAll = ({ categoryListAll }) => {
   const [similarProduct, setSimilarProduct] = useState([])
   const [slidesPerView, setSlidesPerView] = useState(1);
   const [enableNavigation, setEnableNavigation] = useState(false);
+  const [spaceBetween, setSpaceBetween] = useState(0);
   
   useEffect(() => {
     //console.log(recommendationList)
@@ -25,27 +26,31 @@ const HomeCategoryAll = ({ categoryListAll }) => {
 
   // slide responsive data
   
-  useEffect(() => {
-    const updateSlidesPerView = () => {
-      let newSlidesPerView = 1;
 
-      if (window.innerWidth >= 1024) {
-        newSlidesPerView = 8;
-      } else if (window.innerWidth >= 768) {
-        newSlidesPerView = 4;
-      } else {
-        newSlidesPerView = 2;
-      }
+useEffect(() => {
+  const updateSlidesPerView = () => {
+    let newSlidesPerView = 1;
+    let newSpaceBetween = 0;
 
-      setSlidesPerView(newSlidesPerView);
-      setEnableNavigation(similarProduct.length > newSlidesPerView);
-    };
+    if (window.innerWidth >= 1024) {
+      newSlidesPerView = 8;
+      newSpaceBetween = 10; // Add space on desktop
+    } else if (window.innerWidth >= 768) {
+      newSlidesPerView = 4;
+    } else {
+      newSlidesPerView = 2;
+    }
 
-    updateSlidesPerView();
-    window.addEventListener("resize", updateSlidesPerView);
+    setSlidesPerView(newSlidesPerView);
+    setSpaceBetween(newSpaceBetween);
+    setEnableNavigation(similarProduct.length > newSlidesPerView);
+  };
 
-    return () => window.removeEventListener("resize", updateSlidesPerView);
-  }, []);
+  updateSlidesPerView();
+  window.addEventListener("resize", updateSlidesPerView);
+
+  return () => window.removeEventListener("resize", updateSlidesPerView);
+}, [similarProduct.length]);
 
 
   if(similarProduct.length == 0){
@@ -63,8 +68,8 @@ const HomeCategoryAll = ({ categoryListAll }) => {
       >
         
         <div>
-          <Swiper
-            spaceBetween={0}  
+          <Swiper  
+             spaceBetween={spaceBetween}
             //pagination={{ clickable: true }}
             modules={[Navigation, Pagination, Autoplay]}  
             className="swiper-container"

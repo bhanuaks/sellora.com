@@ -123,7 +123,7 @@ export async function POST(request) {
              })
              return response;
         }else{ 
-            errors.otp = "invalid otp1"
+            errors.otp = "invalid otp"
             return responseFun(false,{errors, status_code:400},200) 
         } 
     }catch(error){
